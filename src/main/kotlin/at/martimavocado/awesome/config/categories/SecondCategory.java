@@ -1,4 +1,4 @@
-package com.github.martimavocado.awesome.config.categories;
+package at.martimavocado.awesome.config.categories;
 
 import com.google.gson.annotations.Expose;
 import io.github.moulberry.moulconfig.annotations.Accordion;

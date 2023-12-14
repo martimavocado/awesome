@@ -1,8 +1,8 @@
-package com.github.martimavocado.awesome.commands
+package at.martimavocado.awesome.commands
 
-import com.github.martimavocado.awesome.ExampleMod
-import com.github.martimavocado.awesome.commands.SimpleCommand.ProcessCommandRunnable
-import com.github.martimavocado.awesome.utils.ChatUtils
+import at.martimavocado.awesome.awesome
+import at.martimavocado.awesome.commands.SimpleCommand.ProcessCommandRunnable
+import at.martimavocado.awesome.utils.ChatUtils
 import net.minecraft.command.ICommandSender
 import net.minecraft.util.BlockPos
 import net.minecraftforge.client.ClientCommandHandler
@@ -14,7 +14,7 @@ class CommandManager {
             ChatUtils.messageToChat("Test successful.")
         }
         registerCommand("openconfig") {
-            ExampleMod.configManager.openConfigGui()
+            awesome.configManager.openConfigGui()
         }
         registerCommand("formatmessage") { args ->
             val colorName = args.firstOrNull()

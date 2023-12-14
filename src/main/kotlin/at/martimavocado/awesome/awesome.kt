@@ -1,17 +1,17 @@
-package com.github.martimavocado.awesome
+package at.martimavocado.awesome
 
-import com.github.martimavocado.awesome.commands.CommandManager
-import com.github.martimavocado.awesome.config.ConfigManager
-import com.github.martimavocado.awesome.config.categories.ExampleModConfig
-import com.github.martimavocado.awesome.features.ChatFeatures
+import at.martimavocado.awesome.commands.CommandManager
+import at.martimavocado.awesome.config.ConfigManager
+import at.martimavocado.awesome.config.categories.ExampleModConfig
+import at.martimavocado.awesome.features.ChatFeatures
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.Loader
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 
-@Mod(modid = ExampleMod.MOD_ID, useMetadata = true)
-class ExampleMod {
+@Mod(modid = awesome.MOD_ID, useMetadata = true)
+class awesome {
 
     @Mod.EventHandler
     fun init(event: FMLInitializationEvent) {

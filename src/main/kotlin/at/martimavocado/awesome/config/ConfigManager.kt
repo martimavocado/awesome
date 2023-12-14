@@ -1,7 +1,7 @@
-package com.github.martimavocado.awesome.config
+package at.martimavocado.awesome.config
 
-import com.github.martimavocado.awesome.config.categories.ExampleModConfig
-import com.github.martimavocado.awesome.errors.ConfigError
+import at.martimavocado.awesome.config.categories.ExampleModConfig
+import at.martimavocado.awesome.errors.ConfigError
 import com.google.gson.GsonBuilder
 import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader

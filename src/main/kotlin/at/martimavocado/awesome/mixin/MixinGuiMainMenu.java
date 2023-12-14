@@ -1,4 +1,4 @@
-package com.github.martimavocado.awesome.mixin;
+package at.martimavocado.awesome.mixin;
 
 import net.minecraft.client.gui.GuiMainMenu;
 import org.spongepowered.asm.mixin.Mixin;

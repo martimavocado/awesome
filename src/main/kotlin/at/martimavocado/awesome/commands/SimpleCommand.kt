@@ -1,6 +1,6 @@
-package com.github.martimavocado.awesome.commands
+package at.martimavocado.awesome.commands
 
-import com.github.martimavocado.awesome.errors.CommandError
+import at.martimavocado.awesome.errors.CommandError
 import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
 import net.minecraft.util.BlockPos

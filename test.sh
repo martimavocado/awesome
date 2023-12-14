@@ -12,6 +12,7 @@ if ls build/libs/"$working"* 1> /dev/null 2>&1; then
 else
     if ls ~/.var/app/org.prismlauncher.PrismLauncher/data/PrismLauncher/instances/dev/.minecraft/mods/"$working"* 1> /dev/null 2>&1; then
         echo "$working found, no changes needed."
+        flatpak run org.prismlauncher.PrismLauncher -l dev
     else
         echo "$working not found"
         exit 1

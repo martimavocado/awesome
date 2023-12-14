@@ -13,7 +13,7 @@ class CommandManager {
         registerCommand("testcommand") {
             ChatUtils.messageToChat("Test successful.")
         }
-        registerCommand("openconfig") {
+        registerCommand("awesome") {
             awesome.configManager.openConfigGui()
         }
         registerCommand("formatmessage") { args ->

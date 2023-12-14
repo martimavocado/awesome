@@ -9,7 +9,7 @@ public class ExampleModConfig extends Config {
 
     @Override
     public String getTitle() {
-        return "Example Mod " + awesome.getVersion() + " by §channibal2§r, config by §5Moulberry §rand §5nea89";
+        return "awesome " + awesome.getVersion() + " by §cmartimavocado§r, config by §5Moulberry §rand §5nea89";
     }
 
     @Override

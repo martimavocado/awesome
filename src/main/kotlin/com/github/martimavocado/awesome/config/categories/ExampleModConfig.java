@@ -1,6 +1,6 @@
-package com.example.config.categories;
+package com.github.martimavocado.awesome.config.categories;
 
-import com.example.ExampleMod;
+import com.github.martimavocado.awesome.ExampleMod;
 import com.google.gson.annotations.Expose;
 import io.github.moulberry.moulconfig.Config;
 import io.github.moulberry.moulconfig.annotations.Category;

@@ -1,9 +1,9 @@
-package com.example
+package com.github.martimavocado.awesome
 
-import com.example.commands.CommandManager
-import com.example.config.ConfigManager
-import com.example.config.categories.ExampleModConfig
-import com.example.features.ChatFeatures
+import com.github.martimavocado.awesome.commands.CommandManager
+import com.github.martimavocado.awesome.config.ConfigManager
+import com.github.martimavocado.awesome.config.categories.ExampleModConfig
+import com.github.martimavocado.awesome.features.ChatFeatures
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.Loader
 import net.minecraftforge.fml.common.Mod
@@ -28,7 +28,7 @@ class ExampleMod {
 
     companion object {
         lateinit var configManager: ConfigManager
-        const val MOD_ID = "examplemod"
+        const val MOD_ID = "awesome"
 
         @JvmStatic
         val version: String

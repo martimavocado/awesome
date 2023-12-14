@@ -1,7 +1,7 @@
-package com.example.features
+package com.github.martimavocado.awesome.features
 
-import com.example.ExampleMod
-import com.example.utils.ChatUtils
+import com.github.martimavocado.awesome.ExampleMod
+import com.github.martimavocado.awesome.utils.ChatUtils
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 

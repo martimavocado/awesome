@@ -1,4 +1,4 @@
-package com.example.utils
+package com.github.martimavocado.awesome.utils
 
 import net.minecraft.client.Minecraft
 import net.minecraft.util.ChatComponentText

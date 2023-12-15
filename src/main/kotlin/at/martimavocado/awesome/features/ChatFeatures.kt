@@ -3,7 +3,6 @@ package at.martimavocado.awesome.features
 import at.martimavocado.awesome.awesome
 import at.martimavocado.awesome.utils.ChatUtils
 import net.minecraft.util.ChatComponentText
-import net.minecraft.util.IChatComponent
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 

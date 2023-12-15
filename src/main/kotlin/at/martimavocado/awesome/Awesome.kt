@@ -10,9 +10,8 @@ import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 
-@Mod(modid = awesome.MOD_ID, useMetadata = true)
-class awesome {
-
+@Mod(modid = Awesome.MOD_ID, useMetadata = true)
+class Awesome {
     @Mod.EventHandler
     fun init(event: FMLInitializationEvent) {
         configManager = ConfigManager()

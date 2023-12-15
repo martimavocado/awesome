@@ -16,6 +16,9 @@ class CommandManager {
         registerCommand("awesome") {
             awesome.configManager.openConfigGui()
         }
+        registerCommand("aw") {
+            awesome.configManager.openConfigGui()
+        }
         registerCommand("formatmessage") { args ->
             val colorName = args.firstOrNull()
             if (colorName == null) {

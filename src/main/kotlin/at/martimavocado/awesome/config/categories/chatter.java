@@ -17,9 +17,4 @@ public class chatter {
         "Example: §9Party §8> §r§6➜§r §9P §8>")
     @ConfigEditorBoolean
     public boolean shortChannels = false;
-
-    @Expose
-    @ConfigOption(name = "raw chat", desc = "raws the chat")
-    @ConfigEditorBoolean
-    public boolean rawChat = false;
 }

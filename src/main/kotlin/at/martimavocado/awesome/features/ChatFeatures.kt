@@ -1,6 +1,6 @@
 package at.martimavocado.awesome.features
 
-import at.martimavocado.awesome.awesome
+import at.martimavocado.awesome.Awesome
 import net.minecraft.util.ChatComponentText
 import net.minecraft.util.IChatComponent
 import net.minecraftforge.client.event.ClientChatReceivedEvent
@@ -51,11 +51,11 @@ class ChatFeatures {
 
     @SubscribeEvent
     fun onChatReceive(event: ClientChatReceivedEvent) {
-        if (awesome.config.chatter.rawChat) {
+        if (Awesome.config.debug.rawChat) {
             println("\nOriginal Message: ${event.message}\nType: ${event.type}")
         }
-        if (awesome.config.chatter.colorEmoji) event.message = replace(event ,emojis)
-        if (awesome.config.chatter.shortChannels) event.message = replace(event ,channels)
+        if (Awesome.config.chatter.colorEmoji) event.message = replace(event ,emojis)
+        if (Awesome.config.chatter.shortChannels) event.message = replace(event ,channels)
     }
 
     private fun replace (event:ClientChatReceivedEvent, array: Array<Pair<String, String>>): IChatComponent {

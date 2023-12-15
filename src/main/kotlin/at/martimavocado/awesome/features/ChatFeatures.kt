@@ -1,8 +1,8 @@
 package at.martimavocado.awesome.features
 
 import at.martimavocado.awesome.awesome
-import at.martimavocado.awesome.utils.ChatUtils
 import net.minecraft.util.ChatComponentText
+import net.minecraft.util.IChatComponent
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
@@ -51,21 +51,22 @@ class ChatFeatures {
 
     @SubscribeEvent
     fun onChatReceive(event: ClientChatReceivedEvent) {
+        if (awesome.config.chatter.rawChat) {
+            println("\nOriginal Message: ${event.message}\nType: ${event.type}")
+        }
         if (awesome.config.chatter.colorEmoji) event.message = replace(event ,emojis)
         if (awesome.config.chatter.shortChannels) event.message = replace(event ,channels)
-        if (awesome.config.chatter.rawChat) {
-            ChatUtils.messageToChat(event.message.toString())
-        }
     }
 
-    private fun replace (event:ClientChatReceivedEvent, array: Array<Pair<String, String>>): ChatComponentText {
+    private fun replace (event:ClientChatReceivedEvent, array: Array<Pair<String, String>>): IChatComponent {
         var oldMessage = event.message.formattedText
-        val oldStyle = event.message.chatStyle
         array.forEach { (search, replace) ->
             oldMessage = oldMessage.replace(search, replace)
         }
         val newMessage = ChatComponentText(oldMessage)
-        newMessage.chatStyle = oldStyle
+        if (event.message.siblings.isEmpty()) {
+            newMessage.chatStyle = event.message.chatStyle
+        } else newMessage.chatStyle = event.message.siblings[0].chatStyle
         return newMessage
-    } // TODO: figure out why some messages keep tooltips and some don't
+    }
 }

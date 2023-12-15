@@ -1,7 +1,9 @@
 package at.martimavocado.awesome.features
 
 import at.martimavocado.awesome.awesome
+import at.martimavocado.awesome.utils.ChatUtils
 import net.minecraft.util.ChatComponentText
+import net.minecraft.util.IChatComponent
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
@@ -16,7 +18,7 @@ class ChatFeatures {
             "¯\\_(ツ)_/¯" to "§r§e¯\\_(ツ)_/¯§r",
             "(╯°□°）╯︵┻━┻" to "§r§c(╯°□°）╯§f︵§7 ┻━┻§r",
             "( ﾟ◡ﾟ)/" to "§r§d( ﾟ◡ﾟ)/§r",
-            " 123 " to " §r§a1§e2§c3§r ",
+            "123" to " §r§a1§e2§c3§r ",
             "☉_☉" to "§r§b☉§e_§b☉§r",
             "✎..." to "§r§e✎§6...§r",
             "√(π+x)=L" to "§r§a√§e§l(§aπ§a§l+x§e§l)§a§l=§c§lL§r",
@@ -48,17 +50,23 @@ class ChatFeatures {
             "§3Officer >" to "§3 O >"
     )
 
-    @SubscribeEvent(receiveCanceled = true)
+    @SubscribeEvent
     fun onChatReceive(event: ClientChatReceivedEvent) {
         if (awesome.config.chatter.colorEmoji) event.message = replace(event ,emojis)
         if (awesome.config.chatter.shortChannels) event.message = replace(event ,channels)
+        if (awesome.config.chatter.rawChat) {
+            ChatUtils.messageToChat(event.message.toString())
+        }
     }
 
     private fun replace (event:ClientChatReceivedEvent, array: Array<Pair<String, String>>): ChatComponentText {
-        var newMessage = event.message.formattedText
+        var oldMessage = event.message.formattedText
+        val oldStyle = event.message.chatStyle
         array.forEach { (search, replace) ->
-            newMessage = newMessage.replace(search, replace)
+            oldMessage = oldMessage.replace(search, replace)
         }
-        return ChatComponentText(newMessage)
-    }
+        val newMessage = ChatComponentText(oldMessage)
+        newMessage.chatStyle = oldStyle
+        return newMessage
+    } // TODO: figure out why some messages keep tooltips and some don't
 }

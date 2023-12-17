@@ -1,6 +1,8 @@
 package at.martimavocado.awesome.features
 
 import at.martimavocado.awesome.Awesome
+import at.martimavocado.awesome.events.ClientMessageEvent
+import at.martimavocado.awesome.utils.ChatUtils
 import net.minecraft.util.ChatComponentText
 import net.minecraft.util.IChatComponent
 import net.minecraftforge.client.event.ClientChatReceivedEvent
@@ -33,7 +35,6 @@ class ChatFeatures {
             "ヽ (◕◡◕) ﾉ" to "§r§aヽ (◕◡◕) ﾉ§r",
             "= ＾● ⋏ ●＾ =" to "§r§e= §b＾● ⋏ ●＾§e =§r",
             "☃" to "§r§b☃§r",
-            "ヽ (◕◡◕) ﾉ" to "§r§eヽ(^◇^*)/§r",
             "(✿◠‿◠)" to "§r§e(§a✿§e◠‿◠)§7§r",
             "ヽ(^◇^*)/" to "§r§eヽ(^◇^*)/§r",
             "ヽ(⌐■_■)ノ♬" to "§r§9ヽ§5(§d⌐§c■§6_§e■§b)§3ノ§9♬§r",

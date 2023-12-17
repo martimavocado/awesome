@@ -9,4 +9,9 @@ public class debug {
     @ConfigOption(name = "raw chat", desc = "prints a copy of raw messages to stdout")
     @ConfigEditorBoolean
     public boolean rawChat = false;
+
+    @Expose
+    @ConfigOption(name = "command logger", desc = "logs commands sent")
+    @ConfigEditorBoolean
+    public boolean commandLogs = false;
 }

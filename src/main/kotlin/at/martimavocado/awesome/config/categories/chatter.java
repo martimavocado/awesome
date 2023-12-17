@@ -1,6 +1,7 @@
 package at.martimavocado.awesome.config.categories;
 
 import com.google.gson.annotations.Expose;
+import io.github.moulberry.moulconfig.annotations.Accordion;
 import io.github.moulberry.moulconfig.annotations.ConfigEditorBoolean;
 import io.github.moulberry.moulconfig.annotations.ConfigOption;
 
@@ -17,10 +18,16 @@ public class chatter {
         "Example: §9Party §8> §r§6➜§r §9P §8>")
     @ConfigEditorBoolean
     public boolean shortChannels = false;
+//
+//    @Expose
+//    @ConfigOption(name = "Emoji Replacer", desc = "Replaces Emojis to emulate Hypixel" +
+//            "Example: §r§f<3 §r§6➜§r §r§f❤")
+//    @ConfigEditorBoolean
+//    public boolean replace = false;
 
     @Expose
-    @ConfigOption(name = "replace", desc = "Shortens channel names\n" +
-            "Example: §9Party §8> §r§6➜§r §9P §8>")
-    @ConfigEditorBoolean
-    public boolean replace = false;
+    @ConfigOption(name = "Emoji Replacer", desc = "Replaces Emojis to emulate Hypixel" +
+            "Example: §r§f<3 §r§6➜§r §r§f❤")
+    @Accordion
+    public EmojiReplacerConfig emojiReplace = new EmojiReplacerConfig();
 }

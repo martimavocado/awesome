@@ -1,8 +1,9 @@
-package at.martimavocado.awesome.mixins;
+package at.martimavocado.awesome.mixins.transformers;
 
+import at.martimavocado.awesome.events.ClientMessageEvent;
+import at.martimavocado.awesome.hooks.EntityPlayerSPHookKt;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraftforge.common.MinecraftForge;
-import at.martimavocado.awesome.events.ClientMessageEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -13,13 +14,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinEntityPlayerSP {
     @Inject(method = "sendChatMessage", at = @At(value = "HEAD"), cancellable = true)
     private void sendChatMessage_inject(String message, CallbackInfo ci) {
-        Event chatEvent = new ClientMessageEvent(message);
-        MinecraftForge.EVENT_BUS.post(chatEvent);
-        if (message.contains("balls")) {
-            message = "I HATE BALLS";
-        }
-        if (chatEvent.isCanceled()) {
+        Event event = new ClientMessageEvent(message);
+        MinecraftForge.EVENT_BUS.post(event);
+        if (event.isCanceled()) {
             ci.cancel();
         }
+//        EntityPlayerSPHookKt.sendChatMessage(message);
     }
 }

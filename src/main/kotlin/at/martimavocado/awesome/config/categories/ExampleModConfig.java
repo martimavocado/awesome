@@ -22,6 +22,6 @@ public class ExampleModConfig extends Config {
     public chatter chatter = new chatter();
 
     @Expose
-    @Category(name = "this is still empty", desc = "go add something here")
+    @Category(name = "debug stuff", desc = "you probably don't care about this")
     public debug debug = new debug();
 }

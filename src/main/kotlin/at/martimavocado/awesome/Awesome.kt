@@ -4,6 +4,7 @@ import at.martimavocado.awesome.commands.CommandManager
 import at.martimavocado.awesome.config.ConfigManager
 import at.martimavocado.awesome.config.categories.ExampleModConfig
 import at.martimavocado.awesome.features.ChatFeatures
+import at.martimavocado.awesome.utils.CommandsSentToServerLogger
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.Loader
 import net.minecraftforge.fml.common.Mod
@@ -23,6 +24,7 @@ class Awesome {
         CommandManager()
 
         MinecraftForge.EVENT_BUS.register(ChatFeatures())
+        MinecraftForge.EVENT_BUS.register(CommandsSentToServerLogger())
     }
 
     companion object {

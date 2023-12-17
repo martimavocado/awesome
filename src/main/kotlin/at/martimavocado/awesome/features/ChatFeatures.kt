@@ -1,6 +1,7 @@
 package at.martimavocado.awesome.features
 
 import at.martimavocado.awesome.Awesome
+import at.martimavocado.awesome.events.ClientMessageEvent
 import net.minecraft.util.ChatComponentText
 import net.minecraft.util.IChatComponent
 import net.minecraftforge.client.event.ClientChatReceivedEvent
@@ -68,5 +69,15 @@ class ChatFeatures {
             newMessage.chatStyle = event.message.chatStyle
         } else newMessage.chatStyle = event.message.siblings[0].chatStyle
         return newMessage
+    }
+
+    @SubscribeEvent
+    fun onChatSend(event: ClientMessageEvent) {
+        println("event triggered! ${event.message}")
+        if (!Awesome.config.chatter.replace) return
+        if (event.message.contains("balls")) {
+            println("we found balls")
+            event.message = "I HATE BALLS"
+        }
     }
 }

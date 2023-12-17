@@ -1,9 +1,10 @@
 {
-  "package": "${mixinGroup}",
-  "refmap": "mixins.${modid}.refmap.json",
+  "package": "at.martimavocado.awesome.mixins",
+  "refmap": "mixins.awesome.refmap.json",
   "minVersion": "0.7",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "MixinEntityPlayerSP"
   ],
   "client": [
 	"MixinGuiMainMenu"

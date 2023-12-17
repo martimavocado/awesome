@@ -17,4 +17,10 @@ public class chatter {
         "Example: §9Party §8> §r§6➜§r §9P §8>")
     @ConfigEditorBoolean
     public boolean shortChannels = false;
+
+    @Expose
+    @ConfigOption(name = "replace", desc = "Shortens channel names\n" +
+            "Example: §9Party §8> §r§6➜§r §9P §8>")
+    @ConfigEditorBoolean
+    public boolean replace = false;
 }

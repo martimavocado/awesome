@@ -1,8 +1,6 @@
-package at.martimavocado.awesome.features
+package at.martimavocado.awesome.features.chat
 
 import at.martimavocado.awesome.Awesome
-import at.martimavocado.awesome.events.ClientMessageEvent
-import at.martimavocado.awesome.utils.ChatUtils
 import net.minecraft.util.ChatComponentText
 import net.minecraft.util.IChatComponent
 import net.minecraftforge.client.event.ClientChatReceivedEvent

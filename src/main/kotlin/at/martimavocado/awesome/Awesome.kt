@@ -2,8 +2,9 @@ package at.martimavocado.awesome
 
 import at.martimavocado.awesome.commands.CommandManager
 import at.martimavocado.awesome.config.ConfigManager
-import at.martimavocado.awesome.config.categories.ExampleModConfig
-import at.martimavocado.awesome.features.ChatFeatures
+import at.martimavocado.awesome.config.categories.AwesomeConfig
+import at.martimavocado.awesome.features.EmojiList
+import at.martimavocado.awesome.features.chat.ChatFeatures
 import at.martimavocado.awesome.features.chat.Replacer
 import at.martimavocado.awesome.utils.CommandsSentToServerLogger
 import net.minecraftforge.common.MinecraftForge
@@ -18,6 +19,7 @@ class Awesome {
     fun init(event: FMLInitializationEvent) {
         configManager = ConfigManager()
         MinecraftForge.EVENT_BUS.register(configManager)
+        MinecraftForge.EVENT_BUS.register(EmojiList())
     }
 
     @Mod.EventHandler
@@ -31,13 +33,14 @@ class Awesome {
 
     companion object {
         lateinit var configManager: ConfigManager
+        lateinit var features: EmojiList
         const val MOD_ID = "awesome"
 
         @JvmStatic
         val version: String
             get() = Loader.instance().indexedModList[MOD_ID]!!.version
 
-        val config: ExampleModConfig
+        val config: AwesomeConfig
             get() = configManager.config ?: error("config is null")
     }
 }

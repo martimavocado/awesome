@@ -5,7 +5,7 @@ import com.google.gson.annotations.Expose;
 import io.github.moulberry.moulconfig.Config;
 import io.github.moulberry.moulconfig.annotations.Category;
 
-public class ExampleModConfig extends Config {
+public class AwesomeConfig extends Config {
 
     @Override
     public String getTitle() {

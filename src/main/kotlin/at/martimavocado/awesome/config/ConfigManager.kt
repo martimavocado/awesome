@@ -1,6 +1,6 @@
 package at.martimavocado.awesome.config
 
-import at.martimavocado.awesome.config.categories.ExampleModConfig
+import at.martimavocado.awesome.config.categories.AwesomeConfig
 import at.martimavocado.awesome.errors.ConfigError
 import com.google.gson.GsonBuilder
 import com.google.gson.TypeAdapter
@@ -50,10 +50,10 @@ class ConfigManager {
 
     private var configDirectory = File("config/awesome")
     private var configFile: File
-    var config: ExampleModConfig? = null
+    var config: AwesomeConfig? = null
     private var lastSaveTime = 0L
 
-    private lateinit var processor: MoulConfigProcessor<ExampleModConfig>
+    private lateinit var processor: MoulConfigProcessor<AwesomeConfig>
     private val editor by lazy { MoulConfigEditor(processor) }
 
     init {
@@ -67,7 +67,7 @@ class ConfigManager {
 
         if (config == null) {
             println("Creating a clean config.")
-            config = ExampleModConfig()
+            config = AwesomeConfig()
         }
 
         val config = config!!
@@ -99,7 +99,7 @@ class ConfigManager {
                 builder.append(line)
                 builder.append("\n")
             }
-            config = gson.fromJson(builder.toString(), ExampleModConfig::class.java)
+            config = gson.fromJson(builder.toString(), AwesomeConfig::class.java)
         } catch (e: Exception) {
             throw ConfigError("Could not load config", e)
         }

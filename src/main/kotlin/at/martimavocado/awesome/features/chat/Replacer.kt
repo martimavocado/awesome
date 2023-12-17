@@ -67,7 +67,7 @@ class Replacer {
     }
 
     private fun chatEdit(event: ClientMessageEvent, array: Array<Pair<String, String>>) {
-        if (inArray(event.message, array)) {
+        if (ChatUtils.inArray(event.message, array)) {
             event.isCanceled = true
             var newMessage = event.message
             array.forEach { (search, replace) ->
@@ -75,14 +75,5 @@ class Replacer {
             }
             ChatUtils.sendChatPacket(C01PacketChatMessage(newMessage))
         } else return
-    }
-
-    private fun inArray(input: String, array: Array<Pair<String, String>>): Boolean {
-        for ((leftHalf, _) in array) {
-            if (input.contains(leftHalf)) {
-                return true
-            }
-        }
-        return false
     }
 }

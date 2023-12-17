@@ -18,4 +18,14 @@ object ChatUtils {
     fun sendChatPacket(packet: C01PacketChatMessage) {
         Minecraft.getMinecraft().thePlayer.sendQueue.addToSendQueue(packet)
     }
+
+
+    fun inArray(input: String, array: Array<Pair<String, String>>): Boolean {
+        for ((leftHalf, _) in array) {
+            if (input.contains(leftHalf)) {
+                return true
+            }
+        }
+        return false
+    }
 }

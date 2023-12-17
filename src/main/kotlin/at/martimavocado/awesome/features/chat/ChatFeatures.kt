@@ -1,6 +1,7 @@
 package at.martimavocado.awesome.features.chat
 
 import at.martimavocado.awesome.Awesome
+import at.martimavocado.awesome.utils.ChatUtils
 import net.minecraft.util.ChatComponentText
 import net.minecraft.util.IChatComponent
 import net.minecraftforge.client.event.ClientChatReceivedEvent
@@ -43,9 +44,10 @@ class ChatFeatures {
     )
 
     private val channels = arrayOf(
-            "§9Party §8>" to "§r§9P §8>",
+            "§9Party §8>" to "§9P §8>",
             "§2Guild >" to "§2G >",
-            "§3Officer >" to "§3 O >"
+            "§3Officer >" to "§3O >",
+            "§aFriend >" to "§aF >"
     )
 
     @SubscribeEvent
@@ -58,14 +60,17 @@ class ChatFeatures {
     }
 
     private fun replace (event:ClientChatReceivedEvent, array: Array<Pair<String, String>>): IChatComponent {
-        var oldMessage = event.message.formattedText
-        array.forEach { (search, replace) ->
-            oldMessage = oldMessage.replace(search, replace)
+        if (ChatUtils.inArray(event.message.unformattedText, array)) {
+            var oldMessage = event.message.formattedText
+            array.forEach { (search, replace) ->
+                oldMessage = oldMessage.replace(search, replace)
+            }
+            val newMessage = ChatComponentText(oldMessage)
+            if (event.message.siblings.isEmpty()) {
+                newMessage.chatStyle = event.message.chatStyle
+            } else newMessage.chatStyle = event.message.siblings[0].chatStyle
+            return newMessage
         }
-        val newMessage = ChatComponentText(oldMessage)
-        if (event.message.siblings.isEmpty()) {
-            newMessage.chatStyle = event.message.chatStyle
-        } else newMessage.chatStyle = event.message.siblings[0].chatStyle
-        return newMessage
+        return event.message
     }
 }

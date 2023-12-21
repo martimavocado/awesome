@@ -14,4 +14,9 @@ public class debug {
     @ConfigOption(name = "command logger", desc = "logs commands sent")
     @ConfigEditorBoolean
     public boolean commandLogs = false;
+
+    @Expose
+    @ConfigOption(name = "replace color code thing with &", desc = "helps with debugging sometimes :shrug:")
+    @ConfigEditorBoolean
+    public boolean colorCodes = false;
 }

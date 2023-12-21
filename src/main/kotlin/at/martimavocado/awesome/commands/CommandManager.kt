@@ -53,7 +53,7 @@ class CommandManager {
         }
         registerCommand("emojilist") {
             message.forEach { line ->
-                ChatUtils.messageToChat(line)
+                ChatUtils.sendChatClient(line)
             }
         }
     }

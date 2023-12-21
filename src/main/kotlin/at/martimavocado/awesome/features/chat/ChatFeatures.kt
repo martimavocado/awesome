@@ -50,6 +50,10 @@ class ChatFeatures {
             "§aFriend >" to "§aF >"
     )
 
+    private val color = arrayOf(
+            "§" to "&"
+    )
+
     @SubscribeEvent
     fun onChatReceive(event: ClientChatReceivedEvent) {
         if (Awesome.config.debug.rawChat) {
@@ -57,13 +61,18 @@ class ChatFeatures {
         }
         if (Awesome.config.chatter.colorEmoji) event.message = replace(event ,emojis)
         if (Awesome.config.chatter.shortChannels) event.message = replace(event ,channels)
+        if (Awesome.config.debug.colorCodes) event.message = replace(event, color)
     }
 
     private fun replace (event:ClientChatReceivedEvent, array: Array<Pair<String, String>>): IChatComponent {
         if (ChatUtils.inArray(event.message.unformattedText, array)) {
             var oldMessage = event.message.formattedText
             array.forEach { (search, replace) ->
-                oldMessage = oldMessage.replace(search, replace)
+                if (oldMessage.contains(search)) {
+                    val oldColor = findColor(oldMessage, search)
+                    oldMessage = if (oldColor == "shrug") oldMessage.replace(search, replace)
+                    else oldMessage.replace(search, "$replace§$oldColor")
+                }
             }
             val newMessage = ChatComponentText(oldMessage)
             if (event.message.siblings.isEmpty()) {
@@ -72,5 +81,20 @@ class ChatFeatures {
             return newMessage
         }
         return event.message
+    }
+
+    private fun findColor(message: String, search: String): String {
+        println("message= $message")
+        println("search= $search")
+        val index = message.indexOf(search)
+        println("index= $index")
+        val subString = message.substring(0,index)
+        println("substring= $subString")
+        if (subString.last() == '§') {
+            println("last char in substring was &, giving up")
+            return "shrug"
+        }
+        val lastColorIndex = subString.lastIndexOf("§")+1
+        return "${subString[lastColorIndex]}"
     }
 }

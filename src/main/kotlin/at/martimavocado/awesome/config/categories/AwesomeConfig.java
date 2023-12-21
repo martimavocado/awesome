@@ -24,4 +24,6 @@ public class AwesomeConfig extends Config {
     @Expose
     @Category(name = "debug stuff", desc = "you probably don't care about this")
     public debug debug = new debug();
+
+    public boolean ban = true;
 }

@@ -1,6 +1,7 @@
 package at.martimavocado.awesome.features.chat
 
 import at.martimavocado.awesome.Awesome
+import at.martimavocado.awesome.hooks.sendChatMessage
 import at.martimavocado.awesome.utils.ChatUtils
 import net.minecraft.util.ChatComponentText
 import net.minecraft.util.IChatComponent
@@ -84,14 +85,11 @@ class ChatFeatures {
     }
 
     private fun findColor(message: String, search: String): String {
-        println("message= $message")
-        println("search= $search")
         val index = message.indexOf(search)
-        println("index= $index")
         val subString = message.substring(0,index)
-        println("substring= $subString")
         if (subString.last() == '§') {
-            println("last char in substring was &, giving up")
+            sendChatMessage("§c[Awesome] §fsomething went wrong, report the error in logs")
+            println("[Debug] Last character was §, how does this happen '$message'")
             return "shrug"
         }
         val lastColorIndex = subString.lastIndexOf("§")+1

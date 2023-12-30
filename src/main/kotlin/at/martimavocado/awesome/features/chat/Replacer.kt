@@ -1,12 +1,14 @@
 package at.martimavocado.awesome.features.chat
 
 import at.martimavocado.awesome.Awesome
+import at.martimavocado.awesome.config.categories.EmojiReplacerConfig
 import at.martimavocado.awesome.events.ClientMessageEvent
 import at.martimavocado.awesome.utils.ChatUtils
 import net.minecraft.network.play.client.C01PacketChatMessage
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
 class Replacer {
+    private val config get() = Awesome.config.chatter.emojiReplace
     private val mvpPlusPlus = arrayOf(
         "<3" to "❤",
         ":star" to "✮",
@@ -32,7 +34,7 @@ class Replacer {
     )
 
     private val gifted5 = arrayOf(
-        "^-^" to "^-^",
+//        "^-^" to "^-^",
         ":cute:" to "(✿◠‿◠)"
     )
 
@@ -57,13 +59,25 @@ class Replacer {
 
     @SubscribeEvent
     fun onChatSend(event: ClientMessageEvent) {
-        if (Awesome.config.chatter.emojiReplace.mvp) chatEdit(event, mvpPlusPlus)
-        if (Awesome.config.chatter.emojiReplace.five) chatEdit(event, gifted5)
-        if (Awesome.config.chatter.emojiReplace.twenty) chatEdit(event, gifted20)
-        if (Awesome.config.chatter.emojiReplace.fifty) chatEdit(event, gifted50)
-        if (Awesome.config.chatter.emojiReplace.hundred) chatEdit(event, gifted100)
-        if (Awesome.config.chatter.emojiReplace.twoHundred) chatEdit(event, gifted200)
-        return
+        if (config.enabled) {
+            var arrayFinal: Array<Pair<String, String>> = emptyArray()
+            if (config.mvp) arrayFinal += mvpPlusPlus
+            val giftedRanks: Int = when (config.giftedRanks) {
+                EmojiReplacerConfig.emojiRanksGifted.ZERO -> 0
+                EmojiReplacerConfig.emojiRanksGifted.FIVE -> 5
+                EmojiReplacerConfig.emojiRanksGifted.TWENTY -> 20
+                EmojiReplacerConfig.emojiRanksGifted.FIFTY -> 50
+                EmojiReplacerConfig.emojiRanksGifted.ONE_HUNDRED -> 100
+                EmojiReplacerConfig.emojiRanksGifted.TWO_HUNDRED -> 200
+                else -> 0
+            }
+            if (giftedRanks < 5) arrayFinal += gifted5
+            if (giftedRanks < 20) arrayFinal += gifted20
+            if (giftedRanks < 50) arrayFinal += gifted50
+            if (giftedRanks < 100) arrayFinal += gifted100
+            if (giftedRanks < 200) arrayFinal += gifted200
+            chatEdit(event, arrayFinal)
+        }
     }
 
     private fun chatEdit(event: ClientMessageEvent, array: Array<Pair<String, String>>) {

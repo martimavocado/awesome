@@ -9,12 +9,6 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
 class ChatFeatures {
-    private var magic: Boolean = false
-    private var bold: Boolean = false
-    private var strikethrough: Boolean = false
-    private var underline: Boolean = false
-    private var italic: Boolean = false
-
     private val emojis = arrayOf(
             "❤" to "§r§c❤",
             "✮" to "§r§6✮",
@@ -123,7 +117,7 @@ class ChatFeatures {
         val firstIndex = findFirstIndex(message, lastIndex)
         val subString = message.substring(firstIndex,lastIndex)
         if (subString.isNotEmpty() && subString.last() == '§') {
-            sendChatMessage("§c[Awesome] §fsomething went wrong, report the error in logs")
+            sendChatMessage("§c[Awesome] §fSomething went wrong, report the error in logs")
             println("[Debug] Last character was §, how does this happen '$message'")
             return "shrug"
         }

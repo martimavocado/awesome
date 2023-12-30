@@ -19,4 +19,9 @@ public class debug {
     @ConfigOption(name = "replace color code thing with &", desc = "helps with debugging sometimes :shrug:")
     @ConfigEditorBoolean
     public boolean colorCodes = false;
+
+    @Expose
+    @ConfigOption(name = "substring color", desc = "i hate minecraft colro code")
+    @ConfigEditorBoolean
+    public boolean debugColors = false;
 }

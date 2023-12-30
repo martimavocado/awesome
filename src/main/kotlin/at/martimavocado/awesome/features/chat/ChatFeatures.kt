@@ -9,6 +9,12 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
 class ChatFeatures {
+    private var magic: Boolean = false
+    private var bold: Boolean = false
+    private var strikethrough: Boolean = false
+    private var underline: Boolean = false
+    private var italic: Boolean = false
+
     private val emojis = arrayOf(
             "❤" to "§r§c❤",
             "✮" to "§r§6✮",
@@ -55,10 +61,38 @@ class ChatFeatures {
             "§" to "&"
     )
 
+    private val resettingCodes = arrayOf(
+        "§0",
+        "§1",
+        "§2",
+        "§3",
+        "§4",
+        "§5",
+        "§6",
+        "§7",
+        "§8",
+        "§9",
+        "§a",
+        "§b",
+        "§c",
+        "§d",
+        "§e",
+        "§f"
+    )
+
+    private val formattingCodes = arrayOf(
+        "§k",
+        "§l",
+        "§m",
+        "§n",
+        "§o",
+        "§r"
+    )
+
     @SubscribeEvent
     fun onChatReceive(event: ClientChatReceivedEvent) {
         if (Awesome.config.debug.rawChat) {
-            println("\nOriginal Message: ${event.message}\nType: ${event.type}")
+            println("\nOriginal Message: ${event.message.formattedText}\nType: ${event.type}")
         }
         if (Awesome.config.chatter.colorEmoji) event.message = replace(event ,emojis)
         if (Awesome.config.chatter.shortChannels) event.message = replace(event ,channels)
@@ -71,8 +105,8 @@ class ChatFeatures {
             array.forEach { (search, replace) ->
                 if (oldMessage.contains(search)) {
                     val oldColor = findColor(oldMessage, search)
-                    oldMessage = if (oldColor == "shrug") oldMessage.replace(search, replace)
-                    else oldMessage.replace(search, "$replace§$oldColor")
+                   oldMessage = if (oldColor == "shrug") oldMessage.replace(search, replace)
+                   else oldMessage.replace(search, "$replace$oldColor")
                 }
             }
             val newMessage = ChatComponentText(oldMessage)
@@ -85,14 +119,41 @@ class ChatFeatures {
     }
 
     private fun findColor(message: String, search: String): String {
-        val index = message.indexOf(search)
-        val subString = message.substring(0,index)
-        if (subString.last() == '§') {
+        val lastIndex = message.indexOf(search)
+        val firstIndex = findFirstIndex(message, lastIndex)
+        val subString = message.substring(firstIndex,lastIndex)
+        if (subString.isNotEmpty() && subString.last() == '§') {
             sendChatMessage("§c[Awesome] §fsomething went wrong, report the error in logs")
             println("[Debug] Last character was §, how does this happen '$message'")
             return "shrug"
         }
-        val lastColorIndex = subString.lastIndexOf("§")+1
-        return "${subString[lastColorIndex]}"
+        if (Awesome.config.debug.debugColors) {
+            println("[Debug] message: $message")
+            println("[Debug] substring: $subString")
+            println("[Debug] index: ${subString.lastIndexOf("§")+1}")
+            println("[Debug] code: ${subString[subString.lastIndexOf("§")+1]}")
+        }
+        return handleColor(subString)
+    }
+
+    private fun handleColor(subString: String): String {
+        var finalColors = "§${subString[1]}"
+        for (code in formattingCodes) {
+            if (subString.contains(code)) {
+                finalColors += code
+            }
+        }
+        return finalColors
+    }
+
+    private fun findFirstIndex(message: String, lastIndex: Int): Int {
+        val subString = message.substring(0, lastIndex)
+        var maxIndex = 0
+
+        resettingCodes.forEach { code ->
+            val index = subString.lastIndexOf(code)
+            if (index > maxIndex) maxIndex = index
+        }
+        return maxIndex
     }
 }

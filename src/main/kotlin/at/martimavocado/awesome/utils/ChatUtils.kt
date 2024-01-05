@@ -23,6 +23,10 @@ object ChatUtils {
         Minecraft.getMinecraft().thePlayer.sendChatMessage(message)
     }
 
+    fun debug(message: String) {
+        sendChatClient("[Debug] $message")
+    }
+
     fun sendChatPacket(packet: C01PacketChatMessage) {
         Minecraft.getMinecraft().thePlayer.sendQueue.addToSendQueue(packet)
     }

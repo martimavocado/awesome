@@ -46,9 +46,9 @@ class ChatFeatures {
 
     private val channels = arrayOf(
             "§9Party §8>" to "§9P §8>",
-            "§2Guild >" to "§2G >",
-            "§3Officer >" to "§3O >",
-            "§aFriend >" to "§aF >"
+            "Guild >" to "G >",
+            "Officer >" to "O >",
+            "Friend >" to "F >"
     )
 
     private val color = arrayOf(
@@ -86,7 +86,11 @@ class ChatFeatures {
     @SubscribeEvent
     fun onChatReceive(event: ClientChatReceivedEvent) {
         if (Awesome.config.debug.rawChat) {
-            println("\nOriginal Message: ${event.message.formattedText}\nType: ${event.type}")
+            println("\nFormatted Message: ${event.message.formattedText}\n" +
+                    "Unformatted Message: ${event.message.unformattedText}\n" +
+                    "Type: ${event.type}")
+            println("}")
+            println("")
         }
         if (Awesome.config.chatter.colorEmoji) event.message = replace(event ,emojis)
         if (Awesome.config.chatter.shortChannels) event.message = replace(event ,channels)
@@ -95,6 +99,7 @@ class ChatFeatures {
 
     private fun replace (event:ClientChatReceivedEvent, array: Array<Pair<String, String>>): IChatComponent {
         if (ChatUtils.inArray(event.message.unformattedText, array)) {
+//            ChatUtils.sendChatClient("replacing!!!")
             var oldMessage = event.message.formattedText
             array.forEach { (search, replace) ->
                 if (oldMessage.contains(search)) {

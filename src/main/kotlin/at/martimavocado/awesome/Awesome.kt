@@ -6,6 +6,7 @@ import at.martimavocado.awesome.config.categories.AwesomeConfig
 import at.martimavocado.awesome.features.chat.ChatFeatures
 import at.martimavocado.awesome.features.chat.Replacer
 import at.martimavocado.awesome.features.FakeBanScreen
+import at.martimavocado.awesome.features.commands.ChatCommands
 import at.martimavocado.awesome.utils.CommandsSentToServerLogger
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.Loader
@@ -13,7 +14,7 @@ import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 
-@Mod(modid = Awesome.MOD_ID, useMetadata = true)
+@Mod(modid = Awesome.MOD_ID, useMetadata = true, name = "Awesome", version = "1.2", clientSideOnly = true)
 class Awesome {
     @Mod.EventHandler
     fun init(event: FMLInitializationEvent) {
@@ -29,6 +30,7 @@ class Awesome {
         MinecraftForge.EVENT_BUS.register(Replacer())
         MinecraftForge.EVENT_BUS.register(FakeBanScreen())
         MinecraftForge.EVENT_BUS.register(CommandsSentToServerLogger())
+        MinecraftForge.EVENT_BUS.register(ChatCommands())
     }
 
     companion object {

@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
 class FakeBanScreen {
     @SubscribeEvent
-    fun chatRecieve(event: ClientChatReceivedEvent) {
+    fun chatReceive(event: ClientChatReceivedEvent) {
         if (event.message.unformattedText.contains("?ban") && Awesome.config.ban) {
             if (checkIGN("Iciing")) {
                 val component = ChatComponentText("§cYou are temporarily banned for §f29d 23h 59m 59s§c from this server!")

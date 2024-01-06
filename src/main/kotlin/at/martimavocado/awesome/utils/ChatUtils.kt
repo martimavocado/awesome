@@ -8,6 +8,18 @@ import net.minecraft.util.ChatComponentText
 
 object ChatUtils {
 
+    fun sendChatCommand(array: Array<String>) {
+        if (array.isEmpty()) {
+            sendChatClient("cant test a message without one i think")
+            return
+        }
+        val hidden = array.last() == "-s"
+        var rawMessage = array.toList().joinToString(" ")
+        if (!hidden) sendChatClient("Testing message: §7$rawMessage")
+        if (hidden) rawMessage = rawMessage.replace(" -s", "")
+        val formattedMessage = rawMessage.replace("&", "§")
+        sendChatClient(formattedMessage)
+    }
     fun sendChatClient(message: String) {
         Minecraft.getMinecraft().thePlayer.addChatMessage(ChatComponentText(message))
     }

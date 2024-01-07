@@ -95,8 +95,6 @@ class ChatFeatures {
             println("\nFormatted Message: ${event.message.formattedText}\n" +
                     "Unformatted Message: ${event.message.unformattedText}\n" +
                     "Type: ${event.type}")
-            println("}")
-            println("")
         }
         if (Awesome.config.chatter.colorEmoji) event.message = replace(event, emojis)
         if (Awesome.config.chatter.shortChannels) event.message = replace(event, channels)

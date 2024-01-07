@@ -25,6 +25,9 @@ class CommandManager {
         registerCommand("testmessage") {
             at.martimavocado.awesome.utils.ChatUtils.sendChatCommand(it)
         }
+        registerCommand("fakeban") {
+            at.martimavocado.awesome.features.FakeBan.showBanScreen(it[0], it[1])
+        }
     }
 
     private fun registerCommand(name: String, function: (Array<String>) -> Unit) {

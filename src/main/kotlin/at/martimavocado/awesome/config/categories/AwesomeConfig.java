@@ -4,6 +4,7 @@ import at.martimavocado.awesome.Awesome;
 import com.google.gson.annotations.Expose;
 import io.github.moulberry.moulconfig.Config;
 import io.github.moulberry.moulconfig.annotations.Category;
+import tv.twitch.chat.Chat;
 
 public class AwesomeConfig extends Config {
 
@@ -22,8 +23,10 @@ public class AwesomeConfig extends Config {
     public chatter chatter = new chatter();
 
     @Expose
+    @Category(name = "chat commands", desc = "toggles for chat commands")
+    public ChatCommands commands = new ChatCommands();
+
+    @Expose
     @Category(name = "debug stuff", desc = "you probably don't care about this")
     public debug debug = new debug();
-
-    public boolean ban = true;
 }

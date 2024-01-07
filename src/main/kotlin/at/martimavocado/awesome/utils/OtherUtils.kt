@@ -19,4 +19,8 @@ object OtherUtils {
             ChatUtils.sendChatClient("Wrong Usage! /showtitle title subtitle fadeIn displayTime fadeOut")
         }
     }
+
+    fun checkIGN(string: String): Boolean {
+        return Minecraft.getMinecraft().thePlayer.name == string
+    }
 }

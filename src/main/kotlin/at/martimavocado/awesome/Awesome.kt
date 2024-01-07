@@ -5,7 +5,6 @@ import at.martimavocado.awesome.config.ConfigManager
 import at.martimavocado.awesome.config.categories.AwesomeConfig
 import at.martimavocado.awesome.features.chat.ChatFeatures
 import at.martimavocado.awesome.features.chat.Replacer
-import at.martimavocado.awesome.features.FakeBanScreen
 import at.martimavocado.awesome.features.commands.ChatCommands
 import at.martimavocado.awesome.utils.CommandsSentToServerLogger
 import net.minecraftforge.common.MinecraftForge
@@ -28,7 +27,6 @@ class Awesome {
 
         MinecraftForge.EVENT_BUS.register(ChatFeatures())
         MinecraftForge.EVENT_BUS.register(Replacer())
-        MinecraftForge.EVENT_BUS.register(FakeBanScreen())
         MinecraftForge.EVENT_BUS.register(CommandsSentToServerLogger())
         MinecraftForge.EVENT_BUS.register(ChatCommands())
     }

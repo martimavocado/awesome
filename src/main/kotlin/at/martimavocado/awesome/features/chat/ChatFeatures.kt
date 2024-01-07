@@ -97,7 +97,6 @@ class ChatFeatures {
                     "Type: ${event.type}")
         }
         if (Awesome.config.chatter.colorEmoji) event.message = replace(event, emojis)
-        if (Awesome.config.chatter.shortChannels) event.message = replace(event, channels)
         if (Awesome.config.chatter.shortChannels) event.message = replaceChannels(event, channels)
         if (Awesome.config.debug.colorCodes) event.message = replace(event, color)
     }
@@ -146,6 +145,7 @@ class ChatFeatures {
         }
         if (Awesome.config.debug.debugColors) {
             println("[Debug] message: $message")
+            println("[Debug] search: $search")
             println("[Debug] substring: $subString")
             println("[Debug] index: ${subString.lastIndexOf("§")+1}")
             println("[Debug] code: ${subString[subString.lastIndexOf("§")+1]}")

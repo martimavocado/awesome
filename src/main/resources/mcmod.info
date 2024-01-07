@@ -5,8 +5,8 @@
     "description": "this is awesome",
     "version": "${version}",
     "mcversion": "${mcversion}",
-    "url": "https://github.com/romangraef/Forge1.8.9Template/",
-    "updateUrl": "",
+    "url": "https://github.com/martimavocado/awesome/",
+    "updateUrl": "https://github.com/martimavocado/awesome/releases",
     "authorList": [
       "martimavocado"
     ],

@@ -26,7 +26,7 @@ class CommandManager {
             at.martimavocado.awesome.utils.ChatUtils.sendChatCommand(it)
         }
         registerCommand("fakeban") {
-            at.martimavocado.awesome.features.FakeBan.showBanScreen(it[0], it[1])
+            at.martimavocado.awesome.features.FakeBan.showBanScreenArguments(it[0], it[1])
         }
     }
 

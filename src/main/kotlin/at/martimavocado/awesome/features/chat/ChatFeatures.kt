@@ -45,10 +45,14 @@ class ChatFeatures {
     )
 
     private val channels = arrayOf(
-            "§r§9Party §8>" to "§9P §8>",
-            "§r§2Guild >" to "§r§2G >",
-            "§r§3Officer >" to "§3O >",
-            "§aFriend >" to "§aF >"
+        "§r§9Party §8>" to "§r§9P §8>",
+        "§r§2Guild >" to "§r§2G >",
+        "§r§3Officer >" to "§r§3O >",
+        "§r§aFriend >" to "§r§aF >",
+        "§9Party §8>" to "§9P §8>",
+        "§2Guild >" to "§2G >",
+        "§3Officer >" to "§3O >",
+        "§aFriend >" to "§aF >"
     )
 
 //    §a§2G >§2 §r§amcavaco §r§eleft.§r§r
@@ -113,7 +117,7 @@ class ChatFeatures {
             }
         }
         return event.message
-    }
+    } // §2Guild > §r§bLemoania §r§ajoined§e.§r
 
     private fun replace (event:ClientChatReceivedEvent, array: Array<Pair<String, String>>): IChatComponent {
         if (ChatUtils.inArray(event.message.unformattedText, array)) {

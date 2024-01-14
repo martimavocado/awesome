@@ -3,8 +3,8 @@ package at.martimavocado.awesome
 import at.martimavocado.awesome.commands.CommandManager
 import at.martimavocado.awesome.config.ConfigManager
 import at.martimavocado.awesome.config.categories.AwesomeConfig
-import at.martimavocado.awesome.features.chat.ChatFeatures
-import at.martimavocado.awesome.features.chat.Replacer
+import at.martimavocado.awesome.features.chat.EmojiColorer
+import at.martimavocado.awesome.features.chat.EmojiReplacer
 import at.martimavocado.awesome.features.commands.ChatCommands
 import at.martimavocado.awesome.utils.CommandsSentToServerLogger
 import net.minecraftforge.common.MinecraftForge
@@ -25,8 +25,8 @@ class Awesome {
     fun preInit(event: FMLPreInitializationEvent) {
         CommandManager()
 
-        MinecraftForge.EVENT_BUS.register(ChatFeatures())
-        MinecraftForge.EVENT_BUS.register(Replacer())
+        MinecraftForge.EVENT_BUS.register(EmojiColorer())
+        MinecraftForge.EVENT_BUS.register(EmojiReplacer())
         MinecraftForge.EVENT_BUS.register(CommandsSentToServerLogger())
         MinecraftForge.EVENT_BUS.register(ChatCommands())
     }

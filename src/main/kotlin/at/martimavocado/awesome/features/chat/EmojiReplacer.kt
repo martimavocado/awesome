@@ -7,7 +7,7 @@ import at.martimavocado.awesome.utils.ChatUtils
 import net.minecraft.network.play.client.C01PacketChatMessage
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
-class Replacer {
+class EmojiReplacer {
     private val config get() = Awesome.config.chatter.emojiReplace
     private val mvpPlusPlus = arrayOf(
         "<3" to "❤",

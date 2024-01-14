@@ -8,7 +8,7 @@ import net.minecraft.util.IChatComponent
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
-class ChatFeatures {
+class EmojiColorer {
     private val emojis = arrayOf(
             "❤" to "§r§c❤",
             "✮" to "§r§6✮",

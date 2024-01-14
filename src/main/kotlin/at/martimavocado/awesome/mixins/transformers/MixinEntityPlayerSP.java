@@ -19,6 +19,5 @@ public class MixinEntityPlayerSP {
         if (event.isCanceled()) {
             ci.cancel();
         }
-//        EntityPlayerSPHookKt.sendChatMessage(message);
     }
 }

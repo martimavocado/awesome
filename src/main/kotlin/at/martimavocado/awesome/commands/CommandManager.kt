@@ -17,7 +17,10 @@ class CommandManager {
             Awesome.configManager.openConfigGui()
         }
         registerCommand("emojilist") {
-            at.martimavocado.awesome.features.EmojiList.printEmojiList()
+            at.martimavocado.awesome.features.HelpCommands.printMessage("emoji")
+        }
+        registerCommand("awcommands") {
+            at.martimavocado.awesome.features.HelpCommands.printMessage("help")
         }
         registerCommand("showtitle") {
             at.martimavocado.awesome.utils.OtherUtils.tryShowTitle(it)

@@ -2,8 +2,19 @@ package at.martimavocado.awesome.features
 
 import at.martimavocado.awesome.utils.ChatUtils
 
-object EmojiList {
-    private val message = listOf(
+object HelpCommands {
+    private val HelpMessage = listOf(
+        "§euse the following syntax in a party message",
+        "§7?aw §6command §a'arg1' 'arg2'",
+        "§bcommand list:",
+        "§7-> §6warp §7- §fwarps the party",
+        "§7-> §6transfer §7- §ftransfers the party to you",
+        "§7-> §6say §a<message> §7- §fsend the message",
+        "§7-> §6ban §a<reason> §a<id> §7- §fkicks the player with a hypixel ban message",
+    )
+
+
+    private val EmojiList = listOf(
         "§f§r§f§r§aFull Emoji List§r§r",
         "§6§r§6<3§r§f  -  §r§c§r§c❤§r§r§r",
         "§f§r§f§r§6:star:§r§f  -  §r§6§r§6✮§r§r§r",
@@ -38,9 +49,20 @@ object EmojiList {
         "§6§r§6:dab:§r§f  -  §r§d<§r§eo§r§d/§r§r",
         "§6§r§6:yey:§r§f  -  §r§a§r§aヽ (◕◡◕) ﾉ§r§r§r"
     )
-    fun printEmojiList() {
-        message.forEach { line ->
-            ChatUtils.sendChatClient(line)
+
+    fun printMessage(s: String) {
+        when (s) {
+            "emoji" -> {
+                EmojiList.forEach { line ->
+                    ChatUtils.sendChatClient(line)
+                }
+            }
+
+            "help" -> {
+                HelpMessage.forEach { line ->
+                    ChatUtils.sendChatClient(line)
+                }
+            }
         }
     }
 }

@@ -3,6 +3,7 @@ package at.martimavocado.awesome.config.categories;
 import com.google.gson.annotations.Expose;
 import io.github.moulberry.moulconfig.annotations.ConfigEditorBoolean;
 import io.github.moulberry.moulconfig.annotations.ConfigOption;
+import org.jetbrains.annotations.NotNull;
 
 public class debug {
     @Expose
@@ -31,4 +32,8 @@ public class debug {
     public boolean logTitles = false;
 
 
+    @Expose
+    @ConfigOption(name = "debug commands", desc = "shows messages that weren't commands")
+    @ConfigEditorBoolean
+    public boolean figureOutCommands = false;
 }

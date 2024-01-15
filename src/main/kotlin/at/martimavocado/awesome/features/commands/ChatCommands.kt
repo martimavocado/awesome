@@ -19,7 +19,7 @@ class ChatCommands {
         val formattedMessage = event.message.formattedText
         myIGN = Minecraft.getMinecraft().thePlayer.name
         handlePartyTransferMessages(event.message)
-        if ((message.startsWith("§r§9Party §8>")) || (message.startsWith("§9Party §8>"))) {
+        if ((message.startsWith("§r§9Party §8>")) || (message.startsWith("§9Party §8>")) || message.startsWith("§r§9P §8>")) {
             val index = formattedMessage.indexOf("§f: §r")+6
             val ign = formattedMessage.replace("§r","").split(" ").toTypedArray().firstOrNull { it.contains(":") }
                 ?.substringBefore("§f:")
@@ -31,6 +31,9 @@ class ChatCommands {
                     if (config.enabled && ign != null) { handleCommand(array, ign) }
                 }
             }
+        }
+        else if (Awesome.config.debug.figureOutCommands) {
+            println("found '$message' without ?aw")
         }
     }
 

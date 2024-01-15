@@ -17,7 +17,7 @@ public class chatter {
     @ConfigOption(name = "Shorten Channel Names", desc = "Shortens channel names\n" +
         "Example: §9Party §8> §r§6➜§r §9P §8>")
     @ConfigEditorBoolean
-    public boolean shortChannels = false;
+    public boolean shortChannels = true;
 
     @Expose
     @ConfigOption(name = "Emoji Replacer", desc = "Replaces Emojis to emulate Hypixel" +

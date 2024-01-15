@@ -1,5 +1,6 @@
 package at.martimavocado.awesome.features.commands
 
+import at.martimavocado.awesome.Awesome
 import at.martimavocado.awesome.features.FakeBan
 import at.martimavocado.awesome.utils.ChatUtils
 import net.minecraft.client.Minecraft
@@ -31,7 +32,7 @@ class ChatCommands {
                 }
             }
         }
-    } //§eThe party was transferred to §r§b[MVP§r§5+§r§b] martimavocado §r§eby §r§a[VIP] mcavaco§r
+    }
 
     private fun handleCommand(array: Array<String>, ign: String) {
         val newArray = array.drop(2)
@@ -61,8 +62,10 @@ class ChatCommands {
     private fun sayMessage(newArray: List<String>, ign: String) {
         val message = newArray.joinToString(" ").replace("\$ign", ign)
         ChatUtils.sendChat(message)
-    }
-
+    } //§r§9Party §8> §b[MVP§5+§b] martimavocado§f: §r?aw say hi§r
+    //  §r§9Party §8> §b[MVP§5+§b] martimavocado§f: §r?aw say hi§r
+//      §9Party §8> §b[MVP§5+§b] martimavocado§f: ?aw say hi
+    //  §9Party §8> §b[MVP§5+§b] martimavocado§f: ?aw say hi
     private fun warpParty() {
         if (isLeader) {
             ChatUtils.sendChat("/p warp")
@@ -85,10 +88,16 @@ class ChatCommands {
         if (formattedMessage.startsWith("§eYou summoned")) {
             isLeader = true
         }
-        if (formattedMessage.startsWith("§eThe party was transferred to")) {
+        if (formattedMessage.startsWith("§eThe party was transferred to") && formattedMessage.contains("§r§eby")) {
             val words = message.split(" ")
             val byIndex = words.indexOf("by")
             isLeader = words[byIndex-1] == myIGN
         }
-    }
+        if (formattedMessage.startsWith("§eThe party was transferred to") && formattedMessage.contains("§r§ebecause")) {
+            val words = message.split(" ")
+            val byIndex = words.indexOf("because")
+            isLeader = words[byIndex-1] == myIGN
+        }
+    } //§eThe party was transferred to §r§b[MVP§r§5+§r§b] martimavocado §r§eby §r§a[VIP] mcavaco§r
+    //§eThe party was transferred to §r§b[MVP§r§8+§r§b] Iciing §r§ebecause §r§a[VIP] mcavaco §r§eleft§r
 }

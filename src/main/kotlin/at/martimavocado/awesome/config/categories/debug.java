@@ -24,4 +24,11 @@ public class debug {
     @ConfigOption(name = "substring color", desc = "i hate minecraft colro code")
     @ConfigEditorBoolean
     public boolean debugColors = false;
+
+    @Expose
+    @ConfigOption(name = "store titles", desc = "prints titles/subtitles to stdout")
+    @ConfigEditorBoolean
+    public boolean logTitles = false;
+
+
 }

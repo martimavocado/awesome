@@ -102,8 +102,7 @@ class ChatCommands {
             isLeader = words[byIndex-1] == myIGN
         }
         if (formattedMessage.startsWith("§eParty Leader:")) {
-            if (formattedMessage.contains(myIGN)) isLeader = true
-            else isLeader = false
+            isLeader = formattedMessage.contains(myIGN)
         }
     }
 }

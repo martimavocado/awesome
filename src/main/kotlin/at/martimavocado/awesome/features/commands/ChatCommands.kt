@@ -101,6 +101,9 @@ class ChatCommands {
             val byIndex = words.indexOf("because")
             isLeader = words[byIndex-1] == myIGN
         }
-    } //§eThe party was transferred to §r§b[MVP§r§5+§r§b] martimavocado §r§eby §r§a[VIP] mcavaco§r
-    //§eThe party was transferred to §r§b[MVP§r§8+§r§b] Iciing §r§ebecause §r§a[VIP] mcavaco §r§eleft§r
+        if (formattedMessage.startsWith("§eParty Leader:")) {
+            if (formattedMessage.contains(myIGN)) isLeader = true
+            else isLeader = false
+        }
+    }
 }

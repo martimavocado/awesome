@@ -100,6 +100,7 @@ class EmojiColorer {
                     "Unformatted Message: ${event.message.unformattedText}\n" +
                     "Type: ${event.type}")
         }
+        if (event.type.toInt() != 0) return
         if (Awesome.config.chatter.colorEmoji) event.message = replace(event, emojis)
         if (Awesome.config.chatter.shortChannels) event.message = replaceChannels(event, channels)
         if (Awesome.config.debug.colorCodes) event.message = replace(event, color)

@@ -3,13 +3,17 @@ package at.martimavocado.awesome.config.categories;
 import com.google.gson.annotations.Expose;
 import io.github.moulberry.moulconfig.annotations.ConfigEditorBoolean;
 import io.github.moulberry.moulconfig.annotations.ConfigOption;
-import org.jetbrains.annotations.NotNull;
 
 public class debug {
     @Expose
-    @ConfigOption(name = "raw chat", desc = "prints a copy of raw messages to stdout")
+    @ConfigOption(name = "raw messages", desc = "prints a copy of raw messages to stdout")
     @ConfigEditorBoolean
-    public boolean rawChat = false;
+    public boolean rawMessages = false;
+
+    @Expose
+    @ConfigOption(name = "only chat", desc = "makes it so raw messages only works in chat")
+    @ConfigEditorBoolean
+    public boolean onlyChat = true;
 
     @Expose
     @ConfigOption(name = "command logger", desc = "logs commands sent")

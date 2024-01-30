@@ -95,7 +95,8 @@ class EmojiColorer {
 
     @SubscribeEvent
     fun onChatReceive(event: ClientChatReceivedEvent) {
-        if (Awesome.config.debug.rawChat) {
+        if (Awesome.config.debug.rawMessages) {
+            if (Awesome.config.debug.onlyChat) if (event.type.toInt() != 0) return
             println("\nFormatted Message: ${event.message.formattedText}\n" +
                     "Unformatted Message: ${event.message.unformattedText}\n" +
                     "Type: ${event.type}")

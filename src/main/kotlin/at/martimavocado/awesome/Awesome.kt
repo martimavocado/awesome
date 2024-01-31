@@ -16,7 +16,7 @@ import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 
-@Mod(modid = Awesome.MOD_ID, useMetadata = true, name = "Awesome", version = "1.3", clientSideOnly = true)
+@Mod(modid = Awesome.MOD_ID, useMetadata = true, name = "Awesome", version = "1.3.1", clientSideOnly = true)
 class Awesome {
     @Mod.EventHandler
     fun init(event: FMLInitializationEvent) {

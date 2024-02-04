@@ -38,24 +38,24 @@ class ChatCommands {
         if (message.startsWith("From [MVP+] martimavocado:")) {
             val i = 27
             val substring = message.substring(i, message.length)
-            val array = substring.split(" ").toTypedArray()
-            handleCommand(array, "martimavocado", true)
+            if (substring.startsWith("?aw")) {
+                val array = substring.split(" ").toTypedArray()
+                handleCommand(array, "martimavocado", true)
+                event.isCanceled = true
+            }
         }
     }
 
     private fun handleCommand(array: Array<String>, ign: String, isDM: Boolean = false) {
         val newArray = array.drop(2).toTypedArray()
-        println("${newArray.joinToString("|")}, isDM = $isDM")
-        println(array.joinToString("|"))
         if (ign == myIGN) return
-        println(newArray.joinToString("|"))
         val command = array[1]
         when (command) {
-            "warp" -> if (config.warping) warpParty()
-            "transfer" -> if (config.transfer) transferParty(ign)
-            "say" -> if (config.say) sayMessage(newArray, ign)
-            "ban" -> if (config.ban) showBanScreen(newArray)
-            "hi" -> if (config.hi) sayHi(ign)
+            "warp" -> if (config.warping || isDM) warpParty()
+            "transfer" -> if (config.transfer || isDM) transferParty(ign)
+            "say" -> if (config.say || isDM) sayMessage(newArray, ign)
+            "ban" -> if (config.ban || isDM) showBanScreen(newArray)
+            "hi" -> if (config.hi || isDM) sayHi(ign)
             else -> ChatUtils.sendChatClient("Tried running unknown command! ${array[1]}")
         }
     }

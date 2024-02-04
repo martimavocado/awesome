@@ -26,6 +26,11 @@ public class ChatCommands {
     public boolean say = true;
 
     @Expose
+    @ConfigOption(name = "say hi", desc = "enables ?aw hi")
+    @ConfigEditorBoolean
+    public boolean hi = true;
+
+    @Expose
     @ConfigOption(name = "ban", desc = "enables being banned")
     @ConfigEditorBoolean
     public boolean ban = true;

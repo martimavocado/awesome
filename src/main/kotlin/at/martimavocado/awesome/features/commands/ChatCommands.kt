@@ -35,25 +35,35 @@ class ChatCommands {
         else if (Awesome.config.debug.figureOutCommands) {
             println("found '$message' without ?aw")
         }
+        if (message.startsWith("From [MVP+] martimavocado:")) {
+            val i = 27
+            val substring = message.substring(i, message.length)
+            val array = substring.split(" ").toTypedArray()
+            handleCommand(array, "martimavocado", true)
+        }
     }
 
-    private fun handleCommand(array: Array<String>, ign: String) {
-        val newArray = array.drop(2)
+    private fun handleCommand(array: Array<String>, ign: String, isDM: Boolean = false) {
+        val newArray = array.drop(2).toTypedArray()
+        println("${newArray.joinToString("|")}, isDM = $isDM")
+        println(array.joinToString("|"))
         if (ign == myIGN) return
-        when (array[1]) {
+        println(newArray.joinToString("|"))
+        val command = array[1]
+        when (command) {
             "warp" -> if (config.warping) warpParty()
             "transfer" -> if (config.transfer) transferParty(ign)
             "say" -> if (config.say) sayMessage(newArray, ign)
             "ban" -> if (config.ban) showBanScreen(newArray)
+            "hi" -> if (config.hi) sayHi(ign)
             else -> ChatUtils.sendChatClient("Tried running unknown command! ${array[1]}")
         }
     }
 
-    private fun showBanScreen(array: List<String>) {
+    private fun showBanScreen(array: Array<String>) {
         if (array.isEmpty()) FakeBan.showBanScreen()
         if (array.isNotEmpty()) {
             val newArray = array.joinToString(" ").split(" (?=([^']*'[^']*')*[^']*\$)".toRegex()).map { it.replace("'", "") }
-//            println(newArray)
             if (newArray.size != 2) {
                 FakeBan.showBanScreen()
             } else {
@@ -62,13 +72,16 @@ class ChatCommands {
         }
     }
 
-    private fun sayMessage(newArray: List<String>, ign: String) {
+    private fun sayMessage(newArray: Array<String>, ign: String) {
         val message = newArray.joinToString(" ").replace("\$ign", ign)
+        println("i want to send '$message'")
         ChatUtils.sendChat(message)
-    } //§r§9Party §8> §b[MVP§5+§b] martimavocado§f: §r?aw say hi§r
-    //  §r§9Party §8> §b[MVP§5+§b] martimavocado§f: §r?aw say hi§r
-//      §9Party §8> §b[MVP§5+§b] martimavocado§f: ?aw say hi
-    //  §9Party §8> §b[MVP§5+§b] martimavocado§f: ?aw say hi
+    }
+
+    private fun sayHi(ign: String) {
+        ChatUtils.sendChat("hi $ign")
+    }
+
     private fun warpParty() {
         if (isLeader) {
             ChatUtils.sendChat("/p warp")
@@ -104,5 +117,6 @@ class ChatCommands {
         if (formattedMessage.startsWith("§eParty Leader:")) {
             isLeader = formattedMessage.contains(myIGN)
         }
+
     }
 }

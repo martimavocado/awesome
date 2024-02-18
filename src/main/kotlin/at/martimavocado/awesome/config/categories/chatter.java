@@ -24,4 +24,11 @@ public class chatter {
             "Example: §r§f<3 §r§6➜§r §r§f❤")
     @Accordion
     public EmojiReplacerConfig emojiReplace = new EmojiReplacerConfig();
+
+    @Expose
+    @ConfigOption(name = "Chat Logger", desc = "Logs sent messages\n" +
+            "Saved to config/awesome/messages.txt")
+    @ConfigEditorBoolean
+    public boolean chatLogger = true;
+
 }

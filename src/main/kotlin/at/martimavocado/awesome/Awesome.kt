@@ -7,6 +7,7 @@ import at.martimavocado.awesome.events.ShowTitleEvent
 import at.martimavocado.awesome.features.bedwars.ShowStats
 import at.martimavocado.awesome.features.chat.EmojiColorer
 import at.martimavocado.awesome.features.chat.EmojiReplacer
+import at.martimavocado.awesome.features.chat.MessageLogger
 import at.martimavocado.awesome.features.commands.ChatCommands
 import at.martimavocado.awesome.hooks.ShowTitleHook
 import at.martimavocado.awesome.utils.CommandsSentToServerLogger
@@ -34,6 +35,7 @@ class Awesome {
         MinecraftForge.EVENT_BUS.register(ChatCommands())
         MinecraftForge.EVENT_BUS.register(ShowStats())
         MinecraftForge.EVENT_BUS.register(ShowTitleHook())
+        MinecraftForge.EVENT_BUS.register(MessageLogger())
 
     }
 

@@ -6,7 +6,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import java.io.BufferedWriter
 import java.io.FileWriter
 
-class MessageLogger {
+object MessageLogger {
     private val config get() = Awesome.config.chatter
 
     @SubscribeEvent

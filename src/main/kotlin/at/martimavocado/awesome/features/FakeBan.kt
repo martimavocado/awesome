@@ -1,6 +1,5 @@
 package at.martimavocado.awesome.features
 
-import at.martimavocado.awesome.utils.OtherUtils
 import net.minecraft.client.Minecraft
 import net.minecraft.util.ChatComponentText
 

@@ -4,7 +4,6 @@ import at.martimavocado.awesome.Awesome;
 import com.google.gson.annotations.Expose;
 import io.github.moulberry.moulconfig.Config;
 import io.github.moulberry.moulconfig.annotations.Category;
-import tv.twitch.chat.Chat;
 
 public class AwesomeConfig extends Config {
 

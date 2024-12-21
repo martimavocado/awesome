@@ -8,9 +8,9 @@ import net.minecraft.util.IChatComponent
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
-class ChatCommands {
+object ChatCommands {
     private var isLeader = false
-    private var myIGN = "null"
+    private var myIGN: String? = null
     private val config get() = at.martimavocado.awesome.Awesome.config.commands
 
     @SubscribeEvent
@@ -55,7 +55,7 @@ class ChatCommands {
             "transfer" -> if (config.transfer || isDM) transferParty(ign)
             "say" -> if (config.say || isDM) sayMessage(newArray, ign)
             "ban" -> if (config.ban || isDM) showBanScreen(newArray)
-            "hi" -> if (config.hi || isDM) sayHi(ign)
+            "hi" -> if (config.hi || isDM) HypixelCommands.sayHi(ign)
             else -> ChatUtils.sendChatClient("Tried running unknown command! ${array[1]}")
         }
     }
@@ -75,22 +75,18 @@ class ChatCommands {
     private fun sayMessage(newArray: Array<String>, ign: String) {
         val message = newArray.joinToString(" ").replace("\$ign", ign)
         println("i want to send '$message'")
-        ChatUtils.sendChat(message)
-    }
-
-    private fun sayHi(ign: String) {
-        ChatUtils.sendChat("hi $ign")
+        ChatUtils.sendMessage(message)
     }
 
     private fun warpParty() {
         if (isLeader) {
-            ChatUtils.sendChat("/p warp")
+            ChatUtils.sendMessage("/p warp")
         }
     }
 
     private fun transferParty(ign: String) {
         if (isLeader) {
-            ChatUtils.sendChat("/p transfer $ign")
+            ChatUtils.sendMessage("/p transfer $ign")
             isLeader = false
         }
     }
@@ -115,7 +111,7 @@ class ChatCommands {
             isLeader = words[byIndex-1] == myIGN
         }
         if (formattedMessage.startsWith("§eParty Leader:")) {
-            isLeader = formattedMessage.contains(myIGN)
+            myIGN?.let { isLeader = formattedMessage.contains(it) }
         }
 
     }

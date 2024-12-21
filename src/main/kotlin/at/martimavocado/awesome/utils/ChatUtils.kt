@@ -8,7 +8,7 @@ import net.minecraft.util.ChatComponentText
 
 object ChatUtils {
 
-    fun sendChatCommand(array: Array<String>) {
+    fun testMessageCommand(array: Array<String>) {
         if (array.isEmpty()) {
             sendChatClient("cant test a message without one i think")
             return
@@ -20,6 +20,7 @@ object ChatUtils {
         val formattedMessage = rawMessage.replace("&", "§")
         sendChatClient(formattedMessage)
     }
+
     fun sendChatClient(message: String) {
         Minecraft.getMinecraft().thePlayer.addChatMessage(ChatComponentText(message))
     }
@@ -31,7 +32,7 @@ object ChatUtils {
         Minecraft.getMinecraft().thePlayer.addChatMessage(text)
     }
 
-    fun sendChat(message: String) {
+    fun sendMessage(message: String) {
         Minecraft.getMinecraft().thePlayer.sendChatMessage(message)
     }
 

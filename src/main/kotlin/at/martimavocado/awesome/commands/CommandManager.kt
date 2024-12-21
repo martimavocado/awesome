@@ -7,8 +7,6 @@ import net.minecraftforge.client.ClientCommandHandler
 
 class CommandManager {
 
-
-
     init {
         registerCommand("awesome") {
             Awesome.configManager.openConfigGui()
@@ -26,7 +24,7 @@ class CommandManager {
             at.martimavocado.awesome.utils.OtherUtils.tryShowTitle(it)
         }
         registerCommand("testmessage") {
-            at.martimavocado.awesome.utils.ChatUtils.sendChatCommand(it)
+            at.martimavocado.awesome.utils.ChatUtils.testMessageCommand(it)
         }
         registerCommand("fakeban") {
             at.martimavocado.awesome.features.FakeBan.showBanScreenArguments(it[0], it[1])

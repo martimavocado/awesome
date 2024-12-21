@@ -1,14 +1,13 @@
 package at.martimavocado.awesome.features.chat
 
 import at.martimavocado.awesome.Awesome
-import at.martimavocado.awesome.hooks.sendChatMessage
 import at.martimavocado.awesome.utils.ChatUtils
 import net.minecraft.util.ChatComponentText
 import net.minecraft.util.IChatComponent
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
-class EmojiColorer {
+object EmojiColorer {
     private val emojis = arrayOf(
             "❤" to "§r§c❤",
             "✮" to "§r§6✮",
@@ -145,7 +144,7 @@ class EmojiColorer {
         val firstIndex = findFirstIndex(message, lastIndex)
         val subString = message.substring(firstIndex,lastIndex)
         if (subString.isNotEmpty() && subString.last() == '§') {
-            sendChatMessage("§c[Awesome] §fSomething went wrong, report the error in logs")
+            ChatUtils.sendChatClient("§c[Awesome] §fSomething went wrong, report the error in logs")
             println("[Debug] Last character was §, how does this happen '$message'")
             return "shrug"
         }

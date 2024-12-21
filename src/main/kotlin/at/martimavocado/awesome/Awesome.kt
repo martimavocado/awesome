@@ -3,14 +3,12 @@ package at.martimavocado.awesome
 import at.martimavocado.awesome.commands.CommandManager
 import at.martimavocado.awesome.config.ConfigManager
 import at.martimavocado.awesome.config.categories.AwesomeConfig
-import at.martimavocado.awesome.events.ShowTitleEvent
+import at.martimavocado.awesome.events.PlayerChatManager
 import at.martimavocado.awesome.features.bedwars.ShowStats
 import at.martimavocado.awesome.features.chat.EmojiColorer
 import at.martimavocado.awesome.features.chat.EmojiReplacer
 import at.martimavocado.awesome.features.chat.MessageLogger
 import at.martimavocado.awesome.features.commands.ChatCommands
-import at.martimavocado.awesome.hooks.ShowTitleHook
-import at.martimavocado.awesome.utils.CommandsSentToServerLogger
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.Loader
 import net.minecraftforge.fml.common.Mod
@@ -25,18 +23,22 @@ class Awesome {
         MinecraftForge.EVENT_BUS.register(configManager)
     }
 
+    private val moduleList = listOf(
+        PlayerChatManager,
+        EmojiColorer,
+        EmojiReplacer,
+        ChatCommands,
+        ShowStats,
+        MessageLogger
+    )
+
     @Mod.EventHandler
     fun preInit(event: FMLPreInitializationEvent) {
         CommandManager()
 
-        MinecraftForge.EVENT_BUS.register(EmojiColorer())
-        MinecraftForge.EVENT_BUS.register(EmojiReplacer())
-        MinecraftForge.EVENT_BUS.register(CommandsSentToServerLogger())
-        MinecraftForge.EVENT_BUS.register(ChatCommands())
-        MinecraftForge.EVENT_BUS.register(ShowStats())
-        MinecraftForge.EVENT_BUS.register(ShowTitleHook())
-        MinecraftForge.EVENT_BUS.register(MessageLogger())
-
+        moduleList.forEach{
+            MinecraftForge.EVENT_BUS.register(it)
+        }
     }
 
     companion object {

@@ -144,7 +144,7 @@ object EmojiColorer {
         val firstIndex = findFirstIndex(message, lastIndex)
         val subString = message.substring(firstIndex,lastIndex)
         if (subString.isNotEmpty() && subString.last() == '§') {
-            ChatUtils.sendChatClient("§c[Awesome] §fSomething went wrong, report the error in logs")
+            ChatUtils.chat("§c[Awesome] §fSomething went wrong, report the error in logs")
             println("[Debug] Last character was §, how does this happen '$message'")
             return "shrug"
         }

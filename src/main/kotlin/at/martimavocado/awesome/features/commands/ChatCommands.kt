@@ -56,7 +56,7 @@ object ChatCommands {
             "say" -> if (config.say || isDM) sayMessage(newArray, ign)
             "ban" -> if (config.ban || isDM) showBanScreen(newArray)
             "hi" -> if (config.hi || isDM) HypixelCommands.sayHi(ign)
-            else -> ChatUtils.sendChatClient("Tried running unknown command! ${array[1]}")
+            else -> ChatUtils.chat("Tried running unknown command! ${array[1]}")
         }
     }
 

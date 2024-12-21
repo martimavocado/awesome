@@ -5,27 +5,32 @@ import net.minecraft.event.ClickEvent
 import net.minecraft.event.HoverEvent
 import net.minecraft.network.play.client.C01PacketChatMessage
 import net.minecraft.util.ChatComponentText
+import net.minecraft.util.IChatComponent
 
 object ChatUtils {
 
     fun testMessageCommand(array: Array<String>) {
         if (array.isEmpty()) {
-            sendChatClient("cant test a message without one i think")
+            chat("cant test a message without one i think")
             return
         }
         val hidden = array.last() == "-s"
         var rawMessage = array.toList().joinToString(" ")
-        if (!hidden) sendChatClient("Testing message: §7$rawMessage")
+        if (!hidden) chat("Testing message: §7$rawMessage")
         if (hidden) rawMessage = rawMessage.replace(" -s", "")
         val formattedMessage = rawMessage.replace("&", "§")
-        sendChatClient(formattedMessage)
+        chat(formattedMessage)
     }
 
-    fun sendChatClient(message: String) {
+    fun chat(message: String) {
         Minecraft.getMinecraft().thePlayer.addChatMessage(ChatComponentText(message))
     }
 
-    fun sendChatClientClickable(message: String, command: String) {
+    fun chat(chatComponent: IChatComponent) {
+        Minecraft.getMinecraft().thePlayer.addChatMessage(chatComponent)
+    }
+
+    fun chatClickable(message: String, command: String) {
         val text = ChatComponentText(message)
         text.chatStyle.chatClickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, command)
         text.chatStyle.chatHoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, ChatComponentText("§eExecute $command"))
@@ -37,7 +42,7 @@ object ChatUtils {
     }
 
     fun debug(message: String) {
-        sendChatClient("[Debug] $message")
+        chat("[Debug] $message")
     }
 
     fun sendChatPacket(packet: C01PacketChatMessage) {

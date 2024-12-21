@@ -1,7 +1,7 @@
 package at.martimavocado.awesome.features.chat
 
 import at.martimavocado.awesome.Awesome
-import at.martimavocado.awesome.events.ClientMessageEvent
+import at.martimavocado.awesome.events.ChatSendEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import java.io.BufferedWriter
 import java.io.FileWriter
@@ -10,7 +10,7 @@ object MessageLogger {
     private val config get() = Awesome.config.chatter
 
     @SubscribeEvent
-    fun onSendChat(event: ClientMessageEvent) {
+    fun onSendChat(event: ChatSendEvent) {
         if (!config.chatLogger) return
 
         val message = event.message

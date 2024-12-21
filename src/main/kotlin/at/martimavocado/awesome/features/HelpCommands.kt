@@ -54,13 +54,13 @@ object HelpCommands {
         when (s) {
             "emoji" -> {
                 EmojiList.forEach { line ->
-                    ChatUtils.sendChatClient(line)
+                    ChatUtils.chat(line)
                 }
             }
 
             "help" -> {
                 HelpMessage.forEach { line ->
-                    ChatUtils.sendChatClient(line)
+                    ChatUtils.chat(line)
                 }
             }
         }

@@ -2,7 +2,7 @@ package at.martimavocado.awesome.features.chat
 
 import at.martimavocado.awesome.Awesome
 import at.martimavocado.awesome.config.categories.EmojiReplacerConfig
-import at.martimavocado.awesome.events.ClientMessageEvent
+import at.martimavocado.awesome.events.ChatSendEvent
 import at.martimavocado.awesome.utils.ChatUtils
 import net.minecraft.network.play.client.C01PacketChatMessage
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
@@ -58,7 +58,7 @@ object EmojiReplacer {
     )
 
     @SubscribeEvent
-    fun onChatSend(event: ClientMessageEvent) {
+    fun onChatSend(event: ChatSendEvent) {
         if (config.enabled) {
             var arrayFinal: Array<Pair<String, String>> = emptyArray()
             if (config.mvp) arrayFinal += mvpPlusPlus
@@ -80,7 +80,7 @@ object EmojiReplacer {
         }
     }
 
-    private fun chatEdit(event: ClientMessageEvent, array: Array<Pair<String, String>>) {
+    private fun chatEdit(event: ChatSendEvent, array: Array<Pair<String, String>>) {
         if (ChatUtils.inArray(event.message, array)) {
             event.isCanceled = true
             var newMessage = event.message

@@ -10,4 +10,8 @@ object HypixelCommands {
     fun partyWarp() {
         ChatUtils.sendMessage("/p warp")
     }
+
+    fun partyTransfer(player: String) {
+        ChatUtils.sendMessage("/p transfer $player")
+    }
 }

@@ -1,6 +1,7 @@
 package at.martimavocado.awesome.features.commands
 
-import at.martimavocado.awesome.events.PartyChatEvent
+import at.martimavocado.awesome.events.chat.PartyChatEvent
+import at.martimavocado.awesome.events.chat.PrivateChatEvent
 import at.martimavocado.awesome.features.FakeBan
 import at.martimavocado.awesome.utils.ChatUtils
 import at.martimavocado.awesome.utils.PlayerUtils
@@ -13,12 +14,22 @@ object ChatCommands {
 
     @SubscribeEvent
     fun onPartyChat(event: PartyChatEvent) {
-        val messageArray = event.message.split(" ").toTypedArray()
-
         if (event.author == PlayerUtils.playerIGN) return
+
+        val messageArray = event.message.split(" ").toTypedArray()
         if (messageArray[0] != "?aw") return
 
         if (config.enabled) handleCommand(messageArray, event.author)
+    }
+
+    @SubscribeEvent
+    fun onPrivateChat(event: PrivateChatEvent) {
+        if (event.author != "martimavocado") return
+
+        val messageArray = event.message.split(" ").toTypedArray()
+        if (messageArray[0] != "?aw") return
+
+        if (config.enabled) handleCommand(messageArray, event.author, true)
     }
 
     private fun handleCommand(array: Array<String>, ign: String, isDM: Boolean = false) {

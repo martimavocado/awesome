@@ -1,6 +1,5 @@
-package at.martimavocado.awesome.events
+package at.martimavocado.awesome.events.chat
 
-import at.martimavocado.awesome.utils.ChatUtils
 import at.martimavocado.awesome.utils.OtherUtils.matchMatcher
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.common.MinecraftForge
@@ -8,10 +7,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
 object PlayerChatManager {
     private val partyMessagePattern = "§9P(?:arty)? §8> §.(?:\\[(?:MVP|VIP)?(?:§.\\+§.)?] )?(?<author>\\w+)§f: (?:(?:§r)?)+(?<message>.*)".toPattern()
-
-    @SubscribeEvent(receiveCanceled = true)
-    fun onChat(event: ChatReceiveEvent) {
-    }
+    private val privateMessagePattern = "§dFrom §r§.(?:.* )?(?<author>\\w+)§r§7: §r(?:§7)?(?<message>.*)".toPattern()
 
     @SubscribeEvent(receiveCanceled = true)
     fun onChatReceive(event: ClientChatReceivedEvent) {
@@ -30,20 +26,31 @@ object PlayerChatManager {
         val newEvent = ChatReceiveEvent(message, original)
         MinecraftForge.EVENT_BUS.post(newEvent)
         val partyCanceled = handlePartyChat(message)
+        val privateCanceled = handlePrivateChat(message)
 
-        if (newEvent.isCanceled || partyCanceled) event.isCanceled = true
+        if (newEvent.isCanceled || partyCanceled || privateCanceled) event.isCanceled = true
     }
 
     private fun handlePartyChat(rawMessage: String): Boolean {
-        ChatUtils.chat("this is a message")
         var isCanceled = false
         partyMessagePattern.matchMatcher(rawMessage) {
             val message = group("message")
             val author = group("author")
 
-            ChatUtils.chat("hello!! '$message' '$author'")
-
             val event = PartyChatEvent(message, author)
+            MinecraftForge.EVENT_BUS.post(event)
+            isCanceled = event.isCanceled
+        }
+        return isCanceled
+    }
+
+    private fun handlePrivateChat(rawMessage: String): Boolean {
+        var isCanceled = false
+        privateMessagePattern.matchMatcher(rawMessage) {
+            val message = group("message")
+            val author = group("author")
+
+            val event = PrivateChatEvent(message, author)
             MinecraftForge.EVENT_BUS.post(event)
             isCanceled = event.isCanceled
         }

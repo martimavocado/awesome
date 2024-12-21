@@ -2,7 +2,7 @@ package at.martimavocado.awesome.features.chat
 
 import at.martimavocado.awesome.Awesome
 import at.martimavocado.awesome.config.categories.EmojiReplacerConfig
-import at.martimavocado.awesome.events.ChatSendEvent
+import at.martimavocado.awesome.events.chat.ChatSendEvent
 import at.martimavocado.awesome.utils.ChatUtils
 import net.minecraft.network.play.client.C01PacketChatMessage
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent

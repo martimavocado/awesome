@@ -1,7 +1,7 @@
 package at.martimavocado.awesome.features.chat
 
 import at.martimavocado.awesome.Awesome
-import at.martimavocado.awesome.events.ChatSendEvent
+import at.martimavocado.awesome.events.chat.ChatSendEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import java.io.BufferedWriter
 import java.io.FileWriter

@@ -1,6 +1,6 @@
 package at.martimavocado.awesome.mixins.transformers;
 
-import at.martimavocado.awesome.events.ChatSendEvent;
+import at.martimavocado.awesome.events.chat.ChatSendEvent;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.Event;

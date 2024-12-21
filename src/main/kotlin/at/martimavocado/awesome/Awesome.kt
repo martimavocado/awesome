@@ -3,7 +3,7 @@ package at.martimavocado.awesome
 import at.martimavocado.awesome.commands.CommandManager
 import at.martimavocado.awesome.config.ConfigManager
 import at.martimavocado.awesome.config.categories.AwesomeConfig
-import at.martimavocado.awesome.events.PlayerChatManager
+import at.martimavocado.awesome.events.chat.PlayerChatManager
 import at.martimavocado.awesome.features.bedwars.ShowStats
 import at.martimavocado.awesome.features.chat.EmojiColorer
 import at.martimavocado.awesome.features.chat.EmojiReplacer

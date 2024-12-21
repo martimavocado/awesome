@@ -41,6 +41,8 @@ repositories {
 
     maven("https://repo.nea.moe/releases")
     maven("https://maven.notenoughupdates.org/releases")
+
+    maven("https://repo.hypixel.net/repository/Hypixel/")
 }
 
 val shadowImpl: Configuration by configurations.creating {
@@ -80,6 +82,9 @@ dependencies {
 
     shadowImpl(libs.libautoupdate)
     shadowImpl("org.jetbrains.kotlin:kotlin-reflect:1.9.0")
+
+    compileOnly(libs.hypixelmodapi)
+    shadowImpl(libs.hypixelmodapitweaker)
 }
 
 // Minecraft configuration:
@@ -178,6 +183,7 @@ tasks.shadowJar {
     // If you want to include other dependencies and shadow them, you can relocate them in here
     relocate("io.github.moulberry.moulconfig", "$baseGroup.deps.moulconfig")
     relocate("moe.nea.libautoupdate", "$baseGroup.deps.libautoupdate")
+    relocate("net.hypixel.modapi.tweaker", "$baseGroup.deps.hypixel.modapi.tweaker")
 }
 
 tasks.jar {

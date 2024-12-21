@@ -1,0 +1,6 @@
+package at.martimavocado.awesome.events.hypixel
+
+import net.hypixel.data.region.Environment
+import net.minecraftforge.fml.common.eventhandler.Event
+
+class HypixelJoinEvent(type: Environment): Event()

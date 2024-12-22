@@ -1,8 +1,8 @@
 package at.martimavocado.awesome.utils
 
 import net.minecraft.client.Minecraft
-import java.util.regex.Matcher
-import java.util.regex.Pattern
+import net.minecraftforge.common.MinecraftForge
+import net.minecraftforge.fml.common.eventhandler.Event
 
 object OtherUtils {
     private fun showTitle(title: String, subtitle: String, timeFadeIn: Int, displayTime: Int, timeFadeOut: Int) {
@@ -22,6 +22,7 @@ object OtherUtils {
         }
     }
 
-    inline fun <T> Pattern.matchMatcher(text: String, consumer: Matcher.() -> T) =
-        matcher(text).let { if (it.matches()) consumer(it) else null }
+    fun Event.post() {
+        MinecraftForge.EVENT_BUS.post(this)
+    }
 }

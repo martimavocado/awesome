@@ -4,9 +4,8 @@
   "minVersion": "0.7",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "transformers.MixinEntityPlayerSP"
+    "transformers.MixinEntityPlayerSP",
+    "transformers.MixinNetworkManager"
   ],
-  "client": [
-	"MixinGuiMainMenu"
-  ]
+  "client": []
 }

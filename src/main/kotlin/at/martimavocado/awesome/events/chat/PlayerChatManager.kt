@@ -1,7 +1,7 @@
 package at.martimavocado.awesome.events.chat
 
 import at.martimavocado.awesome.loadmodule.LoadModule
-import at.martimavocado.awesome.utils.OtherUtils.matchMatcher
+import at.martimavocado.awesome.utils.StringUtils.matchMatcher
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent

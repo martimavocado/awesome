@@ -5,16 +5,34 @@ import at.martimavocado.awesome.events.hypixel.HypixelPartyEvent
 import at.martimavocado.awesome.events.hypixel.HypixelServerChangeEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.utils.ChatUtils
+import net.hypixel.data.type.ServerType
+import net.minecraftforge.fml.common.eventhandler.EventPriority
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
 @LoadModule
 object HypixelData {
     private val config get() = Awesome.config.debug
 
-    @SubscribeEvent
-    fun onServerChange(event: HypixelServerChangeEvent) {
-        if (!config.modAPI) return
+    var lobbyName: String? = null
+        private set
+    var gameMode: String? = null
+        private set
+    var serverName: String? = null
+        private set
+    var gameType: ServerType? = null
+        private set
+    var map: String? = null
+        private set
 
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    fun onServerChange(event: HypixelServerChangeEvent) {
+        map = event.map
+        gameMode = event.mode
+        gameType = event.serverType
+        lobbyName = event.lobbyName
+        serverName = event.serverName
+
+        if (!config.modAPI) return
         val message = "map: ${event.map}\n" +
                 "mode: ${event.mode}\n" +
                 "lobbyName: ${event.lobbyName}\n" +
@@ -35,3 +53,4 @@ object HypixelData {
         ChatUtils.chat(message)
     }
 }
+

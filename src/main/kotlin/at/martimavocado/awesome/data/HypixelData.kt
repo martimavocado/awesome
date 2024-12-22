@@ -1,6 +1,6 @@
 package at.martimavocado.awesome.data
 
-import at.martimavocado.awesome.events.hypixel.HypixelJoinEvent
+import at.martimavocado.awesome.Awesome
 import at.martimavocado.awesome.events.hypixel.HypixelPartyEvent
 import at.martimavocado.awesome.events.hypixel.HypixelServerChangeEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
@@ -9,30 +9,28 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
 @LoadModule
 object HypixelData {
-
-    @SubscribeEvent
-    fun onHypixelJoin(event: HypixelJoinEvent) {
-
-    }
+    private val config get() = Awesome.config.debug
 
     @SubscribeEvent
     fun onServerChange(event: HypixelServerChangeEvent) {
-        var message = ""
-        message += "map: ${event.map}\n"
-        message += "mode: ${event.mode}\n"
-        message += "lobbyName: ${event.lobbyName}\n"
-        message += "serverName: ${event.serverName}\n"
-        message += "serverType: ${event.serverType}"
+        if (!config.modAPI) return
+
+        val message = "map: ${event.map}\n" +
+                "mode: ${event.mode}\n" +
+                "lobbyName: ${event.lobbyName}\n" +
+                "serverName: ${event.serverName}\n" +
+                "serverType: ${event.serverType}"
 
         ChatUtils.chat(message)
     }
 
     @SubscribeEvent
     fun onPartyChange(event: HypixelPartyEvent) {
-        var message = ""
-        message += "inParty: ${event.inParty}\n"
-        message += "leader: ${event.leader}\n"
-        message += "members: ${event.members?.joinToString(",") ?: "null"}\n"
+        if (!config.modAPI) return
+
+        val message = "inParty: ${event.inParty}\n" +
+                "leader: ${event.leader}\n" +
+                "members: ${event.members?.joinToString(",") ?: "null"}"
 
         ChatUtils.chat(message)
     }

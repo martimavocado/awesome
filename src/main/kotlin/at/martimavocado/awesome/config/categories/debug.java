@@ -35,9 +35,13 @@ public class debug {
     @ConfigEditorBoolean
     public boolean logTitles = false;
 
-
     @Expose
     @ConfigOption(name = "debug commands", desc = "shows messages that weren't commands")
     @ConfigEditorBoolean
     public boolean figureOutCommands = false;
+
+    @Expose
+    @ConfigOption(name = "hypixel modapi", desc = "shows when/what modapi packets are received")
+    @ConfigEditorBoolean
+    public boolean modAPI = false;
 }

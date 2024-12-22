@@ -1,12 +1,14 @@
 package at.martimavocado.awesome.features.chat
 
 import at.martimavocado.awesome.Awesome
+import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.utils.ChatUtils
 import net.minecraft.util.ChatComponentText
 import net.minecraft.util.IChatComponent
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
+@LoadModule
 object EmojiColorer {
     private val emojis = arrayOf(
             "❤" to "§r§c❤",

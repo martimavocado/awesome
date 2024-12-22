@@ -1,10 +1,12 @@
 package at.martimavocado.awesome.events.chat
 
+import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.utils.OtherUtils.matchMatcher
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
+@LoadModule
 object PlayerChatManager {
     private val partyMessagePattern = "§9P(?:arty)? §8> §.(?:\\[(?:MVP|VIP)?(?:§.\\+§.)?] )?(?<author>\\w+)§f: (?:(?:§r)?)+(?<message>.*)".toPattern()
     private val privateMessagePattern = "§dFrom §r§.(?:.* )?(?<author>\\w+)§r§7: §r(?:§7)?(?<message>.*)".toPattern()

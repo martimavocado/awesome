@@ -3,10 +3,12 @@ package at.martimavocado.awesome.features.commands
 import at.martimavocado.awesome.events.chat.PartyChatEvent
 import at.martimavocado.awesome.events.chat.PrivateChatEvent
 import at.martimavocado.awesome.features.FakeBan
+import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.utils.ChatUtils
 import at.martimavocado.awesome.utils.PlayerUtils
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
+@LoadModule
 object ChatCommands {
     private var isLeader = false
     private var myIGN: String? = null

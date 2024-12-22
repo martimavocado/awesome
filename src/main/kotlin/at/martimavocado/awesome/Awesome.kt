@@ -3,12 +3,7 @@ package at.martimavocado.awesome
 import at.martimavocado.awesome.commands.CommandManager
 import at.martimavocado.awesome.config.ConfigManager
 import at.martimavocado.awesome.config.categories.AwesomeConfig
-import at.martimavocado.awesome.events.chat.PlayerChatManager
-import at.martimavocado.awesome.features.bedwars.ShowStats
-import at.martimavocado.awesome.features.chat.EmojiColorer
-import at.martimavocado.awesome.features.chat.EmojiReplacer
-import at.martimavocado.awesome.features.chat.MessageLogger
-import at.martimavocado.awesome.features.commands.ChatCommands
+import at.martimavocado.awesome.loadmodule.LoadedModules
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.Loader
 import net.minecraftforge.fml.common.Mod
@@ -21,24 +16,21 @@ class Awesome {
     fun init(event: FMLInitializationEvent) {
         configManager = ConfigManager()
         MinecraftForge.EVENT_BUS.register(configManager)
+        loadedClasses.clear()
     }
 
-    private val moduleList = listOf(
-        PlayerChatManager,
-        EmojiColorer,
-        EmojiReplacer,
-        ChatCommands,
-        ShowStats,
-        MessageLogger
-    )
+    private val loadedClasses = mutableSetOf<Any>()
+
+    private fun loadModule(obj: Any) {
+        if (!loadedClasses.add(obj.javaClass.name)) throw IllegalStateException("module ${obj.javaClass.name} already loaded")
+        MinecraftForge.EVENT_BUS.register(obj)
+    }
 
     @Mod.EventHandler
     fun preInit(event: FMLPreInitializationEvent) {
         CommandManager()
 
-        moduleList.forEach{
-            MinecraftForge.EVENT_BUS.register(it)
-        }
+        LoadedModules.modules.forEach { loadModule(it) }
     }
 
     companion object {

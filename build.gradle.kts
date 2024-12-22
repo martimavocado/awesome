@@ -6,6 +6,7 @@ plugins {
     id("gg.essential.loom") version "0.10.0.+"
     id("dev.architectury.architectury-pack200") version "0.1.3"
     id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("com.google.devtools.ksp") version "1.9.0-1.0.13"
     kotlin("jvm") version "1.9.0"
 }
 
@@ -27,8 +28,6 @@ sourceSets.main {
     java.srcDir(layout.projectDirectory.dir("src/main/kotlin"))
     kotlin.destinationDirectory.set(java.destinationDirectory)
 }
-
-// Dependencies:
 
 repositories {
     mavenCentral()
@@ -83,8 +82,14 @@ dependencies {
     shadowImpl(libs.libautoupdate)
     shadowImpl("org.jetbrains.kotlin:kotlin-reflect:1.9.0")
 
-    compileOnly(libs.hypixelmodapi)
+    shadowImpl(libs.hypixelmodapi)
     shadowImpl(libs.hypixelmodapitweaker)
+
+    compileOnly(ksp(project(":annotation-processors"))!!)
+}
+
+ksp {
+    arg("symbolProcessor", "at.martimavocado.awesome.loadmodule.LoadModuleProvider")
 }
 
 // Minecraft configuration:
@@ -118,6 +123,12 @@ kotlin {
             languageVersion = "2.0"
             enableLanguageFeature("BreakContinueInInlineLambdas")
         }
+    }
+    sourceSets.main {
+        kotlin.srcDir("build/generated/ksp/main/kotlin")
+    }
+    sourceSets.test {
+        kotlin.srcDir("build/generated/ksp/main/kotlin")
     }
 }
 

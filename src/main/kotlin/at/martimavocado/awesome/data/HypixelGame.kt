@@ -1,15 +1,27 @@
 package at.martimavocado.awesome.data
 
+import at.martimavocado.awesome.events.hypixel.HypixelServerChangeEvent
+import at.martimavocado.awesome.loadmodule.LoadModule
 import net.hypixel.data.type.GameType
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
-enum class HypixelGame(private val internalName: GameType, private val gameMode: String) {
-    SHEEP_WARS(GameType.WOOL_GAMES, "sheep_wars"),
+enum class HypixelGame(private val internalName: GameType, private val gameMode: String, val prettyName: String) {
+    SHEEP_WARS(GameType.WOOL_GAMES, "sheep_wars", "Sheep Wars"),
     ;
 
-    fun isPlaying(): Boolean {
-        val internalNameMatches = HypixelData.gameType == internalName
-        val gameModeMatches = HypixelData.gameMode?.startsWith(gameMode) ?: false
+    fun isPlaying(): Boolean = currentGame == this
 
-        return internalNameMatches && gameModeMatches
+    @LoadModule
+    companion object {
+        var currentGame: HypixelGame? = null
+            private set
+
+        @SubscribeEvent
+        fun onHypixelData(event: HypixelServerChangeEvent) {
+            currentGame = HypixelGame.entries.firstOrNull {
+                it.internalName == event.serverType
+                        && (event.mode?.startsWith(it.gameMode) ?: false)
+            }
+        }
     }
 }

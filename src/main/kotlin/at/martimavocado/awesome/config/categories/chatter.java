@@ -6,7 +6,6 @@ import io.github.moulberry.moulconfig.annotations.ConfigEditorBoolean;
 import io.github.moulberry.moulconfig.annotations.ConfigOption;
 
 public class chatter {
-
     @Expose
     @ConfigOption(name = "Recolor Emojis", desc = "Recolors colorless emojis\n" +
         "Example: §r§f❤ §r§6➜§r §r§c❤§r")
@@ -30,5 +29,4 @@ public class chatter {
             "Saved to config/awesome/messages.txt")
     @ConfigEditorBoolean
     public boolean chatLogger = true;
-
 }

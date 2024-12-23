@@ -1,6 +1,7 @@
 package at.martimavocado.awesome.config.categories;
 
 import at.martimavocado.awesome.Awesome;
+import at.martimavocado.awesome.config.categories.sheepwars.SheepWars;
 import com.google.gson.annotations.Expose;
 import io.github.moulberry.moulconfig.Config;
 import io.github.moulberry.moulconfig.annotations.Category;
@@ -16,6 +17,10 @@ public class AwesomeConfig extends Config {
     public void saveNow() {
         Awesome.configManager.save();
     }
+
+    @Expose
+    @Category(name = "sheep wars", desc = "i love sheep wars")
+    public SheepWars sheepWars = new SheepWars();
 
     @Expose
     @Category(name = "chatter", desc = "this is where we chat.")

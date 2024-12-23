@@ -2,6 +2,8 @@ package at.martimavocado.awesome.commands
 
 import at.martimavocado.awesome.Awesome
 import at.martimavocado.awesome.commands.SimpleCommand.ProcessCommandRunnable
+import at.martimavocado.awesome.data.HypixelGame
+import at.martimavocado.awesome.utils.ChatUtils
 import net.minecraft.command.ICommandSender
 import net.minecraftforge.client.ClientCommandHandler
 
@@ -28,6 +30,11 @@ class CommandManager {
         }
         registerCommand("fakeban") {
             at.martimavocado.awesome.features.FakeBan.showBanScreen()
+        }
+        registerCommand("sheepwars") {
+            val message = if (HypixelGame.SHEEP_WARS.isPlaying()) "playing"
+                else "not playing"
+            ChatUtils.chat("$message sheep wars")
         }
     }
 

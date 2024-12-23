@@ -1,6 +1,7 @@
 package at.martimavocado.awesome.events.chat
 
 import at.martimavocado.awesome.loadmodule.LoadModule
+import at.martimavocado.awesome.utils.OtherUtils.post
 import at.martimavocado.awesome.utils.StringUtils.matchMatcher
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.common.MinecraftForge
@@ -40,7 +41,7 @@ object PlayerChatManager {
             val author = group("author")
 
             val event = PartyChatEvent(message, author)
-            MinecraftForge.EVENT_BUS.post(event)
+            event.post()
             isCanceled = event.isCanceled
         }
         return isCanceled
@@ -53,7 +54,7 @@ object PlayerChatManager {
             val author = group("author")
 
             val event = PrivateChatEvent(message, author)
-            MinecraftForge.EVENT_BUS.post(event)
+            event.post()
             isCanceled = event.isCanceled
         }
         return isCanceled

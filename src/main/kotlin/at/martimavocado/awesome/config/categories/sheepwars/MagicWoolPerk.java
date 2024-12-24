@@ -1,6 +1,7 @@
 package at.martimavocado.awesome.config.categories.sheepwars;
 
 import at.martimavocado.awesome.features.sheepwars.SheepWarsPowerUp;
+import at.martimavocado.awesome.utils.render.Position;
 import com.google.gson.annotations.Expose;
 import io.github.moulberry.moulconfig.annotations.ConfigEditorBoolean;
 import io.github.moulberry.moulconfig.annotations.ConfigEditorColour;
@@ -13,7 +14,10 @@ public class MagicWoolPerk {
     @Expose
     @ConfigOption(name = "Show GUI", desc = "Shows a GUI with the current wool's perk")
     @ConfigEditorBoolean
-    public boolean showGUI = true;
+    public boolean perkGUI = true;
+
+    @Expose
+    public Position perkPosition = new Position(10, 10);
 
     @Expose
     @ConfigOption(name = "Ping on shoot", desc = "Pings when the wool has a good perk")

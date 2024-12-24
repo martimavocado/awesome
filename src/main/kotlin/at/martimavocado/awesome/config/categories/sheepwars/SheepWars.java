@@ -6,5 +6,9 @@ import io.github.moulberry.moulconfig.annotations.Category;
 public class SheepWars {
     @Expose
     @Category(name = "Magic Wool Highlighter", desc = "")
-    public MagicWoolHighlight magicWool = new MagicWoolHighlight();
+    public MagicWoolHighlight magicWoolHighlight = new MagicWoolHighlight();
+
+    @Expose
+    @Category(name = "Magic Wool Perks", desc = "")
+    public MagicWoolPerk magicWoolPerk = new MagicWoolPerk();
 }

@@ -1,7 +1,8 @@
-package at.martimavocado.awesome.utils
+package at.martimavocado.awesome.utils.render
 
 import at.martimavocado.awesome.data.PositionVec
-import at.martimavocado.awesome.events.WorldRenderEvent
+import at.martimavocado.awesome.events.render.GuiOverlayRenderEvent
+import at.martimavocado.awesome.events.render.WorldRenderEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.utils.EntityUtils.getLocation
 import at.martimavocado.awesome.utils.OtherUtils.post
@@ -13,6 +14,7 @@ import net.minecraft.entity.Entity
 import net.minecraft.util.AxisAlignedBB
 import net.minecraft.util.MathHelper
 import net.minecraft.util.ResourceLocation
+import net.minecraftforge.client.event.RenderGameOverlayEvent
 import net.minecraftforge.client.event.RenderWorldLastEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import org.lwjgl.opengl.GL11
@@ -24,9 +26,22 @@ import kotlin.math.sin
 object RenderUtils {
     private val beaconBeam = ResourceLocation("textures/entity/beacon_beam.png")
 
+    private fun canRender() = Minecraft.getMinecraft().fontRendererObj != null
+
     @SubscribeEvent
-    fun onRender(event: RenderWorldLastEvent) {
+    fun onRenderWorld(event: RenderWorldLastEvent) {
+        if (!canRender()) return
         WorldRenderEvent(event.partialTicks).post()
+    }
+
+    @SubscribeEvent
+    fun onRenderOverlay(event: RenderGameOverlayEvent.Pre) {
+        if (!canRender()) return
+        if (event.type != RenderGameOverlayEvent.ElementType.HOTBAR) return
+
+        GlStateManager.translate(0f, 0f, -3f)
+        GuiOverlayRenderEvent().post()
+        GlStateManager.translate(0f, 0f, 3f)
     }
 
     fun WorldRenderEvent.drawWaypointFilled(
@@ -369,5 +384,5 @@ object RenderUtils {
     }
 
 
-    fun WorldRenderEvent.exactLocation(entity: Entity) = RenderUtils.exactLocation(entity, partialTicks)
+    fun WorldRenderEvent.exactLocation(entity: Entity) = exactLocation(entity, partialTicks)
 }

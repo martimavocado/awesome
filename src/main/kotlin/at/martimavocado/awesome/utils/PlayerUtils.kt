@@ -9,6 +9,8 @@ object PlayerUtils {
     val playerIGN: String get() = Minecraft.getMinecraft().thePlayer.name
     val cachedUUID = mutableMapOf<UUID, String>()
 
+    fun getPlayer() = Minecraft.getMinecraft().thePlayer
+
     @SubscribeEvent
     fun onHypixelParty(event: HypixelPartyEvent) {
         val party = event.members ?: return

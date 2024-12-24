@@ -9,4 +9,12 @@ object StringUtils {
 
     fun Pattern.matches(text: String) =
         this.toRegex().matches(text)
+
+    fun String.capitalize(): String {
+        return split(" ").joinToString(" ") { word ->
+            word.lowercase().replaceFirstChar {
+                if (it.isLowerCase()) it.titlecase() else it.toString()
+            }
+        }
+    }
 }

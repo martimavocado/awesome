@@ -71,6 +71,7 @@ object SheepWarsAPI {
     private fun spawnWool(color: EnumDyeColor, location: PositionVec) {
         magicWool = SheepWarsMagicWool.getFromDye(color)
         magicWoolLocation = location
+        if (magicWoolAge != null) ChatUtils.debug("previous wool age $magicWoolAge")
         magicWoolAge = 0
         ChatUtils.chat(magicWool?.color.toString())
     }

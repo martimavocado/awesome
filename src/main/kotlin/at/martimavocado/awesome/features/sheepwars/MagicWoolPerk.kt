@@ -25,6 +25,7 @@ object MagicWoolPerk {
     @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
     fun onTickEvent(event: ClientTickEvent) {
         if (!isEnabled()) return
+        if (SheepWarsAPI.magicWoolLocation?.canSee() != true) return
         val age = SheepWarsAPI.magicWoolAge ?: return
 
         if (age % 7 != 0) return

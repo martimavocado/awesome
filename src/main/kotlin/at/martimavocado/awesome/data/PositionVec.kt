@@ -1,5 +1,7 @@
 package at.martimavocado.awesome.data
 
+import at.martimavocado.awesome.utils.PlayerUtils
+import net.minecraft.client.Minecraft
 import net.minecraft.util.AxisAlignedBB
 import net.minecraft.util.BlockPos
 import net.minecraft.util.Vec3
@@ -17,6 +19,8 @@ data class PositionVec(
         return "Pos($x, $y, $z)"
     }
 
+    private val mc get() = Minecraft.getMinecraft()
+
     fun toBlockPos() = BlockPos(x, y, z)
     fun toVec3() = Vec3(x, y, z)
 
@@ -33,6 +37,13 @@ data class PositionVec(
 
     fun add(x: Int = 0, y: Int = 0, z: Int = 0) =
         PositionVec(this.x + x, this.y + y, this.z + z)
+    fun add(x: Double = 0.0, y: Double = 0.0, z: Double = 0.0) =
+        PositionVec(this.x + x, this.y + y, this.z + z)
+    fun add(x: Float = 0f, y: Float = 0f, z: Float = 0f) =
+        PositionVec(this.x + x, this.y + y, this.z + z)
+
+    fun canSee(from: PositionVec = PlayerUtils.getPlayerEyesLocation()) =
+        Minecraft.getMinecraft().theWorld.rayTraceBlocks(this.toVec3(), from.toVec3(), false, true, false) == null
 
     fun AxisAlignedBB.expand(vec: PositionVec): AxisAlignedBB = expand(vec.x, vec.y, vec.z)
     fun AxisAlignedBB.expand(amount: Double): AxisAlignedBB = expand(amount, amount, amount)

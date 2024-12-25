@@ -1,6 +1,7 @@
 package at.martimavocado.awesome.utils
 
 import at.martimavocado.awesome.events.hypixel.HypixelPartyEvent
+import at.martimavocado.awesome.utils.BlockUtils.toPositionVec
 import net.minecraft.client.Minecraft
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import java.util.*
@@ -10,6 +11,8 @@ object PlayerUtils {
     val cachedUUID = mutableMapOf<UUID, String>()
 
     fun getPlayer() = Minecraft.getMinecraft().thePlayer
+    fun getPlayerLocation() = getPlayer().playerLocation.toPositionVec()
+    fun getPlayerEyesLocation() = getPlayerLocation().add(y = getPlayer().eyeHeight.toDouble())
 
     @SubscribeEvent
     fun onHypixelParty(event: HypixelPartyEvent) {

@@ -1,11 +1,11 @@
 package at.martimavocado.awesome.config.categories;
 
 import com.google.gson.annotations.Expose;
-import io.github.moulberry.moulconfig.annotations.Accordion;
-import io.github.moulberry.moulconfig.annotations.ConfigEditorBoolean;
-import io.github.moulberry.moulconfig.annotations.ConfigOption;
+import io.github.notenoughupdates.moulconfig.annotations.Accordion;
+import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorBoolean;
+import io.github.notenoughupdates.moulconfig.annotations.ConfigOption;
 
-public class chatter {
+public class ChatConfig {
     @Expose
     @ConfigOption(name = "Recolor Emojis", desc = "Recolors colorless emojis\n" +
         "Example: §r§f❤ §r§6➜§r §r§c❤§r")

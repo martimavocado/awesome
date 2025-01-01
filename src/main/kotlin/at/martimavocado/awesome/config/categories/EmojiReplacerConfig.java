@@ -1,9 +1,9 @@
 package at.martimavocado.awesome.config.categories;
 
 import com.google.gson.annotations.Expose;
-import io.github.moulberry.moulconfig.annotations.ConfigEditorBoolean;
-import io.github.moulberry.moulconfig.annotations.ConfigEditorDropdown;
-import io.github.moulberry.moulconfig.annotations.ConfigOption;
+import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorBoolean;
+import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorDropdown;
+import io.github.notenoughupdates.moulconfig.annotations.ConfigOption;
 
 public class EmojiReplacerConfig {
 
@@ -20,7 +20,7 @@ public class EmojiReplacerConfig {
     @Expose
     @ConfigOption(name = "Gifted Ranks", desc = "Determines which emojis will be replaced. " +
             "For the best results, choose the amount of gifted ranks you have.")
-    @ConfigEditorDropdown()
+    @ConfigEditorDropdown
     public emojiRanksGifted giftedRanks = emojiRanksGifted.ZERO;
 
     public enum emojiRanksGifted {

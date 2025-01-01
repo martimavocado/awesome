@@ -1,10 +1,10 @@
 package at.martimavocado.awesome.config.categories;
 
 import com.google.gson.annotations.Expose;
-import io.github.moulberry.moulconfig.annotations.ConfigEditorBoolean;
-import io.github.moulberry.moulconfig.annotations.ConfigOption;
+import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorBoolean;
+import io.github.notenoughupdates.moulconfig.annotations.ConfigOption;
 
-public class ChatCommands {
+public class ChatCommandsConfig {
     @Expose
     @ConfigOption(name = "main toggle", desc = "this is the main toggle")
     @ConfigEditorBoolean

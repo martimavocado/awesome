@@ -1,10 +1,10 @@
 package at.martimavocado.awesome.config.categories;
 
 import at.martimavocado.awesome.Awesome;
-import at.martimavocado.awesome.config.categories.sheepwars.SheepWars;
+import at.martimavocado.awesome.config.categories.sheepwars.SheepWarsConfig;
 import com.google.gson.annotations.Expose;
-import io.github.moulberry.moulconfig.Config;
-import io.github.moulberry.moulconfig.annotations.Category;
+import io.github.notenoughupdates.moulconfig.Config;
+import io.github.notenoughupdates.moulconfig.annotations.Category;
 
 public class AwesomeConfig extends Config {
 
@@ -20,17 +20,17 @@ public class AwesomeConfig extends Config {
 
     @Expose
     @Category(name = "sheep wars", desc = "i love sheep wars")
-    public SheepWars sheepWars = new SheepWars();
+    public SheepWarsConfig sheepWars = new SheepWarsConfig();
 
     @Expose
-    @Category(name = "chatter", desc = "this is where we chat.")
-    public chatter chatter = new chatter();
+    @Category(name = "chat", desc = "this is where we chat.")
+    public ChatConfig chatter = new ChatConfig();
 
     @Expose
     @Category(name = "chat commands", desc = "toggles for chat commands")
-    public ChatCommands commands = new ChatCommands();
+    public ChatCommandsConfig commands = new ChatCommandsConfig();
 
     @Expose
     @Category(name = "debug stuff", desc = "you probably don't care about this")
-    public debug debug = new debug();
+    public DebugConfig debug = new DebugConfig();
 }

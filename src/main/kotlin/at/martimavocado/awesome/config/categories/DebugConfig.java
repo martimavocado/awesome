@@ -1,10 +1,10 @@
 package at.martimavocado.awesome.config.categories;
 
 import com.google.gson.annotations.Expose;
-import io.github.moulberry.moulconfig.annotations.ConfigEditorBoolean;
-import io.github.moulberry.moulconfig.annotations.ConfigOption;
+import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorBoolean;
+import io.github.notenoughupdates.moulconfig.annotations.ConfigOption;
 
-public class debug {
+public class DebugConfig {
     @Expose
     @ConfigOption(name = "raw messages", desc = "prints a copy of raw messages to stdout")
     @ConfigEditorBoolean

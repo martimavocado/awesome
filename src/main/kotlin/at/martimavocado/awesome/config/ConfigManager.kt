@@ -6,12 +6,12 @@ import com.google.gson.GsonBuilder
 import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
-import io.github.moulberry.moulconfig.gui.GuiScreenElementWrapper
-import io.github.moulberry.moulconfig.gui.MoulConfigEditor
-import io.github.moulberry.moulconfig.observer.PropertyTypeAdapterFactory
-import io.github.moulberry.moulconfig.processor.BuiltinMoulConfigGuis
-import io.github.moulberry.moulconfig.processor.ConfigProcessorDriver
-import io.github.moulberry.moulconfig.processor.MoulConfigProcessor
+import io.github.notenoughupdates.moulconfig.gui.GuiScreenElementWrapper
+import io.github.notenoughupdates.moulconfig.gui.MoulConfigEditor
+import io.github.notenoughupdates.moulconfig.observer.PropertyTypeAdapterFactory
+import io.github.notenoughupdates.moulconfig.processor.BuiltinMoulConfigGuis
+import io.github.notenoughupdates.moulconfig.processor.ConfigProcessorDriver
+import io.github.notenoughupdates.moulconfig.processor.MoulConfigProcessor
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
@@ -67,11 +67,12 @@ class ConfigManager {
         processor = MoulConfigProcessor(config)
         BuiltinMoulConfigGuis.addProcessors(processor)
 //        UpdateManager.injectConfigProcessor(processor)
-        ConfigProcessorDriver.processConfig(
-            config.javaClass,
-            config,
-            processor
-        )
+        ConfigProcessorDriver(processor).processConfig(config)
+//        ConfigProcessorDriver.processConfig(
+//            config.javaClass,
+//            config,
+//            processor
+//        )
 
         Runtime.getRuntime().addShutdownHook(Thread {
             save()

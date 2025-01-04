@@ -192,7 +192,7 @@ tasks.shadowJar {
     exclude("META-INF/versions/**")
 
     // If you want to include other dependencies and shadow them, you can relocate them in here
-    relocate("io.github.notenoughupdates.moulconfig", "$baseGroup.deps.moulconfig")
+    relocate("io.github.moulberry.moulconfig", "$baseGroup.deps.moulconfig")
     relocate("moe.nea.libautoupdate", "$baseGroup.deps.libautoupdate")
     relocate("net.hypixel.modapi.tweaker", "$baseGroup.deps.hypixel.modapi.tweaker")
 }

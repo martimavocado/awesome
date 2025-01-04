@@ -64,20 +64,14 @@ object EmojiReplacer {
         if (config.enabled) {
             var arrayFinal: Array<Pair<String, String>> = emptyArray()
             if (config.mvp) arrayFinal += mvpPlusPlus
-            val giftedRanks: Int = when (config.giftedRanks) {
-                EmojiReplacerConfig.emojiRanksGifted.ZERO -> 0
-                EmojiReplacerConfig.emojiRanksGifted.FIVE -> 5
-                EmojiReplacerConfig.emojiRanksGifted.TWENTY -> 20
-                EmojiReplacerConfig.emojiRanksGifted.FIFTY -> 50
-                EmojiReplacerConfig.emojiRanksGifted.ONE_HUNDRED -> 100
-                EmojiReplacerConfig.emojiRanksGifted.TWO_HUNDRED -> 200
-                else -> 0
-            }
+            val giftedRanks: Int = config.giftedRanks.gifts
+
             if (giftedRanks < 5) arrayFinal += gifted5
             if (giftedRanks < 20) arrayFinal += gifted20
             if (giftedRanks < 50) arrayFinal += gifted50
             if (giftedRanks < 100) arrayFinal += gifted100
             if (giftedRanks < 200) arrayFinal += gifted200
+
             chatEdit(event, arrayFinal)
         }
     }

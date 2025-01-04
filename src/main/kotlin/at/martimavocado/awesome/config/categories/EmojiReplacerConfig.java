@@ -1,9 +1,9 @@
 package at.martimavocado.awesome.config.categories;
 
 import com.google.gson.annotations.Expose;
-import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorBoolean;
-import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorDropdown;
-import io.github.notenoughupdates.moulconfig.annotations.ConfigOption;
+import io.github.moulberry.moulconfig.annotations.ConfigEditorBoolean;
+import io.github.moulberry.moulconfig.annotations.ConfigEditorDropdown;
+import io.github.moulberry.moulconfig.annotations.ConfigOption;
 
 public class EmojiReplacerConfig {
 
@@ -24,22 +24,27 @@ public class EmojiReplacerConfig {
     public emojiRanksGifted giftedRanks = emojiRanksGifted.ZERO;
 
     public enum emojiRanksGifted {
-        ZERO("None"),
-        FIVE("5 Gifted Ranks"),
-        TWENTY("20 Gifted Ranks"),
-        FIFTY("50 Gifted Ranks"),
-        ONE_HUNDRED("100 Gifted Ranks"),
-        TWO_HUNDRED("200 Gifted Ranks");
+        ZERO("None", 0),
+        FIVE("5 Gifted Ranks", 5),
+        TWENTY("20 Gifted Ranks", 20),
+        FIFTY("50 Gifted Ranks", 50),
+        ONE_HUNDRED("100 Gifted Ranks", 100),
+        TWO_HUNDRED("200 Gifted Ranks", 200),
+        ;
 
         private final String str;
+        private final int amount;
 
-        emojiRanksGifted(String str) {
+        emojiRanksGifted(String str, int amount) {
             this.str = str;
+            this.amount = amount;
         }
 
         @Override
         public String toString() {
             return str;
         }
+
+        public int getGifts() { return amount; }
     }
 }

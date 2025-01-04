@@ -1,6 +1,6 @@
 [versions]
 libautoupdate = "1.0.3"
-moulconfig = "3.3.0"
+moulconfig = "2.5.0"
 hypixelmodapi = "1.0.1.1"
 
 [libraries]

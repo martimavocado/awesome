@@ -1,8 +1,11 @@
 package at.martimavocado.awesome.utils
 
+import at.martimavocado.awesome.events.AwesomeTickEvent
 import net.minecraft.client.Minecraft
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.eventhandler.Event
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import net.minecraftforge.fml.common.gameevent.TickEvent
 
 object OtherUtils {
     private fun showTitle(title: String, subtitle: String, timeFadeIn: Int, displayTime: Int, timeFadeOut: Int) {
@@ -24,5 +27,16 @@ object OtherUtils {
 
     fun Event.post() {
         MinecraftForge.EVENT_BUS.post(this)
+    }
+
+    private var totalTicks = 0
+
+    @SubscribeEvent
+    fun onTick(event: TickEvent.ClientTickEvent) {
+        if (event.phase == TickEvent.Phase.START) return
+        Minecraft.getMinecraft().thePlayer ?: return
+
+        totalTicks++
+        AwesomeTickEvent(totalTicks).post()
     }
 }

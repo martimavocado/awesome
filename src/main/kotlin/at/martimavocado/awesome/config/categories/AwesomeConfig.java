@@ -3,8 +3,8 @@ package at.martimavocado.awesome.config.categories;
 import at.martimavocado.awesome.Awesome;
 import at.martimavocado.awesome.config.categories.sheepwars.SheepWarsConfig;
 import com.google.gson.annotations.Expose;
-import io.github.notenoughupdates.moulconfig.Config;
-import io.github.notenoughupdates.moulconfig.annotations.Category;
+import io.github.moulberry.moulconfig.Config;
+import io.github.moulberry.moulconfig.annotations.Category;
 
 public class AwesomeConfig extends Config {
 

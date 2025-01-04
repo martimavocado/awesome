@@ -4,7 +4,10 @@ import at.martimavocado.awesome.commands.CommandManager
 import at.martimavocado.awesome.config.ConfigManager
 import at.martimavocado.awesome.config.categories.AwesomeConfig
 import at.martimavocado.awesome.events.AwesomeTickEvent
+import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.loadmodule.LoadedModules
+import at.martimavocado.awesome.utils.ChatUtils
+import io.github.moulberry.moulconfig.gui.GuiScreenElementWrapper
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
 import net.minecraftforge.common.MinecraftForge
@@ -43,26 +46,13 @@ class Awesome {
         LoadedModules.modules.forEach { loadModule(it) }
     }
 
-    @SubscribeEvent
-    fun onTick(event: AwesomeTickEvent) {
-        if (screenToOpen != null) {
-            screenTicks++
-            if (screenTicks == 5) {
-                Minecraft.getMinecraft().thePlayer.closeScreen()
-                Minecraft.getMinecraft().displayGuiScreen(screenToOpen)
-                screenTicks = 0
-                screenToOpen = null
-            }
-        }
-    }
-
+    @LoadModule
     companion object {
         lateinit var configManager: ConfigManager
         const val MOD_ID = "awesome"
         const val MOD_VERSION = "1.4"
 
-        var screenToOpen: GuiScreen? = null
-        private var screenTicks = 0
+        private var screenToOpen: GuiScreen? = null
 
         @JvmStatic
         val version: String
@@ -70,5 +60,22 @@ class Awesome {
 
         val config: AwesomeConfig
             get() = configManager.config ?: error("config is null")
+
+        fun openScreen(screen: GuiScreen) {
+            screenToOpen = screen
+        }
+
+        @SubscribeEvent
+        fun onTick(event: AwesomeTickEvent) {
+            if (screenToOpen != null) {
+                Minecraft.getMinecraft().displayGuiScreen(screenToOpen)
+
+                if (screenToOpen is GuiScreenElementWrapper) {
+                    configManager.save()
+                }
+
+                screenToOpen = null
+            }
+        }
     }
 }

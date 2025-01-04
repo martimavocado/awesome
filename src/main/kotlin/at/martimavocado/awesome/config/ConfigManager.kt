@@ -79,10 +79,6 @@ class ConfigManager {
         })
     }
 
-    fun openConfigGui() {
-        screenToOpen = GuiScreenElementWrapper(editor)
-    }
-
     private fun tryReadConfig() {
         try {
             val inputStreamReader = InputStreamReader(FileInputStream(configFile), StandardCharsets.UTF_8)
@@ -100,6 +96,8 @@ class ConfigManager {
     }
 
     fun save() {
+        if (System.currentTimeMillis() <= lastSaveTime + 60_000) return
+
         lastSaveTime = System.currentTimeMillis()
         val config = config ?: error("Can not save null config.")
 
@@ -119,20 +117,6 @@ class ConfigManager {
             )
         } catch (e: IOException) {
             throw ConfigError("Could not save config", e)
-        }
-    }
-
-    private var screenToOpen: GuiScreen? = null
-
-    @SubscribeEvent
-    fun onTick(event: TickEvent.ClientTickEvent) {
-        Minecraft.getMinecraft().thePlayer ?: return
-        if (screenToOpen != null) {
-            Minecraft.getMinecraft().displayGuiScreen(screenToOpen)
-            screenToOpen = null
-        }
-        if (System.currentTimeMillis() > lastSaveTime + 60_000) {
-            save()
         }
     }
 }

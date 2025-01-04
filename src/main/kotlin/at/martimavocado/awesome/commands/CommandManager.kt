@@ -2,6 +2,7 @@ package at.martimavocado.awesome.commands
 
 import at.martimavocado.awesome.Awesome
 import at.martimavocado.awesome.commands.SimpleCommand.ProcessCommandRunnable
+import at.martimavocado.awesome.config.ConfigGuiManager
 import at.martimavocado.awesome.utils.ChatUtils
 import net.minecraft.command.ICommandSender
 import net.minecraftforge.client.ClientCommandHandler
@@ -10,10 +11,10 @@ class CommandManager {
 
     init {
         registerCommand("awesome") {
-            Awesome.configManager.openConfigGui()
+            ConfigGuiManager.onCommand(it)
         }
         registerCommand("aw") {
-            Awesome.configManager.openConfigGui()
+            ConfigGuiManager.onCommand(it)
         }
         registerCommand("emojilist") {
             at.martimavocado.awesome.features.HelpCommands.printMessage("emoji")

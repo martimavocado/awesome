@@ -17,7 +17,8 @@ object ConfigGuiManager {
         if (search != null) {
             editor.search(search)
         }
-        Awesome.screenToOpen = GuiScreenElementWrapper(editor)
+
+        Awesome.openScreen(GuiScreenElementWrapper(editor))
     }
 
     fun onCommand(args: Array<String>) {

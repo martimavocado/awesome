@@ -49,7 +49,7 @@ class Awesome {
     companion object {
         lateinit var configManager: ConfigManager
         const val MOD_ID = "awesome"
-        const val MOD_VERSION = "1.4"
+        const val MOD_VERSION = "1.4.1"
 
         private var screenToOpen: GuiScreen? = null
 

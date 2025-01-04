@@ -1,7 +1,6 @@
 package at.martimavocado.awesome.features.sheepwars
 
 import at.martimavocado.awesome.Awesome
-import at.martimavocado.awesome.data.HypixelGame
 import at.martimavocado.awesome.events.render.GuiOverlayRenderEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
 import net.minecraftforge.fml.common.eventhandler.EventPriority
@@ -17,7 +16,7 @@ object MagicWoolPerk {
         if (!(isEnabled() && config.perkGUI)) return
         val wool = SheepWarsAPI.magicWool ?: return
 
-        val string = "§${wool.color.colorCode}$wool§7: §f${wool.perk}"
+        val string = "§${wool.type.color.colorCode}$wool§7: §f${wool.type}"
 
         config.perkPosition.renderString(string)
     }
@@ -25,13 +24,13 @@ object MagicWoolPerk {
     @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
     fun onTickEvent(event: ClientTickEvent) {
         if (!isEnabled()) return
-        if (SheepWarsAPI.magicWoolLocation?.canSee() != true) return
-        val age = SheepWarsAPI.magicWoolAge ?: return
+        if (SheepWarsAPI.magicWool?.location?.canSee() != true) return
+        val age = SheepWarsAPI.magicWool?.age ?: return
 
         if (age % 7 != 0) return
 
 
     }
 
-    private fun isEnabled() = HypixelGame.SHEEP_WARS.isPlaying()
+    private fun isEnabled() = SheepWarsAPI.isAlive && SheepWarsAPI.isPlaying()
 }

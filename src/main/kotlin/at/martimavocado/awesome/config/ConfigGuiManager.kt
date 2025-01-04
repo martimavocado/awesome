@@ -2,8 +2,8 @@ package at.martimavocado.awesome.config
 
 import at.martimavocado.awesome.Awesome
 import at.martimavocado.awesome.config.categories.AwesomeConfig
-import io.github.moulberry.moulconfig.gui.GuiScreenElementWrapper
-import io.github.moulberry.moulconfig.gui.MoulConfigEditor
+import io.github.notenoughupdates.moulconfig.gui.GuiScreenElementWrapper
+import io.github.notenoughupdates.moulconfig.gui.MoulConfigEditor
 
 object ConfigGuiManager {
 

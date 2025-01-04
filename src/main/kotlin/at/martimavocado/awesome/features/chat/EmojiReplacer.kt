@@ -1,7 +1,6 @@
 package at.martimavocado.awesome.features.chat
 
 import at.martimavocado.awesome.Awesome
-import at.martimavocado.awesome.config.categories.EmojiReplacerConfig
 import at.martimavocado.awesome.events.chat.ChatSendEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.utils.ChatUtils

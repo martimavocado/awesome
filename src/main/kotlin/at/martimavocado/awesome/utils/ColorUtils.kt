@@ -1,6 +1,5 @@
 package at.martimavocado.awesome.utils
 
-import net.minecraft.item.EnumDyeColor
 import java.awt.Color
 
 object ColorUtils {

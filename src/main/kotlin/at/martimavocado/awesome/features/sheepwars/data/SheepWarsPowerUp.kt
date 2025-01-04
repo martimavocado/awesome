@@ -1,4 +1,4 @@
-package at.martimavocado.awesome.features.sheepwars
+package at.martimavocado.awesome.features.sheepwars.data
 
 import at.martimavocado.awesome.utils.StringUtils.capitalize
 import kotlin.time.Duration

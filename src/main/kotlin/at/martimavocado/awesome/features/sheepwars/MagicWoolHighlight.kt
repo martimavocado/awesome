@@ -1,7 +1,6 @@
 package at.martimavocado.awesome.features.sheepwars
 
 import at.martimavocado.awesome.Awesome
-import at.martimavocado.awesome.data.HypixelGame
 import at.martimavocado.awesome.events.render.WorldRenderEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.utils.ColorUtils.toColor
@@ -17,8 +16,8 @@ object MagicWoolHighlight {
     fun onRender(event: WorldRenderEvent) {
         if (!isEnabled()) return
 
-        val location = SheepWarsAPI.magicWoolLocation ?: return
-        val color: Color = if (config.colorMatch) SheepWarsAPI.magicWool?.color?.color ?: return
+        val location = SheepWarsAPI.magicWool?.location ?: return
+        val color: Color = if (config.colorMatch) SheepWarsAPI.magicWool?.type?.color?.color ?: return
                         else config.color.toColor()
 
         event.highlightBlock(

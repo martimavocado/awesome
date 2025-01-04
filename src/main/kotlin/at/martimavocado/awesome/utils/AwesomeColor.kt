@@ -1,5 +1,6 @@
 package at.martimavocado.awesome.utils
 
+import at.martimavocado.awesome.utils.AwesomeColor.entries
 import at.martimavocado.awesome.utils.StringUtils.capitalize
 import net.minecraft.item.EnumDyeColor
 import java.awt.Color

@@ -6,17 +6,16 @@ import at.martimavocado.awesome.events.AwesomeTickEvent
 import at.martimavocado.awesome.events.BlockChangeEvent
 import at.martimavocado.awesome.events.chat.ChatReceiveEvent
 import at.martimavocado.awesome.events.hypixel.HypixelServerChangeEvent
+import at.martimavocado.awesome.features.sheepwars.data.SheepWarsMagicWool
+import at.martimavocado.awesome.features.sheepwars.data.SheepWarsMagicWoolType
 import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.utils.BlockUtils.getBlockAt
 import at.martimavocado.awesome.utils.ChatUtils
 import at.martimavocado.awesome.utils.PlayerUtils
 import at.martimavocado.awesome.utils.StringUtils.matches
 import net.minecraft.block.BlockColored
-import net.minecraft.client.Minecraft
 import net.minecraft.init.Blocks
 import net.minecraft.item.EnumDyeColor
-import net.minecraft.item.Item
-import net.minecraft.item.ItemArmor
 import net.minecraftforge.fml.common.eventhandler.EventPriority
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent
@@ -24,10 +23,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent
 @LoadModule
 object SheepWarsAPI {
     var magicWool: SheepWarsMagicWool? = null
-        private set
-    var magicWoolLocation: PositionVec? = null
-        private set
-    var magicWoolAge: Int? = null
         private set
     var isAlive: Boolean = false
         private set
@@ -44,7 +39,15 @@ object SheepWarsAPI {
 
         if (!checkSurroundingBlocks(event.location)) return
 
-        spawnWool(event.newState.getValue(BlockColored.COLOR), event.location)
+        val color = event.newState.getValue(BlockColored.COLOR)
+
+        if (event.old == Blocks.wool && magicWool != null) {
+            magicWool = magicWool?.copy(type = SheepWarsMagicWoolType.getFromDye(color))
+            ChatUtils.chat("updated to color $color")
+            return
+        }
+
+        spawnWool(color, event.location)
     }
 
     private fun checkSurroundingBlocks(blockPosition: PositionVec): Boolean {
@@ -67,9 +70,9 @@ object SheepWarsAPI {
     @SubscribeEvent(priority = EventPriority.HIGHEST, receiveCanceled = true)
     fun onTick(event: ClientTickEvent) {
         if (!HypixelGame.SHEEP_WARS.isPlaying()) return
-        val age = magicWoolAge ?: return
+        val wool = magicWool ?: return
 
-        magicWoolAge = age+1
+        magicWool = wool.copy(age = wool.age+1)
     }
 
     @SubscribeEvent
@@ -78,17 +81,19 @@ object SheepWarsAPI {
     }
 
     private fun spawnWool(color: EnumDyeColor, location: PositionVec) {
-        magicWool = SheepWarsMagicWool.getFromDye(color)
-        magicWoolLocation = location
-        if (magicWoolAge != null) ChatUtils.debug("previous wool age $magicWoolAge")
-        magicWoolAge = 0
-        ChatUtils.chat(magicWool?.color.toString())
+        val magicWoolType = SheepWarsMagicWoolType.getFromDye(color)
+
+        magicWool = SheepWarsMagicWool(
+            magicWoolType,
+            location,
+            magicWool?.age ?: 0
+        )
+
+        ChatUtils.chat("spawned with new color $color")
     }
 
     private fun resetWool() {
         magicWool = null
-        magicWoolLocation = null
-        magicWoolAge = null
     }
 
     @SubscribeEvent

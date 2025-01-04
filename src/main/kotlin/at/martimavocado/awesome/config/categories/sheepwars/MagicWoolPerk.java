@@ -1,13 +1,13 @@
 package at.martimavocado.awesome.config.categories.sheepwars;
 
 import at.martimavocado.awesome.data.HypixelGame;
-import at.martimavocado.awesome.features.sheepwars.SheepWarsPowerUp;
+import at.martimavocado.awesome.features.sheepwars.data.SheepWarsPowerUp;
 import at.martimavocado.awesome.utils.render.GuiPosition;
 import com.google.gson.annotations.Expose;
-import io.github.moulberry.moulconfig.annotations.ConfigEditorBoolean;
-import io.github.moulberry.moulconfig.annotations.ConfigEditorColour;
-import io.github.moulberry.moulconfig.annotations.ConfigEditorDraggableList;
-import io.github.moulberry.moulconfig.annotations.ConfigOption;
+import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorBoolean;
+import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorColour;
+import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorDraggableList;
+import io.github.notenoughupdates.moulconfig.annotations.ConfigOption;
 
 import java.util.ArrayList;
 import java.util.List;

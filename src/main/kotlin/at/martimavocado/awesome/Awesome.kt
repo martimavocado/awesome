@@ -6,8 +6,7 @@ import at.martimavocado.awesome.config.categories.AwesomeConfig
 import at.martimavocado.awesome.events.AwesomeTickEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.loadmodule.LoadedModules
-import at.martimavocado.awesome.utils.ChatUtils
-import io.github.moulberry.moulconfig.gui.GuiScreenElementWrapper
+import io.github.notenoughupdates.moulconfig.gui.GuiScreenElementWrapper
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
 import net.minecraftforge.common.MinecraftForge

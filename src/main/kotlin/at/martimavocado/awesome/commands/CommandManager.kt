@@ -1,6 +1,5 @@
 package at.martimavocado.awesome.commands
 
-import at.martimavocado.awesome.Awesome
 import at.martimavocado.awesome.commands.SimpleCommand.ProcessCommandRunnable
 import at.martimavocado.awesome.config.ConfigGuiManager
 import at.martimavocado.awesome.utils.ChatUtils

@@ -1,6 +1,8 @@
 package at.martimavocado.awesome.data
 
 import at.martimavocado.awesome.Awesome
+import at.martimavocado.awesome.config.ConfigManager
+import at.martimavocado.awesome.events.hypixel.HypixelJoinEvent
 import at.martimavocado.awesome.events.hypixel.HypixelPartyEvent
 import at.martimavocado.awesome.events.hypixel.HypixelServerChangeEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
@@ -23,6 +25,8 @@ object HypixelData {
         private set
     var map: String? = null
         private set
+
+    private var shownConfigMessages = false
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     fun onServerChange(event: HypixelServerChangeEvent) {
@@ -51,6 +55,20 @@ object HypixelData {
                 "members: ${event.members?.joinToString(",") ?: "null"}"
 
         ChatUtils.chat(message)
+    }
+
+    @SubscribeEvent
+    fun onHypixelJoin(event: HypixelJoinEvent) {
+        if (shownConfigMessages) return
+        var message = ""
+
+        if (ConfigManager.wasCorrupted)
+            message += "config was corrupted, oops. "
+        if (ConfigManager.loadedOld)
+            message += "loaded config backup instead"
+
+        if (message.isEmpty()) return
+        ChatUtils.warning(message)
     }
 }
 

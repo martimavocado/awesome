@@ -13,6 +13,7 @@ import io.github.notenoughupdates.moulconfig.processor.MoulConfigProcessor
 import java.io.*
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
+import java.nio.file.Path
 import java.nio.file.StandardCopyOption
 import java.util.*
 
@@ -33,6 +34,11 @@ class ConfigManager {
             }.nullSafe())
             .enableComplexMapKeySerialization()
             .create()
+
+        var wasCorrupted = false
+            private set
+        var loadedOld = false
+            private set
     }
 
     private var configDirectory = File("config/awesome")
@@ -67,9 +73,9 @@ class ConfigManager {
         })
     }
 
-    private fun tryReadConfig() {
+    private fun tryReadConfig(file: File = configFile) {
         try {
-            val inputStreamReader = InputStreamReader(FileInputStream(configFile), StandardCharsets.UTF_8)
+            val inputStreamReader = InputStreamReader(FileInputStream(file), StandardCharsets.UTF_8)
             val bufferedReader = BufferedReader(inputStreamReader)
 
             val builder = StringBuilder()
@@ -78,8 +84,20 @@ class ConfigManager {
                 builder.append("\n")
             }
             config = gson.fromJson(builder.toString(), AwesomeConfig::class.java)
+
+            if (file.name.contains("old")) {
+                file.move(configDirectory.resolve("config.json"))
+                loadedOld = true
+            }
         } catch (e: Exception) {
-            throw ConfigError("Could not load config", e)
+            println("Could not load config")
+            println(e)
+            markCorruptedConfig()
+
+            val oldConfig = configDirectory.resolve("config-old.json")
+            if (!file.name.contains("old") && oldConfig.isFile) {
+                tryReadConfig(oldConfig)
+            }
         }
     }
 
@@ -99,21 +117,38 @@ class ConfigManager {
             BufferedWriter(OutputStreamWriter(FileOutputStream(tempFile), StandardCharsets.UTF_8)).use { writer ->
                 writer.write(gson.toJson(config))
             }
+
             val oldConfig = configDirectory.resolve("config.json")
-            if (oldConfig.isFile) Files.move(
-                oldConfig.toPath(),
-                configDirectory.resolve("config-old.json").toPath(),
-                StandardCopyOption.REPLACE_EXISTING,
-                StandardCopyOption.ATOMIC_MOVE
-            )
-            Files.move(
-                tempFile.toPath(),
-                configFile.toPath(),
-                StandardCopyOption.REPLACE_EXISTING,
-                StandardCopyOption.ATOMIC_MOVE
-            )
+            if (oldConfig.isFile)
+                oldConfig.move(configDirectory.resolve("config-old.json"))
+
+            tempFile.move(configFile)
         } catch (e: IOException) {
             throw ConfigError("Could not save config", e)
         }
+    }
+
+    private fun markCorruptedConfig() {
+        if (configFile.isFile) {
+            val corruptedFolder = File("config/awesome/corrupted")
+            val corruptedConfig = corruptedFolder.resolve("config-${System.currentTimeMillis()}.json")
+
+            corruptedFolder.mkdirs()
+            configFile.move(corruptedConfig)
+            wasCorrupted = true
+        }
+    }
+
+    private fun File.move(path: Path) {
+        Files.move(
+            this.toPath(),
+            path,
+            StandardCopyOption.REPLACE_EXISTING,
+            StandardCopyOption.ATOMIC_MOVE
+        )
+    }
+
+    private fun File.move(file: File) {
+        this.move(file.toPath())
     }
 }

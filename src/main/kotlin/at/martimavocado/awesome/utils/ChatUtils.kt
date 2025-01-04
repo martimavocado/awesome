@@ -22,8 +22,20 @@ object ChatUtils {
         chat(formattedMessage)
     }
 
-    fun chat(message: String) {
-        Minecraft.getMinecraft().thePlayer.addChatMessage(ChatComponentText(message))
+    fun warning(message: String, usePrefix: Boolean = true) {
+        val prefix = if (usePrefix) "§c[Awesome] " else "§c"
+
+        val finalMessage = prefix + message
+
+        chat(ChatComponentText(finalMessage))
+    }
+
+    fun chat(message: String, usePrefix: Boolean = true) {
+        val prefix = if (usePrefix) "§e[Awesome] " else "§e"
+
+        val finalMessage = prefix + message
+
+        chat(ChatComponentText(finalMessage))
     }
 
     fun chat(chatComponent: IChatComponent) {

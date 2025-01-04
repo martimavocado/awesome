@@ -4,44 +4,44 @@ import com.google.gson.annotations.Expose;
 import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorBoolean;
 import io.github.notenoughupdates.moulconfig.annotations.ConfigOption;
 
-public class DebugConfig {
+class DebugConfig {
     @Expose
     @ConfigOption(name = "raw messages", desc = "prints a copy of raw messages to stdout")
     @ConfigEditorBoolean
-    public boolean rawMessages = false;
+    var rawMessages = false
 
     @Expose
     @ConfigOption(name = "only chat", desc = "makes it so raw messages only works in chat")
     @ConfigEditorBoolean
-    public boolean onlyChat = true;
+    var onlyChat = true
 
     @Expose
     @ConfigOption(name = "command logger", desc = "logs commands sent")
     @ConfigEditorBoolean
-    public boolean commandLogs = false;
+    var commandLogs = false
 
     @Expose
     @ConfigOption(name = "replace color code thing with &", desc = "helps with debugging sometimes :shrug:")
     @ConfigEditorBoolean
-    public boolean colorCodes = false;
+    var colorCodes = false
 
     @Expose
     @ConfigOption(name = "substring color", desc = "i hate minecraft colro code")
     @ConfigEditorBoolean
-    public boolean debugColors = false;
+    var debugColors = false
 
     @Expose
     @ConfigOption(name = "store titles", desc = "prints titles/subtitles to stdout")
     @ConfigEditorBoolean
-    public boolean logTitles = false;
+    var logTitles = false
 
     @Expose
     @ConfigOption(name = "debug commands", desc = "shows messages that weren't commands")
     @ConfigEditorBoolean
-    public boolean figureOutCommands = false;
+    var figureOutCommands = false
 
     @Expose
     @ConfigOption(name = "hypixel modapi", desc = "shows when/what modapi packets are received")
     @ConfigEditorBoolean
-    public boolean modAPI = false;
+    var modAPI = false
 }

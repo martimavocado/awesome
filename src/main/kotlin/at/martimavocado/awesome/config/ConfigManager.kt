@@ -60,6 +60,7 @@ class ConfigManager {
 
         val config = config!!
         processor = MoulConfigProcessor(config)
+
         BuiltinMoulConfigGuis.addProcessors(processor)
 
         val driver = ConfigProcessorDriver(processor)

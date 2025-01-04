@@ -6,7 +6,6 @@ import com.google.gson.GsonBuilder
 import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
-import io.github.notenoughupdates.moulconfig.gui.MoulConfigEditor
 import io.github.notenoughupdates.moulconfig.observer.PropertyTypeAdapterFactory
 import io.github.notenoughupdates.moulconfig.processor.BuiltinMoulConfigGuis
 import io.github.notenoughupdates.moulconfig.processor.ConfigProcessorDriver
@@ -42,16 +41,12 @@ class ConfigManager {
     private var lastSaveTime = 0L
 
     var processor: MoulConfigProcessor<AwesomeConfig>
-    private val editor by lazy { MoulConfigEditor(processor) }
 
     init {
         configDirectory.mkdirs()
         configFile = File(configDirectory, "config.json")
 
-        if (configFile.isFile) {
-            println("Trying to load the config")
-            tryReadConfig()
-        }
+        if (configFile.isFile) tryReadConfig()
 
         if (config == null) {
             println("Creating a clean config.")
@@ -89,21 +84,30 @@ class ConfigManager {
     }
 
     fun save() {
-        if (System.currentTimeMillis() <= lastSaveTime + 60_000) return
+        if (System.currentTimeMillis() <= lastSaveTime + 60_000) {
+            error("aborting saving config, last save is too new. ${System.currentTimeMillis() - lastSaveTime} ago")
+            return
+        }
 
         lastSaveTime = System.currentTimeMillis()
         val config = config ?: error("Can not save null config.")
 
         try {
             configDirectory.mkdirs()
-            val unit = configDirectory.resolve("config.json.write")
-            unit.createNewFile()
-            BufferedWriter(OutputStreamWriter(FileOutputStream(unit), StandardCharsets.UTF_8)).use { writer ->
+            val tempFile = configDirectory.resolve("config.json.write")
+            tempFile.createNewFile()
+            BufferedWriter(OutputStreamWriter(FileOutputStream(tempFile), StandardCharsets.UTF_8)).use { writer ->
                 writer.write(gson.toJson(config))
             }
-            // Perform move — which is atomic, unlike writing — after writing is done.
+            val oldConfig = configDirectory.resolve("config.json")
+            if (oldConfig.isFile) Files.move(
+                oldConfig.toPath(),
+                configDirectory.resolve("config-old.json").toPath(),
+                StandardCopyOption.REPLACE_EXISTING,
+                StandardCopyOption.ATOMIC_MOVE
+            )
             Files.move(
-                unit.toPath(),
+                tempFile.toPath(),
                 configFile.toPath(),
                 StandardCopyOption.REPLACE_EXISTING,
                 StandardCopyOption.ATOMIC_MOVE

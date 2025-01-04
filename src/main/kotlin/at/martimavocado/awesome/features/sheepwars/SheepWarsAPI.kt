@@ -2,16 +2,21 @@ package at.martimavocado.awesome.features.sheepwars
 
 import at.martimavocado.awesome.data.HypixelGame
 import at.martimavocado.awesome.data.PositionVec
+import at.martimavocado.awesome.events.AwesomeTickEvent
 import at.martimavocado.awesome.events.BlockChangeEvent
 import at.martimavocado.awesome.events.chat.ChatReceiveEvent
 import at.martimavocado.awesome.events.hypixel.HypixelServerChangeEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.utils.BlockUtils.getBlockAt
 import at.martimavocado.awesome.utils.ChatUtils
+import at.martimavocado.awesome.utils.PlayerUtils
 import at.martimavocado.awesome.utils.StringUtils.matches
 import net.minecraft.block.BlockColored
+import net.minecraft.client.Minecraft
 import net.minecraft.init.Blocks
 import net.minecraft.item.EnumDyeColor
+import net.minecraft.item.Item
+import net.minecraft.item.ItemArmor
 import net.minecraftforge.fml.common.eventhandler.EventPriority
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent
@@ -24,8 +29,12 @@ object SheepWarsAPI {
         private set
     var magicWoolAge: Int? = null
         private set
+    var isAlive: Boolean = false
+        private set
 
     private val magicWoolHitPattern = "^§5§lMAGIC WOOL!.*\$".toPattern()
+
+    fun isPlaying() = HypixelGame.SHEEP_WARS.isPlaying()
 
     @SubscribeEvent
     fun onBlockChange(event: BlockChangeEvent) {
@@ -80,5 +89,12 @@ object SheepWarsAPI {
         magicWool = null
         magicWoolLocation = null
         magicWoolAge = null
+    }
+
+    @SubscribeEvent
+    fun onTick(event: AwesomeTickEvent) {
+        if (!HypixelGame.SHEEP_WARS.isPlaying()) return
+
+        isAlive = PlayerUtils.getPlayer()?.capabilities?.allowFlying == true
     }
 }

@@ -3,6 +3,7 @@ package at.martimavocado.awesome.utils
 import at.martimavocado.awesome.events.hypixel.HypixelPartyEvent
 import at.martimavocado.awesome.utils.BlockUtils.toPositionVec
 import net.minecraft.client.Minecraft
+import net.minecraft.client.entity.EntityPlayerSP
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import java.util.*
 
@@ -10,9 +11,11 @@ object PlayerUtils {
     val playerIGN: String get() = Minecraft.getMinecraft().thePlayer.name
     val cachedUUID = mutableMapOf<UUID, String>()
 
-    fun getPlayer() = Minecraft.getMinecraft().thePlayer
-    fun getPlayerLocation() = getPlayer().playerLocation.toPositionVec()
-    fun getPlayerEyesLocation() = getPlayerLocation().add(y = getPlayer().eyeHeight.toDouble())
+    fun getPlayer(): EntityPlayerSP? = Minecraft.getMinecraft().thePlayer
+    fun getPlayerLocation() = getPlayer()?.playerLocation?.toPositionVec()
+    fun getPlayerEyesLocation() = getPlayerLocation()?.add(y = getPlayer()?.eyeHeight?.toDouble() ?: 0.0)
+
+    fun getArmor() = getPlayer()?.inventory?.armorInventory
 
     @SubscribeEvent
     fun onHypixelParty(event: HypixelPartyEvent) {
@@ -35,7 +38,7 @@ object PlayerUtils {
             }
         }
 
-        if (queuedUUID.size > 0) {
+        if (queuedUUID.isNotEmpty()) {
             getAPINames(queuedUUID)
             queuedUUID.clear()
         }

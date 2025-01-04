@@ -30,5 +30,5 @@ object MagicWoolHighlight {
         )
     }
 
-    private fun isEnabled() = HypixelGame.SHEEP_WARS.isPlaying() && config.enabled
+    private fun isEnabled() = SheepWarsAPI.isPlaying() && config.enabled
 }

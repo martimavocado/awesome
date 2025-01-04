@@ -42,8 +42,11 @@ data class PositionVec(
     fun add(x: Float = 0f, y: Float = 0f, z: Float = 0f) =
         PositionVec(this.x + x, this.y + y, this.z + z)
 
-    fun canSee(from: PositionVec = PlayerUtils.getPlayerEyesLocation()) =
-        Minecraft.getMinecraft().theWorld.rayTraceBlocks(this.toVec3(), from.toVec3(), false, true, false) == null
+    fun canSee(from: PositionVec? = PlayerUtils.getPlayerEyesLocation()): Boolean {
+        if (from == null) return false
+
+        return Minecraft.getMinecraft().theWorld.rayTraceBlocks(this.toVec3(), from.toVec3(), false, true, false) == null
+    }
 
     fun AxisAlignedBB.expand(vec: PositionVec): AxisAlignedBB = expand(vec.x, vec.y, vec.z)
     fun AxisAlignedBB.expand(amount: Double): AxisAlignedBB = expand(amount, amount, amount)

@@ -24,5 +24,5 @@ public class MagicWoolHighlight {
     @Expose
     @ConfigOption(name = "Color", desc = "Makes the highlight be a specific color\n" + "Requires Color Match to be disabled.")
     @ConfigEditorColour
-    public String color = "0:0:0:0";
+    public String color = "0:0:0:0:0";
 }

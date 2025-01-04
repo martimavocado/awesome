@@ -20,7 +20,7 @@ enum class HypixelGame(private val internalName: GameType, private val gameMode:
         fun onHypixelData(event: HypixelServerChangeEvent) {
             currentGame = HypixelGame.entries.firstOrNull {
                 it.internalName == event.serverType
-                        && (event.mode?.startsWith(it.gameMode) ?: false)
+                        && (event.mode?.startsWith(it.gameMode) == true)
             }
         }
     }

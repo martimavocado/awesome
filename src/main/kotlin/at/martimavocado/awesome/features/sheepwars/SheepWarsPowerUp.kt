@@ -28,6 +28,6 @@ enum class SheepWarsPowerUp(private val prettyName: String? = null, val duration
     }
 
     override fun toString(): String {
-        return this.prettyName ?: this.name.capitalize()
+        return this.prettyName ?: this.name.replace('_', ' ').capitalize()
     }
 }

@@ -10,7 +10,7 @@ plugins {
     kotlin("jvm") version "1.9.0"
 }
 
-//Constants:
+// Constants:
 
 val baseGroup: String by project
 val mcVersion: String by project
@@ -106,7 +106,10 @@ loom {
         }
     }
     forge {
-        pack200Provider.set(dev.architectury.pack200.java.Pack200Adapter())
+        pack200Provider.set(
+            dev.architectury.pack200.java
+                .Pack200Adapter(),
+        )
         // If you don't want mixins, remove this lines
         mixinConfig("mixins.$modid.json")
     }
@@ -168,7 +171,6 @@ tasks.processResources {
     rename("(.+_at.cfg)", "META-INF/$1")
 }
 
-
 val remapJar by tasks.named<net.fabricmc.loom.task.RemapJarTask>("remapJar") {
     archiveClassifier.set("")
     from(tasks.shadowJar)
@@ -195,6 +197,7 @@ tasks.shadowJar {
     relocate("io.github.notenoughupdates.moulconfig", "$baseGroup.deps.moulconfig")
     relocate("moe.nea.libautoupdate", "$baseGroup.deps.libautoupdate")
     relocate("net.hypixel.modapi.tweaker", "$baseGroup.deps.hypixel.modapi.tweaker")
+    mergeServiceFiles()
 }
 
 tasks.jar {

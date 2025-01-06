@@ -5,7 +5,11 @@ import at.martimavocado.awesome.utils.StringUtils.capitalize
 import net.minecraft.item.EnumDyeColor
 import java.awt.Color
 
-enum class AwesomeColor(val dyeColor: EnumDyeColor, val color: Color, val colorCode: Char) {
+enum class AwesomeColor(
+    val dyeColor: EnumDyeColor,
+    val color: Color,
+    val colorCode: Char,
+) {
     WHITE(EnumDyeColor.WHITE, Color(255, 255, 255), 'f'),
     ORANGE(EnumDyeColor.ORANGE, Color(255, 140, 0), '6'),
     MAGENTA(EnumDyeColor.MAGENTA, Color(255, 0, 255), 'd'),
@@ -24,11 +28,9 @@ enum class AwesomeColor(val dyeColor: EnumDyeColor, val color: Color, val colorC
     BLACK(EnumDyeColor.BLACK, Color(0, 0, 0), '0'),
     ;
 
-    override fun toString(): String {
-        return super.toString().replace('_', ' ').capitalize()
-    }
+    override fun toString(): String = super.toString().replace('_', ' ').capitalize()
 
     companion object {
-        fun getFromDye(dyeColor: EnumDyeColor) = entries.first { it.dyeColor == dyeColor}
+        fun getFromDye(dyeColor: EnumDyeColor) = entries.first { it.dyeColor == dyeColor }
     }
 }

@@ -6,7 +6,6 @@ import io.github.notenoughupdates.moulconfig.gui.GuiScreenElementWrapper
 import io.github.notenoughupdates.moulconfig.gui.MoulConfigEditor
 
 object ConfigGuiManager {
-
     var editor: MoulConfigEditor<AwesomeConfig>? = null
 
     fun getEditorInstance() = editor ?: MoulConfigEditor(Awesome.configManager.processor).also { editor = it }

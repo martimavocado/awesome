@@ -7,11 +7,9 @@ import java.awt.Color
 data class GuiPosition(
     val x: Int,
     val y: Int,
-    val game: HypixelGame?
+    val game: HypixelGame?,
 ) {
-    fun renderString(
-        string: String,
-    ) {
+    fun renderString(string: String) {
         if (string.isBlank()) return
         if (!(game != null && game == HypixelGame.currentGame)) return
 

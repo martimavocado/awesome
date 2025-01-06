@@ -9,7 +9,10 @@ import net.minecraft.block.state.IBlockState
 import net.minecraft.util.BlockPos
 import net.minecraftforge.fml.common.eventhandler.Event
 
-class BlockChangeEvent(blockPos: BlockPos, blockState: IBlockState) : Event() {
+class BlockChangeEvent(
+    blockPos: BlockPos,
+    blockState: IBlockState,
+) : Event() {
     val location by lazy { blockPos.toPositionVec() }
     val old by lazy { location.getBlockAt() }
     val oldState by lazy { location.getBlockStateAt() }
@@ -17,11 +20,11 @@ class BlockChangeEvent(blockPos: BlockPos, blockState: IBlockState) : Event() {
     val newState by lazy { blockState }
 
     companion object {
-
         private val pattern = "Block\\{minecraft:(?<name>.*)}".toPattern()
 
-        private fun String.getName() = pattern.matchMatcher(this) {
-            group("name")
-        } ?: this
+        private fun String.getName() =
+            pattern.matchMatcher(this) {
+                group("name")
+            } ?: this
     }
 }

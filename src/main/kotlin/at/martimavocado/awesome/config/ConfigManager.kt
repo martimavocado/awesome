@@ -10,30 +10,42 @@ import io.github.notenoughupdates.moulconfig.observer.PropertyTypeAdapterFactory
 import io.github.notenoughupdates.moulconfig.processor.BuiltinMoulConfigGuis
 import io.github.notenoughupdates.moulconfig.processor.ConfigProcessorDriver
 import io.github.notenoughupdates.moulconfig.processor.MoulConfigProcessor
-import java.io.*
+import java.io.BufferedReader
+import java.io.BufferedWriter
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStreamReader
+import java.io.OutputStreamWriter
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.StandardCopyOption
-import java.util.*
+import java.util.UUID
 
 class ConfigManager {
     companion object {
-        val gson = GsonBuilder().setPrettyPrinting()
-            .excludeFieldsWithoutExposeAnnotation()
-            .serializeSpecialFloatingPointValues()
-            .registerTypeAdapterFactory(PropertyTypeAdapterFactory())
-            .registerTypeAdapter(UUID::class.java, object : TypeAdapter<UUID>() {
-                override fun write(out: JsonWriter, value: UUID) {
-                    out.value(value.toString())
-                }
+        val gson =
+            GsonBuilder()
+                .setPrettyPrinting()
+                .excludeFieldsWithoutExposeAnnotation()
+                .serializeSpecialFloatingPointValues()
+                .registerTypeAdapterFactory(PropertyTypeAdapterFactory())
+                .registerTypeAdapter(
+                    UUID::class.java,
+                    object : TypeAdapter<UUID>() {
+                        override fun write(
+                            out: JsonWriter,
+                            value: UUID,
+                        ) {
+                            out.value(value.toString())
+                        }
 
-                override fun read(reader: JsonReader): UUID {
-                    return UUID.fromString(reader.nextString())
-                }
-            }.nullSafe())
-            .enableComplexMapKeySerialization()
-            .create()
+                        override fun read(reader: JsonReader): UUID = UUID.fromString(reader.nextString())
+                    }.nullSafe(),
+                ).enableComplexMapKeySerialization()
+                .create()
 
         var wasCorrupted = false
             private set
@@ -68,9 +80,11 @@ class ConfigManager {
         driver.warnForPrivateFields = false
         driver.processConfig(config)
 
-        Runtime.getRuntime().addShutdownHook(Thread {
-            save()
-        })
+        Runtime.getRuntime().addShutdownHook(
+            Thread {
+                save()
+            },
+        )
     }
 
     private fun tryReadConfig(file: File = configFile) {
@@ -102,10 +116,7 @@ class ConfigManager {
     }
 
     fun save() {
-        if (System.currentTimeMillis() <= lastSaveTime + 60_000) {
-            error("aborting saving config, last save is too new. ${System.currentTimeMillis() - lastSaveTime} ago")
-            return
-        }
+        if (System.currentTimeMillis() <= lastSaveTime + 60_000) return
 
         lastSaveTime = System.currentTimeMillis()
         val config = config ?: error("Can not save null config.")
@@ -119,8 +130,9 @@ class ConfigManager {
             }
 
             val oldConfig = configDirectory.resolve("config.json")
-            if (oldConfig.isFile)
+            if (oldConfig.isFile) {
                 oldConfig.move(configDirectory.resolve("config-old.json"))
+            }
 
             tempFile.move(configFile)
         } catch (e: IOException) {
@@ -144,7 +156,7 @@ class ConfigManager {
             this.toPath(),
             path,
             StandardCopyOption.REPLACE_EXISTING,
-            StandardCopyOption.ATOMIC_MOVE
+            StandardCopyOption.ATOMIC_MOVE,
         )
     }
 

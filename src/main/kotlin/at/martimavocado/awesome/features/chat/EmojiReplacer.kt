@@ -10,53 +10,59 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 @LoadModule
 object EmojiReplacer {
     private val config get() = Awesome.config.chatter.emojiReplace
-    private val mvpPlusPlus = arrayOf(
-        "<3" to "❤",
-        ":star" to "✮",
-        ":yes:" to "✔",
-        ":no:" to "✖",
-        ":java:" to "☕",
-        ":arrow:" to "➜",
-        ":shrug:" to "¯\\_(ツ)_/¯",
-        ":tableflip:" to "(╯°□°）╯︵┻━┻",
-        "o/" to "( ﾟ◡ﾟ)/",
+    private val mvpPlusPlus =
+        arrayOf(
+            "<3" to "❤",
+            ":star" to "✮",
+            ":yes:" to "✔",
+            ":no:" to "✖",
+            ":java:" to "☕",
+            ":arrow:" to "➜",
+            ":shrug:" to "¯\\_(ツ)_/¯",
+            ":tableflip:" to "(╯°□°）╯︵┻━┻",
+            "o/" to "( ﾟ◡ﾟ)/",
 //        ":123:" to "",
-        ":totem:" to "☉_☉",
-        ":typing:" to "✎...",
-        ":maths:" to "√(π+x)=L",
-        ":snail:" to "@\'-\'",
-        ":thinking:" to "(0.o?)",
-        ":gimme:" to "༼つ◕_◕༽つ",
-        ":wizard:" to "('-')⊃━☆ﾟ.*･｡ﾟ",
-        ":pvp:" to "⚔",
-        ":peace:" to "✌",
-        ":oof:" to "OOF",
-        ":puffer:" to "<('O')>"
-    )
+            ":totem:" to "☉_☉",
+            ":typing:" to "✎...",
+            ":maths:" to "√(π+x)=L",
+            ":snail:" to "@\'-\'",
+            ":thinking:" to "(0.o?)",
+            ":gimme:" to "༼つ◕_◕༽つ",
+            ":wizard:" to "('-')⊃━☆ﾟ.*･｡ﾟ",
+            ":pvp:" to "⚔",
+            ":peace:" to "✌",
+            ":oof:" to "OOF",
+            ":puffer:" to "<('O')>",
+        )
 
-    private val gifted5 = arrayOf(
+    private val gifted5 =
+        arrayOf(
 //        "^-^" to "^-^",
-        ":cute:" to "(✿◠‿◠)"
-    )
+            ":cute:" to "(✿◠‿◠)",
+        )
 
-    private val gifted20 = arrayOf(
-        ":dab:" to "<o/",
-        ":yey:" to "ヽ (◕◡◕) ﾉ"
-    )
+    private val gifted20 =
+        arrayOf(
+            ":dab:" to "<o/",
+            ":yey:" to "ヽ (◕◡◕) ﾉ",
+        )
 
-    private val gifted50 = arrayOf(
-        ":dj:" to "ヽ(⌐■_■)ノ♬",
-        ":dog:" to "(ᵔᴥᵔ)"
-    )
+    private val gifted50 =
+        arrayOf(
+            ":dj:" to "ヽ(⌐■_■)ノ♬",
+            ":dog:" to "(ᵔᴥᵔ)",
+        )
 
-    private val gifted100 = arrayOf(
-        ":cat:" to "= ＾● ⋏ ●＾ =",
-        "h/" to "ヽ(^◇^*)/"
-    )
-    private val gifted200 = arrayOf(
-        ":sloth:" to "(・⊝・)",
-        ":snow:" to "☃"
-    )
+    private val gifted100 =
+        arrayOf(
+            ":cat:" to "= ＾● ⋏ ●＾ =",
+            "h/" to "ヽ(^◇^*)/",
+        )
+    private val gifted200 =
+        arrayOf(
+            ":sloth:" to "(・⊝・)",
+            ":snow:" to "☃",
+        )
 
     @SubscribeEvent
     fun onChatSend(event: ChatSendEvent) {
@@ -75,7 +81,10 @@ object EmojiReplacer {
         }
     }
 
-    private fun chatEdit(event: ChatSendEvent, array: Array<Pair<String, String>>) {
+    private fun chatEdit(
+        event: ChatSendEvent,
+        array: Array<Pair<String, String>>,
+    ) {
         if (ChatUtils.inArray(event.message, array)) {
             event.isCanceled = true
             var newMessage = event.message
@@ -83,6 +92,8 @@ object EmojiReplacer {
                 newMessage = newMessage.replace(search, replace)
             }
             ChatUtils.sendChatPacket(C01PacketChatMessage(newMessage))
-        } else return
+        } else {
+            return
+        }
     }
 }

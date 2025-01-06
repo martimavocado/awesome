@@ -20,6 +20,7 @@ object BlockUtils {
     fun BlockPos.toPositionVec() = PositionVec(this.x, this.y, this.z)
 
     fun PositionVec.getBlockAt(): Block = getBlockStateAt().block
+
     fun PositionVec.getBlockStateAt(): IBlockState = world.getBlockState(toBlockPos())
 
     @SubscribeEvent

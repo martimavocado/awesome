@@ -1,8 +1,8 @@
-package at.martimavocado.awesome.config.categories;
+package at.martimavocado.awesome.config.categories
 
-import com.google.gson.annotations.Expose;
-import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorBoolean;
-import io.github.notenoughupdates.moulconfig.annotations.ConfigOption;
+import com.google.gson.annotations.Expose
+import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorBoolean
+import io.github.notenoughupdates.moulconfig.annotations.ConfigOption
 
 class DebugConfig {
     @Expose

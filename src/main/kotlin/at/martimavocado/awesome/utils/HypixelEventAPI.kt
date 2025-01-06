@@ -33,7 +33,7 @@ object HypixelEventAPI {
                 packet.lobbyName.getOrNull(),
                 packet.mode.getOrNull(),
                 packet.map.getOrNull(),
-            )
+            ),
         )
     }
 
@@ -42,8 +42,8 @@ object HypixelEventAPI {
             HypixelPartyEvent(
                 packet.isInParty,
                 packet.leader.getOrNull(),
-                packet.members
-            )
+                packet.members,
+            ),
         )
     }
 }

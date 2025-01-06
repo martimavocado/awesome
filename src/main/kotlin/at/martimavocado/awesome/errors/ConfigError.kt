@@ -1,3 +1,6 @@
 package at.martimavocado.awesome.errors
 
-class ConfigError(message: String, cause: Throwable) : Error(message, cause)
+class ConfigError(
+    message: String,
+    cause: Throwable,
+) : Error(message, cause)

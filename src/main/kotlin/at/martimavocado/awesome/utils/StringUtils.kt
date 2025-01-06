@@ -4,17 +4,17 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 object StringUtils {
-    inline fun <T> Pattern.matchMatcher(text: String, consumer: Matcher.() -> T) =
-        matcher(text).let { if (it.matches()) consumer(it) else null }
+    inline fun <T> Pattern.matchMatcher(
+        text: String,
+        consumer: Matcher.() -> T,
+    ) = matcher(text).let { if (it.matches()) consumer(it) else null }
 
-    fun Pattern.matches(text: String) =
-        this.toRegex().matches(text)
+    fun Pattern.matches(text: String) = this.toRegex().matches(text)
 
-    fun String.capitalize(): String {
-        return split(" ").joinToString(" ") { word ->
+    fun String.capitalize(): String =
+        split(" ").joinToString(" ") { word ->
             word.lowercase().replaceFirstChar {
                 if (it.isLowerCase()) it.titlecase() else it.toString()
             }
         }
-    }
 }

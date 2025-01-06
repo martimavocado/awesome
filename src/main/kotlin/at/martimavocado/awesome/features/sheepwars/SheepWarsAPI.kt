@@ -50,14 +50,18 @@ object SheepWarsAPI {
         spawnWool(color, event.location)
     }
 
-    private fun checkSurroundingBlocks(blockPosition: PositionVec): Boolean {
-        return blockPosition.add(x = 1).getBlockAt() == Blocks.air
-                && blockPosition.add(x = -1).getBlockAt() == Blocks.air
-                && (blockPosition.add(y = 1).getBlockAt() == Blocks.air || blockPosition.add(y = 1).getBlockAt() == Blocks.fire)
-                && blockPosition.add(y = -1).getBlockAt() == Blocks.air
-                && blockPosition.add(z = 1).getBlockAt() == Blocks.air
-                && blockPosition.add(z = -1).getBlockAt() == Blocks.air
-    }
+    private fun checkSurroundingBlocks(blockPosition: PositionVec): Boolean =
+        blockPosition.add(x = 1).getBlockAt() == Blocks.air &&
+            blockPosition.add(x = -1).getBlockAt() == Blocks.air &&
+            (
+                blockPosition.add(y = 1).getBlockAt() == Blocks.air ||
+                    blockPosition
+                        .add(y = 1)
+                        .getBlockAt() == Blocks.fire
+            ) &&
+            blockPosition.add(y = -1).getBlockAt() == Blocks.air &&
+            blockPosition.add(z = 1).getBlockAt() == Blocks.air &&
+            blockPosition.add(z = -1).getBlockAt() == Blocks.air
 
     @SubscribeEvent
     fun onChat(event: ChatReceiveEvent) {
@@ -72,7 +76,7 @@ object SheepWarsAPI {
         if (!HypixelGame.SHEEP_WARS.isPlaying()) return
         val wool = magicWool ?: return
 
-        magicWool = wool.copy(age = wool.age+1)
+        magicWool = wool.copy(age = wool.age + 1)
     }
 
     @SubscribeEvent
@@ -80,14 +84,18 @@ object SheepWarsAPI {
         resetWool()
     }
 
-    private fun spawnWool(color: EnumDyeColor, location: PositionVec) {
+    private fun spawnWool(
+        color: EnumDyeColor,
+        location: PositionVec,
+    ) {
         val magicWoolType = SheepWarsMagicWoolType.getFromDye(color)
 
-        magicWool = SheepWarsMagicWool(
-            magicWoolType,
-            location,
-            magicWool?.age ?: 0
-        )
+        magicWool =
+            SheepWarsMagicWool(
+                magicWoolType,
+                location,
+                magicWool?.age ?: 0,
+            )
 
         ChatUtils.chat("spawned with new color $color")
     }
@@ -100,6 +108,6 @@ object SheepWarsAPI {
     fun onTick(event: AwesomeTickEvent) {
         if (!HypixelGame.SHEEP_WARS.isPlaying()) return
 
-        isAlive = PlayerUtils.getPlayer()?.capabilities?.allowFlying == true
+        isAlive = PlayerUtils.getPlayer()?.capabilities?.allowFlying == false
     }
 }

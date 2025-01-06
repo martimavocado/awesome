@@ -22,7 +22,15 @@ class MagicWoolHighlight {
     var colorMatch = true
 
     @Expose
-    @ConfigOption(name = "Color", desc = "Makes the highlight be a specific color\n" + "Requires Color Match to be disabled.")
+    @ConfigOption(name = "Show in Spectator", desc = "Highlights the Magic Wool even in spectator mode")
+    @ConfigEditorBoolean
+    var spectator = true
+
+    @Expose
+    @ConfigOption(
+        name = "Color",
+        desc = "Makes the highlight be a specific color\n" + "Requires Color Match to be disabled.",
+    )
     @ConfigEditorColour
     var color = "0:0:0:0:0"
 }

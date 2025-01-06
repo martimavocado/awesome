@@ -29,7 +29,10 @@ class MagicWoolPerk {
     var goodPerks: MutableList<SheepWarsPowerUp> = SheepWarsPowerUp.defaultGoodPerks.toMutableList<SheepWarsPowerUp>()
 
     @Expose
-    @ConfigOption(name = "Color", desc = "Makes the highlight be a specific color\n" + "Requires Color Match to be disabled.")
+    @ConfigOption(
+        name = "Color",
+        desc = "Makes the highlight be a specific color\n" + "Requires Color Match to be disabled.",
+    )
     @ConfigEditorColour
     var color = "0:0:0:0:0"
 }

@@ -4,7 +4,7 @@ import net.minecraft.launchwrapper.Launch
 
 object PlatformUtils {
     val isDevEnvironment: Boolean by lazy {
-        Launch.blackboard?.get("fml.deobfuscatedEnvironment") as? Boolean ?: true
+        Launch.blackboard?.get("fml.deobfuscatedEnvironment") as? Boolean != false
     }
 
     enum class OperatingSystem {
@@ -28,6 +28,4 @@ object PlatformUtils {
             else -> OperatingSystem.UNKNOWN
         }
     }
-
-    
 }

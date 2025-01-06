@@ -9,7 +9,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
 @LoadModule
 object PlayerChatManager {
-    private val partyMessagePattern = "§9P(?:arty)? §8> §.(?:\\[(?:MVP|VIP)?(?:§.\\+§.)?] )?(?<author>\\w+)§f: (?:(?:§r)?)+(?<message>.*)".toPattern()
+    private val partyMessagePattern =
+        "§9P(?:arty)? §8> §.(?:\\[(?:MVP|VIP)?(?:§.\\+§.)?] )?(?<author>\\w+)§f: (?:(?:§r)?)+(?<message>.*)".toPattern()
     private val privateMessagePattern = "§dFrom §r§.(?:.* )?(?<author>\\w+)§r§7: §r(?:§7)?(?<message>.*)".toPattern()
 
     @SubscribeEvent(receiveCanceled = true)

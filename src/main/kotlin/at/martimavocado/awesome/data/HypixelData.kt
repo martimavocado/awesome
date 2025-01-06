@@ -37,7 +37,8 @@ object HypixelData {
         serverName = event.serverName
 
         if (!config.modAPI) return
-        val message = "map: ${event.map}\n" +
+        val message =
+            "map: ${event.map}\n" +
                 "mode: ${event.mode}\n" +
                 "lobbyName: ${event.lobbyName}\n" +
                 "serverName: ${event.serverName}\n" +
@@ -50,7 +51,8 @@ object HypixelData {
     fun onPartyChange(event: HypixelPartyEvent) {
         if (!config.modAPI) return
 
-        val message = "inParty: ${event.inParty}\n" +
+        val message =
+            "inParty: ${event.inParty}\n" +
                 "leader: ${event.leader}\n" +
                 "members: ${event.members?.joinToString(",") ?: "null"}"
 
@@ -62,13 +64,14 @@ object HypixelData {
         if (shownConfigMessages) return
         var message = ""
 
-        if (ConfigManager.wasCorrupted)
+        if (ConfigManager.wasCorrupted) {
             message += "config was corrupted, oops. "
-        if (ConfigManager.loadedOld)
+        }
+        if (ConfigManager.loadedOld) {
             message += "loaded config backup instead"
+        }
 
         if (message.isEmpty()) return
         ChatUtils.warning(message)
     }
 }
-

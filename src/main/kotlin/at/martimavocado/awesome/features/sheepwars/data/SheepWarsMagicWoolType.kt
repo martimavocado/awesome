@@ -5,7 +5,10 @@ import at.martimavocado.awesome.utils.AwesomeColor
 import at.martimavocado.awesome.utils.StringUtils.capitalize
 import net.minecraft.item.EnumDyeColor
 
-enum class SheepWarsMagicWoolType(val perk: SheepWarsPowerUp, val color: AwesomeColor) {
+enum class SheepWarsMagicWoolType(
+    val perk: SheepWarsPowerUp,
+    val color: AwesomeColor,
+) {
     WHITE(SheepWarsPowerUp.RANDOM_SHEEP, AwesomeColor.WHITE),
     ORANGE(SheepWarsPowerUp.BIG_EXPLOSION, AwesomeColor.ORANGE),
     MAGENTA(SheepWarsPowerUp.RANDOM_SHEEP, AwesomeColor.MAGENTA),
@@ -24,9 +27,7 @@ enum class SheepWarsMagicWoolType(val perk: SheepWarsPowerUp, val color: Awesome
     BLACK(SheepWarsPowerUp.RANDOM_SHEEP, AwesomeColor.BLACK),
     ;
 
-    override fun toString(): String {
-        return super.toString().replace('_', ' ').capitalize()
-    }
+    override fun toString(): String = super.toString().replace('_', ' ').capitalize()
 
     companion object {
         fun getFromDye(dyeColor: EnumDyeColor) = entries.first { it.color.dyeColor == dyeColor }

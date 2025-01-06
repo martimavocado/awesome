@@ -6,7 +6,6 @@ import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorDropdown
 import io.github.notenoughupdates.moulconfig.annotations.ConfigOption
 
 class EmojiReplacerConfig {
-
     @Expose
     @ConfigOption(name = "Enabled", desc = "")
     @ConfigEditorBoolean
@@ -18,12 +17,19 @@ class EmojiReplacerConfig {
     var mvp = true
 
     @Expose
-    @ConfigOption(name = "Gifted Ranks", desc = "Determines which emojis will be replaced. " +
-            "For the best results, choose the amount of gifted ranks you have.")
+    @ConfigOption(
+        name = "Gifted Ranks",
+        desc =
+            "Determines which emojis will be replaced. " +
+                "For the best results, choose the amount of gifted ranks you have.",
+    )
     @ConfigEditorDropdown
     var giftedRanks = EmojiRanksGifted.ZERO
 
-    enum class EmojiRanksGifted(val str: String, val gifts: Int) {
+    enum class EmojiRanksGifted(
+        val str: String,
+        val gifts: Int,
+    ) {
         ZERO("None", 0),
         FIVE("5 Gifted Ranks", 5),
         TWENTY("20 Gifted Ranks", 20),

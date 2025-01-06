@@ -22,26 +22,30 @@ class SimpleCommand : CommandBase {
     }
 
     abstract class ProcessCommandRunnable {
-        abstract fun processCommand(sender: ICommandSender?, args: Array<String>?)
+        abstract fun processCommand(
+            sender: ICommandSender?,
+            args: Array<String>?,
+        )
     }
 
     interface TabCompleteRunnable {
-        fun tabComplete(sender: ICommandSender?, args: Array<String>?, pos: BlockPos?): List<String>
+        fun tabComplete(
+            sender: ICommandSender?,
+            args: Array<String>?,
+            pos: BlockPos?,
+        ): List<String>
     }
 
-    override fun canCommandSenderUseCommand(sender: ICommandSender): Boolean {
-        return true
-    }
+    override fun canCommandSenderUseCommand(sender: ICommandSender): Boolean = true
 
-    override fun getCommandName(): String {
-        return commandName
-    }
+    override fun getCommandName(): String = commandName
 
-    override fun getCommandUsage(sender: ICommandSender): String {
-        return "/$commandName"
-    }
+    override fun getCommandUsage(sender: ICommandSender): String = "/$commandName"
 
-    override fun processCommand(sender: ICommandSender, args: Array<String>) {
+    override fun processCommand(
+        sender: ICommandSender,
+        args: Array<String>,
+    ) {
         try {
             runnable.processCommand(sender, args)
         } catch (e: Throwable) {
@@ -49,7 +53,9 @@ class SimpleCommand : CommandBase {
         }
     }
 
-    override fun addTabCompletionOptions(sender: ICommandSender, args: Array<String>, pos: BlockPos): List<String>? {
-        return if (tabRunnable != null) tabRunnable!!.tabComplete(sender, args, pos) else null
-    }
+    override fun addTabCompletionOptions(
+        sender: ICommandSender,
+        args: Array<String>,
+        pos: BlockPos,
+    ): List<String>? = if (tabRunnable != null) tabRunnable!!.tabComplete(sender, args, pos) else null
 }

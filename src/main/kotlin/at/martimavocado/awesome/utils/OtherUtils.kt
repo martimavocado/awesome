@@ -10,7 +10,13 @@ import net.minecraftforge.fml.common.gameevent.TickEvent
 
 @LoadModule
 object OtherUtils {
-    private fun showTitle(title: String, subtitle: String, timeFadeIn: Int, displayTime: Int, timeFadeOut: Int) {
+    private fun showTitle(
+        title: String,
+        subtitle: String,
+        timeFadeIn: Int,
+        displayTime: Int,
+        timeFadeOut: Int,
+    ) {
         Minecraft.getMinecraft().ingameGUI.displayTitle(title, subtitle, timeFadeIn, displayTime, timeFadeOut)
     }
 

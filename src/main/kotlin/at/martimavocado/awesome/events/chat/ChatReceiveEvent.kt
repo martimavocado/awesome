@@ -8,4 +8,4 @@ import net.minecraftforge.fml.common.eventhandler.Event
 class ChatReceiveEvent(
     var message: String,
     var chatComponent: IChatComponent,
-): Event()
+) : Event()

@@ -8,7 +8,6 @@ import net.minecraft.util.ChatComponentText
 import net.minecraft.util.IChatComponent
 
 object ChatUtils {
-
     fun testMessageCommand(array: Array<String>) {
         if (array.isEmpty()) {
             chat("cant test a message without one i think")
@@ -22,7 +21,10 @@ object ChatUtils {
         chat(formattedMessage)
     }
 
-    fun warning(message: String, usePrefix: Boolean = true) {
+    fun warning(
+        message: String,
+        usePrefix: Boolean = true,
+    ) {
         val prefix = if (usePrefix) "§c[Awesome] " else "§c"
 
         val finalMessage = prefix + message
@@ -30,7 +32,10 @@ object ChatUtils {
         chat(ChatComponentText(finalMessage))
     }
 
-    fun chat(message: String, usePrefix: Boolean = true) {
+    fun chat(
+        message: String,
+        usePrefix: Boolean = true,
+    ) {
         val prefix = if (usePrefix) "§e[Awesome] " else "§e"
 
         val finalMessage = prefix + message
@@ -42,7 +47,10 @@ object ChatUtils {
         Minecraft.getMinecraft().thePlayer.addChatMessage(chatComponent)
     }
 
-    fun chatClickable(message: String, command: String) {
+    fun chatClickable(
+        message: String,
+        command: String,
+    ) {
         val text = ChatComponentText(message)
         text.chatStyle.chatClickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, command)
         text.chatStyle.chatHoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, ChatComponentText("§eExecute $command"))
@@ -58,10 +66,16 @@ object ChatUtils {
     }
 
     fun sendChatPacket(packet: C01PacketChatMessage) {
-        Minecraft.getMinecraft().thePlayer.sendQueue.addToSendQueue(packet)
+        Minecraft
+            .getMinecraft()
+            .thePlayer.sendQueue
+            .addToSendQueue(packet)
     }
 
-    fun inArray(input: String, array: Array<Pair<String, String>>): Boolean {
+    fun inArray(
+        input: String,
+        array: Array<Pair<String, String>>,
+    ): Boolean {
         for ((leftHalf, _) in array) {
             if (input.contains(leftHalf)) {
                 return true

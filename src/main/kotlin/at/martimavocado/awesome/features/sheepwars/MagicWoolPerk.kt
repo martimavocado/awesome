@@ -28,8 +28,6 @@ object MagicWoolPerk {
         val age = SheepWarsAPI.magicWool?.age ?: return
 
         if (age % 7 != 0) return
-
-
     }
 
     private fun isEnabled() = SheepWarsAPI.isAlive && SheepWarsAPI.isPlaying()

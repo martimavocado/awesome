@@ -5,13 +5,16 @@ import net.minecraft.util.ChatComponentText
 
 object FakeBan {
     fun showBanScreen() {
-            val component = ChatComponentText("§cYou are temporarily banned for §f29d 23h 59m 59s§c from this server!")
-            component.appendText("\n")
-            component.appendText("\n§7Reason: §fCheating through the use of unfair game advantages")
-            component.appendText("\n§7Find out more: §b§nhttps://www.hypixel.net/appeal")
-            component.appendText("\n")
-            component.appendText("\n§7Ban ID: §7#34528287")
-            component.appendText("\n§7Sharing your Ban ID may affect the processing of your appeal!")
-            Minecraft.getMinecraft().netHandler.networkManager.closeChannel(component)
+        val component = ChatComponentText("§cYou are temporarily banned for §f29d 23h 59m 59s§c from this server!")
+        component.appendText("\n")
+        component.appendText("\n§7Reason: §fCheating through the use of unfair game advantages")
+        component.appendText("\n§7Find out more: §b§nhttps://www.hypixel.net/appeal")
+        component.appendText("\n")
+        component.appendText("\n§7Ban ID: §7#34528287")
+        component.appendText("\n§7Sharing your Ban ID may affect the processing of your appeal!")
+        Minecraft
+            .getMinecraft()
+            .netHandler.networkManager
+            .closeChannel(component)
     }
 }

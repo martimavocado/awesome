@@ -9,4 +9,4 @@ class HypixelServerChangeEvent(
     val lobbyName: String?,
     val mode: String?,
     val map: String?,
-): Event()
+) : Event()

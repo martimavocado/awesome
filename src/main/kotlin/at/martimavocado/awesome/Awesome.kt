@@ -22,7 +22,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
     name = "Awesome",
     version = Awesome.MOD_VERSION,
     guiFactory = "at.martimavocado.awesome.config.ConfigGuiForgeInterop",
-    clientSideOnly = true
+    clientSideOnly = true,
 )
 class Awesome {
     @Mod.EventHandler
@@ -31,6 +31,7 @@ class Awesome {
         MinecraftForge.EVENT_BUS.register(configManager)
         loadedClasses.clear()
     }
+
     private val loadedClasses = mutableSetOf<Any>()
 
     private fun loadModule(obj: Any) {

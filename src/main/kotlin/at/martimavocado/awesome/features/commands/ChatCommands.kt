@@ -34,7 +34,11 @@ object ChatCommands {
         if (config.enabled) handleCommand(messageArray, event.author, true)
     }
 
-    private fun handleCommand(array: Array<String>, ign: String, isDM: Boolean = false) {
+    private fun handleCommand(
+        array: Array<String>,
+        ign: String,
+        isDM: Boolean = false,
+    ) {
         val newArray = array.drop(2).toTypedArray()
         val command = array[1]
         when (command) {
@@ -53,7 +57,10 @@ object ChatCommands {
         }
     }
 
-    private fun sayMessage(array: Array<String>, ign: String) {
+    private fun sayMessage(
+        array: Array<String>,
+        ign: String,
+    ) {
         val message = array.joinToString(" ").replace("\$ign", ign)
         println("i want to send '$message'")
         ChatUtils.sendMessage(message)

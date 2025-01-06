@@ -6,5 +6,5 @@ import net.minecraftforge.fml.common.eventhandler.Event
 @Cancelable
 class PrivateChatEvent(
     val message: String,
-    val author: String
-): Event()
+    val author: String,
+) : Event()

@@ -7,7 +7,6 @@ import net.minecraft.command.ICommandSender
 import net.minecraftforge.client.ClientCommandHandler
 
 class CommandManager {
-
     init {
         registerCommand("awesome") {
             ConfigGuiManager.onCommand(it)
@@ -16,29 +15,40 @@ class CommandManager {
             ConfigGuiManager.onCommand(it)
         }
         registerCommand("emojilist") {
-            at.martimavocado.awesome.features.HelpCommands.printMessage("emoji")
+            at.martimavocado.awesome.features.HelpCommands
+                .printMessage("emoji")
         }
         registerCommand("awcommands") {
-            at.martimavocado.awesome.features.HelpCommands.printMessage("help")
+            at.martimavocado.awesome.features.HelpCommands
+                .printMessage("help")
         }
         registerCommand("showtitle") {
-            at.martimavocado.awesome.utils.OtherUtils.tryShowTitle(it)
+            at.martimavocado.awesome.utils.OtherUtils
+                .tryShowTitle(it)
         }
         registerCommand("testmessage") {
             ChatUtils.testMessageCommand(it)
         }
         registerCommand("fakeban") {
-            at.martimavocado.awesome.features.FakeBan.showBanScreen()
+            at.martimavocado.awesome.features.FakeBan
+                .showBanScreen()
         }
     }
 
-    private fun registerCommand(name: String, function: (Array<String>) -> Unit) {
+    private fun registerCommand(
+        name: String,
+        function: (Array<String>) -> Unit,
+    ) {
         ClientCommandHandler.instance.registerCommand(SimpleCommand(name, createCommand(function)))
     }
 
-    private fun createCommand(function: (Array<String>) -> Unit) = object : ProcessCommandRunnable() {
-        override fun processCommand(sender: ICommandSender?, args: Array<String>?) {
-            if (args != null) function(args.asList().toTypedArray())
+    private fun createCommand(function: (Array<String>) -> Unit) =
+        object : ProcessCommandRunnable() {
+            override fun processCommand(
+                sender: ICommandSender?,
+                args: Array<String>?,
+            ) {
+                if (args != null) function(args.asList().toTypedArray())
+            }
         }
-    }
 }

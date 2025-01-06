@@ -6,11 +6,8 @@ import com.google.gson.annotations.Expose
 import io.github.notenoughupdates.moulconfig.Config
 import io.github.notenoughupdates.moulconfig.annotations.Category
 
-class AwesomeConfig: Config() {
-
-    override fun getTitle(): String {
-        return "awesome " + Awesome.version + " by §cmartimavocado§r, config by §5Moulberry §rand §5nea89"
-    }
+class AwesomeConfig : Config() {
+    override fun getTitle(): String = "awesome " + Awesome.version + " by §cmartimavocado§r, config by §5Moulberry §rand §5nea89"
 
     override fun saveNow() {
         Awesome.configManager.save()

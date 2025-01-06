@@ -4,7 +4,10 @@ import at.martimavocado.awesome.utils.StringUtils.capitalize
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
-enum class SheepWarsPowerUp(private val prettyName: String? = null, val duration: Duration? = null) {
+enum class SheepWarsPowerUp(
+    private val prettyName: String? = null,
+    val duration: Duration? = null,
+) {
     RANDOM_SHEEP("+1 Sheep"),
     BIG_EXPLOSION("Bigger Explosions", 15.seconds),
     EXPLOSIVE_ARROW("Explosive Arrows", 15.seconds),
@@ -19,15 +22,14 @@ enum class SheepWarsPowerUp(private val prettyName: String? = null, val duration
 
     companion object {
         @JvmField
-        val defaultGoodPerks = listOf(
-            BIG_EXPLOSION,
-            SLOW_SHEEP,
-            FAST_SHEEP,
-            POISON,
-        )
+        val defaultGoodPerks =
+            listOf(
+                BIG_EXPLOSION,
+                SLOW_SHEEP,
+                FAST_SHEEP,
+                POISON,
+            )
     }
 
-    override fun toString(): String {
-        return this.prettyName ?: this.name.replace('_', ' ').capitalize()
-    }
+    override fun toString(): String = this.prettyName ?: this.name.replace('_', ' ').capitalize()
 }

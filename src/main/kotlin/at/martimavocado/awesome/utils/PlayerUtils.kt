@@ -5,14 +5,16 @@ import at.martimavocado.awesome.utils.BlockUtils.toPositionVec
 import net.minecraft.client.Minecraft
 import net.minecraft.client.entity.EntityPlayerSP
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
-import java.util.*
+import java.util.UUID
 
 object PlayerUtils {
     val playerIGN: String get() = Minecraft.getMinecraft().thePlayer.name
     val cachedUUID = mutableMapOf<UUID, String>()
 
     fun getPlayer(): EntityPlayerSP? = Minecraft.getMinecraft().thePlayer
+
     fun getPlayerLocation() = getPlayer()?.playerLocation?.toPositionVec()
+
     fun getPlayerEyesLocation() = getPlayerLocation()?.add(y = getPlayer()?.eyeHeight?.toDouble() ?: 0.0)
 
     fun getArmor() = getPlayer()?.inventory?.armorInventory
@@ -46,12 +48,21 @@ object PlayerUtils {
 
     private fun getAPINames(uuidSet: Set<UUID>) {
         for (uuid in uuidSet) {
-            val username = Minecraft.getMinecraft().netHandler.getPlayerInfo(uuid)
-                .gameProfile.name ?: continue
+            val username =
+                Minecraft
+                    .getMinecraft()
+                    .netHandler
+                    .getPlayerInfo(uuid)
+                    .gameProfile.name ?: continue
 
             cachedUUID[uuid] = username
         }
     }
 
-    fun UUID.getPlayerName(): String = Minecraft.getMinecraft().netHandler.getPlayerInfo(this).gameProfile.name
+    fun UUID.getPlayerName(): String =
+        Minecraft
+            .getMinecraft()
+            .netHandler
+            .getPlayerInfo(this)
+            .gameProfile.name
 }

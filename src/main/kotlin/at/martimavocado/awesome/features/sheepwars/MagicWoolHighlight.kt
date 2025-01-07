@@ -16,7 +16,12 @@ object MagicWoolHighlight {
         if (!isEnabled()) return
         if (!config.spectator && !SheepWarsAPI.isAlive) return
 
-        val wool = SheepWarsAPI.magicWool ?: return
+        val wool =
+            SheepWarsAPI.magicWool ?: run {
+//                println("no wool")
+                return
+            }
+//        println("wool: ${wool.type}")
         val color =
             if (config.colorMatch) {
                 wool.type.color.color
@@ -27,8 +32,8 @@ object MagicWoolHighlight {
         event.highlightBlock(
             wool.location,
             color,
-            config.beacon,
-            config.beacon,
+            beaconAbove = config.beacon,
+            beaconBelow = config.beacon,
             thickness = 1.0f,
         )
     }

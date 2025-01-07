@@ -10,7 +10,6 @@ import at.martimavocado.awesome.features.sheepwars.data.SheepWarsMagicWool
 import at.martimavocado.awesome.features.sheepwars.data.SheepWarsMagicWoolType
 import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.utils.BlockUtils.getBlockAt
-import at.martimavocado.awesome.utils.ChatUtils
 import at.martimavocado.awesome.utils.PlayerUtils
 import at.martimavocado.awesome.utils.StringUtils.matches
 import net.minecraft.block.BlockColored
@@ -22,7 +21,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent
 
 @LoadModule
 object SheepWarsAPI {
-    var magicWool: SheepWarsMagicWool? = null
+    var magicWool: SheepWarsMagicWool? = null // so i can start it as null, and set it to something later
         private set
     var isAlive: Boolean = false
         private set
@@ -34,18 +33,12 @@ object SheepWarsAPI {
     @SubscribeEvent
     fun onBlockChange(event: BlockChangeEvent) {
         if (!HypixelGame.SHEEP_WARS.isPlaying()) return
-        if (event.old != Blocks.air || event.old != Blocks.wool) return
+        if (!(event.old == Blocks.wool || event.old == Blocks.air)) return
         if (event.new != Blocks.wool) return
 
         if (!checkSurroundingBlocks(event.location)) return
 
         val color = event.newState.getValue(BlockColored.COLOR)
-
-        if (event.old == Blocks.wool && magicWool != null) {
-            magicWool = magicWool?.copy(type = SheepWarsMagicWoolType.getFromDye(color))
-            ChatUtils.chat("updated to color $color")
-            return
-        }
 
         spawnWool(color, event.location)
     }
@@ -97,7 +90,7 @@ object SheepWarsAPI {
                 magicWool?.age ?: 0,
             )
 
-        ChatUtils.chat("spawned with new color $color")
+//        ChatUtils.chat("spawned with new color $color")
     }
 
     private fun resetWool() {

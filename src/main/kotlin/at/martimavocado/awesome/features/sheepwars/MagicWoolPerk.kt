@@ -30,5 +30,5 @@ object MagicWoolPerk {
         if (age % 7 != 0) return
     }
 
-    private fun isEnabled() = SheepWarsAPI.isAlive && SheepWarsAPI.isPlaying()
+    private fun isEnabled() = SheepWarsAPI.isAlive()
 }

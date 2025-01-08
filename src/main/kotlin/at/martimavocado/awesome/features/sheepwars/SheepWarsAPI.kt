@@ -1,8 +1,9 @@
 package at.martimavocado.awesome.features.sheepwars
 
+import at.martimavocado.awesome.data.GameStatus
 import at.martimavocado.awesome.data.HypixelGame
+import at.martimavocado.awesome.data.PlayerStatus
 import at.martimavocado.awesome.data.PositionVec
-import at.martimavocado.awesome.events.AwesomeTickEvent
 import at.martimavocado.awesome.events.BlockChangeEvent
 import at.martimavocado.awesome.events.chat.ChatReceiveEvent
 import at.martimavocado.awesome.events.hypixel.HypixelServerChangeEvent
@@ -11,6 +12,7 @@ import at.martimavocado.awesome.features.sheepwars.data.SheepWarsMagicWoolType
 import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.utils.BlockUtils.getBlockAt
 import at.martimavocado.awesome.utils.PlayerUtils
+import at.martimavocado.awesome.utils.StringUtils.matchMatcher
 import at.martimavocado.awesome.utils.StringUtils.matches
 import net.minecraft.block.BlockColored
 import net.minecraft.init.Blocks
@@ -23,12 +25,21 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent
 object SheepWarsAPI {
     var magicWool: SheepWarsMagicWool? = null
         private set
-    var isAlive: Boolean = false
+
+    var playerStatus: PlayerStatus? = null
+        private set
+    var gameStatus: GameStatus? = null
         private set
 
     private val magicWoolHitPattern = "^§5§lMAGIC WOOL!.*\$".toPattern()
+    private val gameStartPattern = "§f {23}§r§e§lWelcome to Sheep Wars!".toPattern()
+    private val gameEndPattern = "§f {23}§r§e§lWelcome to Sheep Wars!".toPattern()
+    private val playerKillPattern =
+        "^§(?<playerTeam>9)(?<player>\\w+)[\\w' §]+§(?<killerTeam>c)(?<killer>\\w+)[\\w' §]+\\.$".toPattern()
+    private val playerWalkOffPattern = "§.(?<player>\\w+) §r§7fell into the void\\.".toPattern()
 
-    fun isPlaying() = HypixelGame.SHEEP_WARS.isPlaying()
+    fun isPlaying() = HypixelGame.SHEEP_WARS.isPlaying() && gameStatus == GameStatus.IN_GAME
+    fun isAlive() = isPlaying() && playerStatus == PlayerStatus.ALIVE
 
     @SubscribeEvent
     fun onBlockChange(event: BlockChangeEvent) {
@@ -59,9 +70,46 @@ object SheepWarsAPI {
     @SubscribeEvent
     fun onChat(event: ChatReceiveEvent) {
         if (!HypixelGame.SHEEP_WARS.isPlaying()) return
-        if (!magicWoolHitPattern.matches(event.message)) return
+        if (magicWoolHitPattern.matches(event.message)) {
+            magicWool = null
+            return
+        }
+        handleGameStatus(event.message)
+        handleKill(event.message)
+    }
 
-        resetWool()
+    private fun handleKill(message: String) {
+        playerKillPattern.matchMatcher(message) {
+//            val killerTeam = group("killerTeam")
+//            val killer = group("killer")
+//
+//            val playerTeam = group("playerTeam")
+            val player = group("player")
+
+            if (player == PlayerUtils.playerIGN) {
+                playerStatus == PlayerStatus.DEAD
+            }
+        }
+        playerWalkOffPattern.matchMatcher(message) {
+            val player = group("player")
+
+            if (player == PlayerUtils.playerIGN) playerStatus = PlayerStatus.DEAD
+        }
+    }
+
+    private fun handleGameStatus(message: String) {
+        when {
+            gameStartPattern.matches(message) -> {
+                gameStatus = GameStatus.IN_GAME
+                playerStatus = PlayerStatus.ALIVE
+            }
+            gameEndPattern.matches(message) -> {
+                gameStatus = GameStatus.POST_GAME
+                playerStatus = null
+            }
+            else -> return
+        }
+        return
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST, receiveCanceled = true)
@@ -74,7 +122,13 @@ object SheepWarsAPI {
 
     @SubscribeEvent
     fun onGameSwitch(event: HypixelServerChangeEvent) {
-        resetWool()
+        magicWool = null
+        playerStatus = null
+        gameStatus =
+            if (HypixelGame.SHEEP_WARS.isPlaying())
+                GameStatus.PRE_GAME
+            else
+                null
     }
 
     private fun spawnWool(
@@ -89,16 +143,5 @@ object SheepWarsAPI {
                 location,
                 magicWool?.age ?: 0,
             )
-    }
-
-    private fun resetWool() {
-        magicWool = null
-    }
-
-    @SubscribeEvent
-    fun onTick(event: AwesomeTickEvent) {
-        if (!HypixelGame.SHEEP_WARS.isPlaying()) return
-
-        isAlive = PlayerUtils.getPlayer()?.capabilities?.allowFlying == false
     }
 }

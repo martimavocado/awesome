@@ -5,7 +5,7 @@ import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorBoolean
 import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorColour
 import io.github.notenoughupdates.moulconfig.annotations.ConfigOption
 
-class MagicWoolHighlight {
+class MagicWoolHighlightConfig {
     @Expose
     @ConfigOption(name = "Enabled", desc = "Highlights Magic Wool spawns")
     @ConfigEditorBoolean

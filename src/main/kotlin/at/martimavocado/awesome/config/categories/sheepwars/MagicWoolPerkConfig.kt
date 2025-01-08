@@ -9,7 +9,7 @@ import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorColour
 import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorDraggableList
 import io.github.notenoughupdates.moulconfig.annotations.ConfigOption
 
-class MagicWoolPerk {
+class MagicWoolPerkConfig {
     @Expose
     @ConfigOption(name = "Show GUI", desc = "Shows a GUI with the current wool's perk")
     @ConfigEditorBoolean

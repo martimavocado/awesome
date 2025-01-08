@@ -3,6 +3,7 @@ package at.martimavocado.awesome.data
 import at.martimavocado.awesome.events.hypixel.HypixelServerChangeEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
 import net.hypixel.data.type.GameType
+import net.minecraftforge.fml.common.eventhandler.EventPriority
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
 enum class HypixelGame(
@@ -22,7 +23,7 @@ enum class HypixelGame(
         var currentGame: HypixelGame? = null
             private set
 
-        @SubscribeEvent
+        @SubscribeEvent(priority = EventPriority.HIGHEST)
         fun onHypixelData(event: HypixelServerChangeEvent) {
             currentGame =
                 HypixelGame.entries.firstOrNull {

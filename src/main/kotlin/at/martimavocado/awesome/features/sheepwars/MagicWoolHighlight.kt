@@ -1,6 +1,7 @@
 package at.martimavocado.awesome.features.sheepwars
 
 import at.martimavocado.awesome.Awesome
+import at.martimavocado.awesome.data.PlayerStatus
 import at.martimavocado.awesome.events.render.WorldRenderEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.utils.ColorUtils.toColor
@@ -14,14 +15,9 @@ object MagicWoolHighlight {
     @SubscribeEvent
     fun onRender(event: WorldRenderEvent) {
         if (!isEnabled()) return
-        if (!config.spectator && !SheepWarsAPI.isAlive) return
+        if (!config.spectator && SheepWarsAPI.playerStatus == PlayerStatus.ALIVE) return
 
-        val wool =
-            SheepWarsAPI.magicWool ?: run {
-//                println("no wool")
-                return
-            }
-//        println("wool: ${wool.type}")
+        val wool = SheepWarsAPI.magicWool ?: return
         val color =
             if (config.colorMatch) {
                 wool.type.color.color

@@ -4,6 +4,7 @@ import at.martimavocado.awesome.data.GameStatus
 import at.martimavocado.awesome.data.HypixelGame
 import at.martimavocado.awesome.data.PlayerStatus
 import at.martimavocado.awesome.data.PositionVec
+import at.martimavocado.awesome.events.AwesomeTickEvent
 import at.martimavocado.awesome.events.BlockChangeEvent
 import at.martimavocado.awesome.events.chat.ChatReceiveEvent
 import at.martimavocado.awesome.events.hypixel.HypixelServerChangeEvent
@@ -19,13 +20,11 @@ import net.minecraft.init.Blocks
 import net.minecraft.item.EnumDyeColor
 import net.minecraftforge.fml.common.eventhandler.EventPriority
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
-import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent
 
 @LoadModule
 object SheepWarsAPI {
     var magicWool: SheepWarsMagicWool? = null
         private set
-
     var playerStatus: PlayerStatus? = null
         private set
     var gameStatus: GameStatus? = null
@@ -106,6 +105,7 @@ object SheepWarsAPI {
             gameEndPattern.matches(message) -> {
                 gameStatus = GameStatus.POST_GAME
                 playerStatus = null
+                magicWool = null
             }
             else -> return
         }
@@ -113,7 +113,7 @@ object SheepWarsAPI {
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST, receiveCanceled = true)
-    fun onTick(event: ClientTickEvent) {
+    fun onTick(event: AwesomeTickEvent) {
         if (!HypixelGame.SHEEP_WARS.isPlaying()) return
         val wool = magicWool ?: return
 
@@ -141,7 +141,7 @@ object SheepWarsAPI {
             SheepWarsMagicWool(
                 magicWoolType,
                 location,
-                magicWool?.age ?: 0,
+                0,
             )
     }
 }

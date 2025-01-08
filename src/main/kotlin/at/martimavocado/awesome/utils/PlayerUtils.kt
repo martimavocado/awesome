@@ -13,7 +13,7 @@ object PlayerUtils {
 
     fun getPlayer(): EntityPlayerSP? = Minecraft.getMinecraft().thePlayer
 
-    fun getPlayerLocation() = getPlayer()?.playerLocation?.toPositionVec()
+    fun getPlayerLocation() = getPlayer()?.positionVector?.toPositionVec()
 
     fun getPlayerEyesLocation() = getPlayerLocation()?.add(y = getPlayer()?.eyeHeight?.toDouble() ?: 0.0)
 

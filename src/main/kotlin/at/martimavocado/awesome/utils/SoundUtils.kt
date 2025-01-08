@@ -10,4 +10,6 @@ object SoundUtils {
 
         player.playSound(sound, volume, pitch)
     }
+
+    fun playDing() = playSound("note.pling", 1f, 1f)
 }

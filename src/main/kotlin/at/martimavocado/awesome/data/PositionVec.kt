@@ -20,7 +20,6 @@ data class PositionVec(
     private val mc get() = Minecraft.getMinecraft()
 
     fun toBlockPos() = BlockPos(x, y, z)
-
     fun toVec3() = Vec3(x, y, z)
 
     operator fun plus(other: PositionVec) = PositionVec(x + other.x, y + other.y, z + other.z)
@@ -58,13 +57,13 @@ data class PositionVec(
     fun canSee(from: PositionVec? = PlayerUtils.getPlayerEyesLocation()): Boolean {
         if (from == null) return false
 
-        return Minecraft.getMinecraft().theWorld.rayTraceBlocks(
+        return mc.theWorld.rayTraceBlocks(
             this.toVec3(),
             from.toVec3(),
             false,
             true,
             false,
-        ) == null
+        ) != null
     }
 
     fun AxisAlignedBB.expand(vec: PositionVec): AxisAlignedBB = expand(vec.x, vec.y, vec.z)

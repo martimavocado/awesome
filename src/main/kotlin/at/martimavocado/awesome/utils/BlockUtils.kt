@@ -11,6 +11,7 @@ import net.minecraft.client.Minecraft
 import net.minecraft.network.play.server.S22PacketMultiBlockChange
 import net.minecraft.network.play.server.S23PacketBlockChange
 import net.minecraft.util.BlockPos
+import net.minecraft.util.Vec3
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
 @LoadModule
@@ -18,9 +19,9 @@ object BlockUtils {
     private val world get() = Minecraft.getMinecraft().theWorld
 
     fun BlockPos.toPositionVec() = PositionVec(this.x, this.y, this.z)
+    fun Vec3.toPositionVec() = PositionVec(this.xCoord, this.yCoord, this.zCoord)
 
     fun PositionVec.getBlockAt(): Block = getBlockStateAt().block
-
     fun PositionVec.getBlockStateAt(): IBlockState = world.getBlockState(toBlockPos())
 
     @SubscribeEvent

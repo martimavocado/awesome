@@ -1,11 +1,12 @@
 package at.martimavocado.awesome.features.sheepwars
 
 import at.martimavocado.awesome.Awesome
+import at.martimavocado.awesome.events.AwesomeTickEvent
 import at.martimavocado.awesome.events.render.GuiOverlayRenderEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
+import at.martimavocado.awesome.utils.SoundUtils
 import net.minecraftforge.fml.common.eventhandler.EventPriority
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
-import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent
 
 @LoadModule
 object MagicWoolPerk {
@@ -21,13 +22,17 @@ object MagicWoolPerk {
         config.perkPosition.renderString(string)
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
-    fun onTickEvent(event: ClientTickEvent) {
-        if (!isEnabled()) return
-        if (SheepWarsAPI.magicWool?.location?.canSee() != true) return
-        val age = SheepWarsAPI.magicWool?.age ?: return
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    fun onTickEvent(event: AwesomeTickEvent) {
+        if (!(isEnabled() && config.shootPing)) return
 
-        if (age % 7 != 0) return
+        val wool = SheepWarsAPI.magicWool ?: return
+
+        if (wool.type.perk !in config.goodPerks) return
+        if (!wool.location.canSee()) return
+        if (wool.age % config.pingDelay != 0) return
+
+        SoundUtils.playDing()
     }
 
     private fun isEnabled() = SheepWarsAPI.isAlive()

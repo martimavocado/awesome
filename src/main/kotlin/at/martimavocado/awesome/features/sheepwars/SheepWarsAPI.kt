@@ -21,7 +21,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent
 
 @LoadModule
 object SheepWarsAPI {
-    var magicWool: SheepWarsMagicWool? = null // so i can start it as null, and set it to something later
+    var magicWool: SheepWarsMagicWool? = null
         private set
     var isAlive: Boolean = false
         private set
@@ -89,8 +89,6 @@ object SheepWarsAPI {
                 location,
                 magicWool?.age ?: 0,
             )
-
-//        ChatUtils.chat("spawned with new color $color")
     }
 
     private fun resetWool() {

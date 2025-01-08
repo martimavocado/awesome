@@ -6,6 +6,6 @@ import net.minecraftforge.fml.common.eventhandler.Event
 
 @Cancelable
 class ChatReceiveEvent(
-    var message: String,
+    val message: String,
     var chatComponent: IChatComponent,
 ) : Event()

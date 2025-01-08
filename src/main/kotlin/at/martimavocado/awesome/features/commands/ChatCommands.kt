@@ -1,12 +1,8 @@
 package at.martimavocado.awesome.features.commands
 
-import at.martimavocado.awesome.events.chat.PartyChatEvent
-import at.martimavocado.awesome.events.chat.PrivateChatEvent
 import at.martimavocado.awesome.features.FakeBan
 import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.utils.ChatUtils
-import at.martimavocado.awesome.utils.PlayerUtils
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
 @LoadModule
 object ChatCommands {
@@ -14,25 +10,25 @@ object ChatCommands {
     private var myIGN: String? = null
     private val config get() = at.martimavocado.awesome.Awesome.config.commands
 
-    @SubscribeEvent
-    fun onPartyChat(event: PartyChatEvent) {
-        if (event.author == PlayerUtils.playerIGN) return
-
-        val messageArray = event.message.split(" ").toTypedArray()
-        if (messageArray[0] != "?aw") return
-
-        if (config.enabled) handleCommand(messageArray, event.author)
-    }
-
-    @SubscribeEvent
-    fun onPrivateChat(event: PrivateChatEvent) {
-        if (event.author != "martimavocado") return
-
-        val messageArray = event.message.split(" ").toTypedArray()
-        if (messageArray[0] != "?aw") return
-
-        if (config.enabled) handleCommand(messageArray, event.author, true)
-    }
+//    @SubscribeEvent
+//    fun onPartyChat(event: PartyChatEvent) {
+//        if (event.author == PlayerUtils.playerIGN) return
+//
+//        val messageArray = event.message.split(" ").toTypedArray()
+//        if (messageArray[0] != "?aw") return
+//
+//        if (config.enabled) handleCommand(messageArray, event.author)
+//    }
+//
+//    @SubscribeEvent
+//    fun onPrivateChat(event: PrivateChatEvent) {
+//        if (event.author != "martimavocado") return
+//
+//        val messageArray = event.message.split(" ").toTypedArray()
+//        if (messageArray[0] != "?aw") return
+//
+//        if (config.enabled) handleCommand(messageArray, event.author, true)
+//    }
 
     private fun handleCommand(
         array: Array<String>,

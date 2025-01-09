@@ -26,14 +26,7 @@ class ChatConfig {
     @ConfigEditorBoolean
     var colorEmoji = true
 
-    @Expose
-    @ConfigOption(
-        name = "Shorten Channel Names",
-        desc =
-            "Shortens channel names\n" +
-                "Example: §9Party §8> §r§6➜§r §9P §8>",
-    )
-    @ConfigEditorBoolean
+    @Expose // deprecated
     var shortChannels = true
 
     @Expose

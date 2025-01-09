@@ -2,16 +2,21 @@ package at.martimavocado.awesome.events.chat
 
 import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.utils.OtherUtils.post
+import at.martimavocado.awesome.utils.StringUtils.findMatcher
 import at.martimavocado.awesome.utils.StringUtils.matchMatcher
+import net.minecraft.util.ChatComponentText
+import net.minecraft.util.IChatComponent
 import net.minecraftforge.client.event.ClientChatReceivedEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import java.util.regex.Pattern
 
 @LoadModule
 object PlayerChatManager {
     private val partyMessagePattern =
         "§9P(?:arty)? §8> §.(?:\\[.*] )?(?<author>\\w+)§f: (?:(?:§r)?)+(?<message>.*)".toPattern()
-    private val privateMessagePattern = "§d(?<receive>From|To) §r§.(?:.* )?(?<author>\\w+)§r§7: §r(?:§7)?(?<message>.*)".toPattern()
-    private val normalMessagePattern = "^§.(?:\\[.*] )?(?<author>\\w+)§.+: (?<message>.*)\$".toPattern()
+    private val privateMessagePattern =
+        "§d(?<receive>From|To) §r§.(?:.* )?(?<author>\\w+)§r§7: §r(?:§7)?(?<message>.*)".toPattern()
+    private val normalMessagePattern = "§.(?:\\[.*] )?(?<author>\\w+)§.+: (?<message>.*)\$".toPattern()
 
     @SubscribeEvent(receiveCanceled = true)
     fun onChatReceive(event: ClientChatReceivedEvent) {
@@ -37,47 +42,82 @@ object PlayerChatManager {
     @SubscribeEvent
     fun onChat(event: ChatReceiveEvent) {
         partyMessagePattern.matchMatcher(event.message) {
-            val author = group("author")
-            val message = group("message")
-            val chatComponent = event.chatComponent.siblings[1]
-
-            val newEvent = PlayerChatEvent.Party(
-                message,
-                author,
-                chatComponent
-            )
-            newEvent.post()
-            if (newEvent.isCanceled) event.isCanceled = true
+            handleChatEvent(event, privateMessagePattern, 1) { message, author, chatComponent ->
+                PlayerChatEvent.Party(
+                    message,
+                    author,
+                    chatComponent,
+                )
+            }
         }
 
         privateMessagePattern.matchMatcher(event.message) {
-            val author = group("author")
-            val message = group("message")
-            val chatComponent = event.chatComponent.siblings[2]
-            val isSending = group("receive") == "To"
+            handleChatEvent(event, privateMessagePattern, 2) { message, author, chatComponent ->
+                PlayerChatEvent.DirectMessage(
+                    message,
+                    author,
+                    chatComponent,
+                    group("receive") == "To",
+                )
+            }
+        }
 
-            val newEvent = PlayerChatEvent.DirectMessage(
+        handleChatEvent(event, normalMessagePattern, 1) { message, author, chatComponent ->
+            PlayerChatEvent.Normal(
                 message,
                 author,
                 chatComponent,
-                isSending
             )
-            newEvent.post()
-            if (newEvent.isCanceled) event.isCanceled = true
-        }
-
-        normalMessagePattern.matchMatcher(event.message) {
-            val author = group("author")
-            val message = group("message")
-            val chatComponent = event.chatComponent.siblings[1]
-
-            val newEvent = PlayerChatEvent.Normal(
-                message,
-                author,
-                chatComponent
-            )
-            newEvent.post()
-            if (newEvent.isCanceled) event.isCanceled = true
         }
     }
+
+    private fun handleChatEvent(
+        event: ChatReceiveEvent,
+        pattern: Pattern,
+        dropCount: Int,
+        eventCreator: (String, String, List<IChatComponent>) -> PlayerChatEvent,
+    ) {
+        pattern.findMatcher(event.message) {
+            val author = group("author")
+            val message = group("message")
+            var chatComponent =
+                event.chatComponent.siblings
+                    .toList()
+                    .drop(dropCount)
+                    .toMutableList()
+            val needsCleanup =
+                chatComponent[0].formattedText.startsWith("§f: ") || chatComponent[0].formattedText.startsWith("§7: ")
+            val isGray = needsCleanup && chatComponent[0].formattedText[1] == '7'
+
+            if (needsCleanup) chatComponent[0] = ChatComponentText("§f" + chatComponent[0].formattedText.drop(4))
+
+            val newEvent = eventCreator(message, author, chatComponent.toList())
+            newEvent.post()
+            if (newEvent.isCanceled) event.isCanceled = true
+
+            val newComponents = newEvent.chatComponent.toMutableList()
+            if (needsCleanup) {
+                val string = if (isGray) "§7: " else "§f: "
+                val component =
+                    if (newComponents[0].formattedText.startsWith("§f")) {
+                        newComponents[0].formattedText.drop(2)
+                    } else {
+                        newComponents[0].formattedText
+                    }
+                newComponents[0] = ChatComponentText(string + component)
+            }
+
+            val oldComponent = event.chatComponent.siblings[0]
+
+            event.chatComponent.siblings.clear()
+            event.chatComponent.siblings.addAll(oldComponent + newComponents)
+        }
+    }
+
+//    @SubscribeEvent
+//    fun onAllChat(event: PlayerChatEvent.Normal) {
+//        println(event.chatComponent)
+//        val componentText = ChatComponentText("§ahello")
+//        event.chatComponent = listOf(componentText)
+//    }
 }

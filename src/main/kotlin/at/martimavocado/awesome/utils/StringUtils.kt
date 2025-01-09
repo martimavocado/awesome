@@ -9,7 +9,14 @@ object StringUtils {
         consumer: Matcher.() -> T,
     ) = matcher(text).let { if (it.matches()) consumer(it) else null }
 
+    inline fun <T> Pattern.findMatcher(
+        text: String,
+        consumer: Matcher.() -> T,
+    ) = matcher(text).let { if (it.find()) consumer(it) else null }
+
     fun Pattern.matches(text: String) = this.toRegex().matches(text)
+
+    fun Pattern.find(text: String) = this.matcher(text).find()
 
     fun String.capitalize(): String =
         split(" ").joinToString(" ") { word ->

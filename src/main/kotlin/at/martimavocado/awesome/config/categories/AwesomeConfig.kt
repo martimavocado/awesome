@@ -14,7 +14,7 @@ class AwesomeConfig : Config() {
     }
 
     @Expose
-    @Category(name = "About", desc = "i love sheep wars")
+    @Category(name = "About", desc = "updater settings + credits")
     var about = AboutConfig()
 
     @Expose

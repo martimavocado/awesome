@@ -65,6 +65,10 @@ object ChatUtils {
         chat("§7[Awesome Debug] $message", usePrefix = false)
     }
 
+    fun debug(nonString: Any) {
+        debug(nonString.toString())
+    }
+
     fun sendChatPacket(packet: C01PacketChatMessage) {
         Minecraft
             .getMinecraft()

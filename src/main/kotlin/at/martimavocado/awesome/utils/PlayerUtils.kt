@@ -15,7 +15,7 @@ object PlayerUtils {
 
     fun getPlayerLocation() = getPlayer()?.positionVector?.toPositionVec()
 
-    fun getPlayerEyesLocation() = getPlayerLocation()?.add(y = getPlayer()?.eyeHeight?.toDouble() ?: 0.0)
+    fun playerEyesLocation() = getPlayerLocation()?.add(y = getPlayer()?.eyeHeight?.toDouble() ?: 0.0)
 
     fun getArmor() = getPlayer()?.inventory?.armorInventory
 

@@ -14,7 +14,8 @@ object MagicWoolPerk {
 
     @SubscribeEvent
     fun onOverlay(event: GuiOverlayRenderEvent) {
-        if (!(isEnabled() && config.perkGUI)) return
+        if (!config.perkGUI) return
+        if (!SheepWarsAPI.isAlive()) return
         val wool = SheepWarsAPI.magicWool ?: return
 
         val string = "§${wool.type.color.colorCode}$wool§7: §f${wool.type}"
@@ -24,16 +25,15 @@ object MagicWoolPerk {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     fun onTickEvent(event: AwesomeTickEvent) {
-        if (!(isEnabled() && config.shootPing)) return
+        if (!config.shootPing) return
+        if (!SheepWarsAPI.isAlive()) return
 
         val wool = SheepWarsAPI.magicWool ?: return
 
         if (wool.type.perk !in config.goodPerks) return
-        if (!wool.location.canSee()) return
+        if (!wool.location.isBlockVisible()) return
         if (wool.age % config.pingDelay != 0) return
 
         SoundUtils.playDing()
     }
-
-    private fun isEnabled() = SheepWarsAPI.isAlive()
 }

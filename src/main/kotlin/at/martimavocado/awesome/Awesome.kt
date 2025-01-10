@@ -56,7 +56,7 @@ class Awesome {
     companion object {
         lateinit var configManager: ConfigManager
         const val MOD_ID = "awesome"
-        const val MOD_VERSION = "1.5.0"
+        const val MOD_VERSION = "1.5.1"
 
         @JvmStatic
         val version: String

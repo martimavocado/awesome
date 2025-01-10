@@ -14,6 +14,8 @@ import java.util.concurrent.CompletableFuture
 
 @LoadModule
 object UpdateManager {
+    private val config get() = Awesome.config.about
+
     val updateContext =
         UpdateContext(
             UpdateSource.githubUpdateSource("martimavocado", "awesome"),
@@ -37,13 +39,13 @@ object UpdateManager {
 
     fun updateCommand() {
         when (updateState) {
-            UpdateState.NONE -> checkUpdate(true)
+            UpdateState.NONE -> checkUpdate()
             UpdateState.AVAILABLE -> queueUpdate()
             else -> return
         }
     }
 
-    private fun checkUpdate(instantUpdate: Boolean = false) {
+    private fun checkUpdate() {
         updateContext.checkUpdate("pre").thenAcceptAsync {
             if (updateState != UpdateState.NONE) return@thenAcceptAsync
 
@@ -59,7 +61,7 @@ object UpdateManager {
             ChatUtils.chat("§aFound update ${it.update.versionName}! Use §b/awupdate §ato complete it.")
             ChatUtils.debug("${it.update.versionNumber.asNumber}")
             updateState = UpdateState.AVAILABLE
-            if (instantUpdate) queueUpdate()
+            if (config.fullAutoUpdates) queueUpdate()
         }
     }
 
@@ -85,7 +87,7 @@ object UpdateManager {
 
     @SubscribeEvent
     fun onHypixelJoin(event: HypixelJoinEvent) {
-        checkUpdate()
+        if (config.autoUpdates) checkUpdate()
     }
 
     init {

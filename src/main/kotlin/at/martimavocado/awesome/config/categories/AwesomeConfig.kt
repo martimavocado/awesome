@@ -14,18 +14,18 @@ class AwesomeConfig : Config() {
     }
 
     @Expose
-    @Category(name = "sheep wars", desc = "i love sheep wars")
+    @Category(name = "About", desc = "i love sheep wars")
+    var about = AboutConfig()
+
+    @Expose
+    @Category(name = "Sheep Wars", desc = "i love sheep wars")
     var sheepWars = SheepWarsConfig()
 
     @Expose
-    @Category(name = "chat", desc = "this is where we chat.")
+    @Category(name = "Chat", desc = "this is where we chat.")
     var chatter = ChatConfig()
 
     @Expose
-    @Category(name = "chat commands", desc = "toggles for chat commands")
-    var commands = ChatCommandsConfig()
-
-    @Expose
-    @Category(name = "debug stuff", desc = "you probably don't care about this")
+    @Category(name = "Debug", desc = "you probably don't care about this")
     var debug = DebugConfig()
 }

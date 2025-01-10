@@ -1,6 +1,11 @@
-package at.martimavocado.awesome.utils
+package at.martimavocado.awesome.utils.system
 
+import at.martimavocado.awesome.utils.ChatUtils
+import at.martimavocado.awesome.utils.system.ClipboardUtils.copyToClipboard
 import net.minecraft.launchwrapper.Launch
+import java.awt.Desktop
+import java.io.IOException
+import java.net.URI
 
 object PlatformUtils {
     val isDevEnvironment: Boolean by lazy {
@@ -26,6 +31,22 @@ object PlatformUtils {
             osName.contains("linux") || osName.contains("unix") -> OperatingSystem.LINUX
 
             else -> OperatingSystem.UNKNOWN
+        }
+    }
+
+    @JvmStatic
+    fun openBrowser(url: String) {
+        val desktopSupported = Desktop.isDesktopSupported()
+        val supportedActionBrowse = Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)
+        if (desktopSupported && supportedActionBrowse) {
+            try {
+                Desktop.getDesktop().browse(URI(url))
+            } catch (_: IOException) {
+                ChatUtils.warning("Error while opening website. $url")
+            }
+        } else {
+            copyToClipboard(url)
+            ChatUtils.warning("Cannot open website! Copied url to clipboard instead. $url")
         }
     }
 }

@@ -6,7 +6,13 @@ import at.martimavocado.awesome.config.categories.AwesomeConfig
 import at.martimavocado.awesome.events.AwesomeTickEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.loadmodule.LoadedModules
+import at.martimavocado.awesome.utils.ChatUtils
 import io.github.notenoughupdates.moulconfig.gui.GuiScreenElementWrapper
+import kotlinx.coroutines.CoroutineName
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
 import net.minecraftforge.common.MinecraftForge
@@ -52,14 +58,14 @@ class Awesome {
         const val MOD_ID = "awesome"
         const val MOD_VERSION = "1.4.1"
 
-        private var screenToOpen: GuiScreen? = null
-
         @JvmStatic
         val version: String
             get() = Loader.instance().indexedModList[MOD_ID]!!.version
 
         val config: AwesomeConfig
             get() = configManager.config ?: error("config is null")
+
+        private var screenToOpen: GuiScreen? = null
 
         fun openScreen(screen: GuiScreen) {
             screenToOpen = screen
@@ -75,6 +81,23 @@ class Awesome {
                 }
 
                 screenToOpen = null
+            }
+        }
+
+        private val globalJob: Job = Job(null)
+        val coroutineScope =
+            CoroutineScope(
+                CoroutineName("Awesome") + SupervisorJob(globalJob),
+            )
+
+        fun launchCoroutine(function: suspend () -> Unit) {
+            coroutineScope.launch {
+                try {
+                    function()
+                } catch (e: Exception) {
+                    ChatUtils.warning("Async exception caught")
+                    e.printStackTrace()
+                }
             }
         }
     }

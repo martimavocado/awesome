@@ -2,7 +2,11 @@ package at.martimavocado.awesome.commands
 
 import at.martimavocado.awesome.commands.SimpleCommand.ProcessCommandRunnable
 import at.martimavocado.awesome.config.ConfigGuiManager
+import at.martimavocado.awesome.features.FakeBan
+import at.martimavocado.awesome.features.HelpCommands
+import at.martimavocado.awesome.features.misc.update.UpdateManager
 import at.martimavocado.awesome.utils.ChatUtils
+import at.martimavocado.awesome.utils.OtherUtils
 import net.minecraft.command.ICommandSender
 import net.minecraftforge.client.ClientCommandHandler
 
@@ -15,23 +19,22 @@ class CommandManager {
             ConfigGuiManager.onCommand(it)
         }
         registerCommand("emojilist") {
-            at.martimavocado.awesome.features.HelpCommands
-                .printMessage("emoji")
+            HelpCommands.printMessage("emoji")
         }
         registerCommand("awcommands") {
-            at.martimavocado.awesome.features.HelpCommands
-                .printMessage("help")
+            HelpCommands.printMessage("help")
         }
         registerCommand("showtitle") {
-            at.martimavocado.awesome.utils.OtherUtils
-                .tryShowTitle(it)
+            OtherUtils.tryShowTitle(it)
         }
         registerCommand("testmessage") {
             ChatUtils.testMessageCommand(it)
         }
         registerCommand("fakeban") {
-            at.martimavocado.awesome.features.FakeBan
-                .showBanScreen()
+            FakeBan.showBanScreen()
+        }
+        registerCommand("awupdate") {
+            UpdateManager.updateCommand()
         }
     }
 

@@ -62,7 +62,7 @@ object ChatUtils {
     }
 
     fun debug(message: String) {
-        chat("[Debug] $message")
+        chat("§7[Awesome Debug] $message", usePrefix = false)
     }
 
     fun sendChatPacket(packet: C01PacketChatMessage) {

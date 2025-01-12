@@ -66,7 +66,7 @@ object EventUtils {
 
                 if (event.entity is EntityWither && health == 300f && event.entity.entityId < 0) continue
                 if (event.entity is EntityLivingBase) {
-                    EntityHealthUpdateEvent(event.entity, health)
+                    EntityHealthUpdateEvent(event.entity, health).post()
                 }
             }
         }

@@ -2,13 +2,13 @@ package at.martimavocado.awesome.features.sheepwars
 
 import at.martimavocado.awesome.Awesome
 import at.martimavocado.awesome.config.elements.ConfigColor
-import at.martimavocado.awesome.events.AwesomeTickEvent
+import at.martimavocado.awesome.events.entity.EntityHealthUpdateEvent
 import at.martimavocado.awesome.features.sheepwars.SheepWarsAPI.getTeamColor
 import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.mixins.hooks.RenderLivingEntityHelper
 import at.martimavocado.awesome.utils.AwesomeColor
 import at.martimavocado.awesome.utils.ColorUtils.withAlpha
-import at.martimavocado.awesome.utils.EntityUtils
+import net.minecraft.entity.player.EntityPlayer
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import java.awt.Color
 
@@ -16,40 +16,40 @@ import java.awt.Color
 object PlayerHealthHighlighter {
     private val config get() = Awesome.config.sheepWars.healthHighlight
 
-    // todo: use a better event
     @SubscribeEvent
-    fun onEntityUpdate(event: AwesomeTickEvent) {
+    fun onEntityUpdate(event: EntityHealthUpdateEvent) {
         if (!config.enabled) return
         if (!SheepWarsAPI.isPlaying()) return
-        if (event.totalTicks % 10 != 0) {
-            return
-        }
+        val player = event.entity as? EntityPlayer ?: return
 
-        val players = EntityUtils.getPlayers()
+        player.getTeamColor() ?: return
 
-        for (player in players) {
-            player.getTeamColor() ?: continue
+        colorPlayer(player, event.health)
+    }
 
-            var color =
-                if (!config.dynamicColor) {
-                    when (player.health) {
-                        in 0f..6f -> AwesomeColor.RED.color
-                        in 6f..10f -> AwesomeColor.YELLOW.color
-                        in 20f..24f -> AwesomeColor.GREEN.color
-                        else -> {
-                            RenderLivingEntityHelper.removeEntityColor(player)
-                            continue
-                        }
+    private fun colorPlayer(
+        entity: EntityPlayer,
+        health: Float,
+    ) {
+        var color =
+            if (!config.dynamicColor) {
+                when (health) {
+                    in 0f..6f -> AwesomeColor.RED.color
+                    in 6f..10f -> AwesomeColor.YELLOW.color
+                    in 20f..24f -> AwesomeColor.GREEN.color
+                    else -> {
+                        RenderLivingEntityHelper.removeEntityColor(entity)
+                        return
                     }
-                } else {
-                    getBlendedColor(player.health)
                 }
+            } else {
+                getBlendedColor(health)
+            }
 
-            RenderLivingEntityHelper.setEntityColor(
-                player,
-                color.withAlpha(125),
-            ) { SheepWarsAPI.isPlaying() }
-        }
+        RenderLivingEntityHelper.setEntityColor(
+            entity,
+            color.withAlpha(125),
+        ) { SheepWarsAPI.isPlaying() }
     }
 
     private fun getBlendedColor(health: Float): Color {

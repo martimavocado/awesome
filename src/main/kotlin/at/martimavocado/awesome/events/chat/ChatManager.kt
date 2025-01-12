@@ -5,6 +5,7 @@ import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.utils.OtherUtils.post
 import at.martimavocado.awesome.utils.StringUtils.findMatcher
 import at.martimavocado.awesome.utils.StringUtils.matchMatcher
+import at.martimavocado.awesome.utils.system.AwesomeLogger
 import net.minecraft.util.ChatComponentText
 import net.minecraft.util.IChatComponent
 import net.minecraftforge.client.event.ClientChatReceivedEvent
@@ -14,6 +15,7 @@ import java.util.regex.Pattern
 @LoadModule
 object ChatManager {
     private val config get() = Awesome.config.debug
+    private val logger = AwesomeLogger("chat")
 
     private val partyMessagePattern =
         "§9P(?:arty)? §8> §.(?:\\[.*] )?(?<author>\\w+)§f: (?:(?:§r)?)+(?<message>.*)".toPattern()
@@ -124,7 +126,7 @@ object ChatManager {
     }
 
     private fun printDebugMessage(event: ChatReceiveEvent) {
-        if (config.printMessages) println("'${event.message}'")
-        if (config.printChatComponents) println("'${event.chatComponent}'")
+        if (config.printMessages) logger.log("'${event.message}'")
+        if (config.printChatComponents) logger.log("'${event.chatComponent}'")
     }
 }

@@ -32,10 +32,10 @@ object SheepWarsAPI {
         private set
 
     private val magicWoolHitPattern = "^§5§lMAGIC WOOL!.*\$".toPattern()
-    private val gameStartPattern = "§f {23}§r§e§lWelcome to Sheep Wars!".toPattern()
-    private val gameEndPattern = "§f {23}§r§e§lWelcome to Sheep Wars!".toPattern()
+    private val gameStartPattern = "§f +§r§e§lWelcome to Sheep Wars!".toPattern()
+    private val gameEndPattern = "§f +§r§.§lGAME WIN - \\w+".toPattern()
     private val playerKillPattern =
-        "^§(?<playerTeam>9)(?<player>\\w+)[\\w' §]+§(?<killerTeam>c)(?<killer>\\w+)[\\w' §]+\\.$".toPattern()
+        "^§(?<playerTeam>.)(?<player>\\w+)[\\w' §]+§(?<killerTeam>.)(?<killer>\\w+)[\\w' §]+\\.$".toPattern()
     private val playerWalkOffPattern = "§.(?<player>\\w+) §r§7fell into the void\\.".toPattern()
 
     fun isPlaying() = HypixelGame.SHEEP_WARS.isPlaying() && gameStatus == GameStatus.IN_GAME

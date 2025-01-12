@@ -18,5 +18,5 @@ class SheepWarsConfig {
     @Expose
     @ConfigOption(name = "Hide Tutorials", desc = "Hides titles and messages")
     @ConfigEditorDraggableList
-    var hiddenMessages = TutorialHider.SheepWarsTutorialPattern.entries.toMutableList()
+    var hiddenMessages = mutableListOf(TutorialHider.SheepWarsTutorialPattern.TUTORIAL)
 }

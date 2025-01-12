@@ -91,6 +91,9 @@ object TutorialHider {
 
     @SubscribeEvent
     fun onTitle(event: TitleReceivedEvent) {
+        if (config.hiddenMessages.isEmpty()) return
+        if (!HypixelGame.SHEEP_WARS.isPlaying()) return
+
         for (type in config.hiddenMessages) {
             type.titlePatterns.forEach {
                 if (it.matches(event.formattedText)) {
@@ -111,6 +114,6 @@ object TutorialHider {
         DYNAMIC("AoE Sheep + Wool Spawns", dynamicMessages),
         ;
 
-        override fun toString(): String = super.toString()
+        override fun toString(): String = prettyName
     }
 }

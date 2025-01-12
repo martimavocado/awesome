@@ -1,6 +1,7 @@
 package at.martimavocado.awesome.features.misc.update
 
 import at.martimavocado.awesome.Awesome
+import at.martimavocado.awesome.events.CommandRegistrationEvent
 import at.martimavocado.awesome.events.hypixel.HypixelJoinEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.utils.ChatUtils
@@ -99,5 +100,13 @@ object UpdateManager {
         QUEUED,
         DOWNLOADED,
         NONE,
+    }
+
+    @SubscribeEvent
+    fun onCommandRegistration(event: CommandRegistrationEvent) {
+        event.register("awupdate") {
+            description = "Updates the mod."
+            callback { updateCommand() }
+        }
     }
 }

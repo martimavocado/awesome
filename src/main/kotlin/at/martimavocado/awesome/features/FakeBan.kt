@@ -1,8 +1,12 @@
 package at.martimavocado.awesome.features
 
+import at.martimavocado.awesome.events.CommandRegistrationEvent
+import at.martimavocado.awesome.loadmodule.LoadModule
 import net.minecraft.client.Minecraft
 import net.minecraft.util.ChatComponentText
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
+@LoadModule
 object FakeBan {
     fun showBanScreen() {
         val component = ChatComponentText("§cYou are temporarily banned for §f29d 23h 59m 59s§c from this server!")
@@ -16,5 +20,13 @@ object FakeBan {
             .getMinecraft()
             .netHandler.networkManager
             .closeChannel(component)
+    }
+
+    @SubscribeEvent
+    fun onCommandRegistration(event: CommandRegistrationEvent) {
+        event.register("awfakeban") {
+            description = "Shows a fake ban screen"
+            callback { showBanScreen() }
+        }
     }
 }

@@ -1,55 +1,31 @@
 package at.martimavocado.awesome.commands
 
-import at.martimavocado.awesome.errors.CommandError
 import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
 import net.minecraft.util.BlockPos
 
-class SimpleCommand : CommandBase {
-    private val commandName: String
-    private val runnable: ProcessCommandRunnable
-    private var tabRunnable: TabCompleteRunnable? = null
+class SimpleCommand(
+    private val name: String,
+    private val aliases: List<String>,
+    private val callback: (Array<String>) -> Unit,
+    private val tabCallback: ((Array<String>) -> List<String>) = { emptyList() },
+) : CommandBase() {
+    override fun canCommandSenderUseCommand(sender: ICommandSender) = true
 
-    constructor(commandName: String, runnable: ProcessCommandRunnable) {
-        this.commandName = commandName
-        this.runnable = runnable
-    }
+    override fun getCommandName() = name
 
-    constructor(commandName: String, runnable: ProcessCommandRunnable, tabRunnable: TabCompleteRunnable?) {
-        this.commandName = commandName
-        this.runnable = runnable
-        this.tabRunnable = tabRunnable
-    }
+    override fun getCommandAliases() = aliases
 
-    abstract class ProcessCommandRunnable {
-        abstract fun processCommand(
-            sender: ICommandSender?,
-            args: Array<String>?,
-        )
-    }
-
-    interface TabCompleteRunnable {
-        fun tabComplete(
-            sender: ICommandSender?,
-            args: Array<String>?,
-            pos: BlockPos?,
-        ): List<String>
-    }
-
-    override fun canCommandSenderUseCommand(sender: ICommandSender): Boolean = true
-
-    override fun getCommandName(): String = commandName
-
-    override fun getCommandUsage(sender: ICommandSender): String = "/$commandName"
+    override fun getCommandUsage(sender: ICommandSender) = "/$name"
 
     override fun processCommand(
         sender: ICommandSender,
         args: Array<String>,
     ) {
         try {
-            runnable.processCommand(sender, args)
+            callback(args)
         } catch (e: Throwable) {
-            throw CommandError("Error while executing command /$commandName", e)
+            e.printStackTrace()
         }
     }
 
@@ -57,5 +33,5 @@ class SimpleCommand : CommandBase {
         sender: ICommandSender,
         args: Array<String>,
         pos: BlockPos,
-    ): List<String>? = if (tabRunnable != null) tabRunnable!!.tabComplete(sender, args, pos) else null
+    ) = tabCallback(args).takeIf { it.isNotEmpty() }
 }

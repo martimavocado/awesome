@@ -1,12 +1,13 @@
 package at.martimavocado.awesome
 
-import at.martimavocado.awesome.commands.CommandManager
 import at.martimavocado.awesome.config.ConfigManager
 import at.martimavocado.awesome.config.categories.AwesomeConfig
 import at.martimavocado.awesome.events.AwesomeTickEvent
+import at.martimavocado.awesome.events.CommandRegistrationEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.loadmodule.LoadedModules
 import at.martimavocado.awesome.utils.ChatUtils
+import at.martimavocado.awesome.utils.OtherUtils.post
 import io.github.notenoughupdates.moulconfig.gui.GuiScreenElementWrapper
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
@@ -47,9 +48,11 @@ class Awesome {
 
     @Mod.EventHandler
     fun preInit(event: FMLPreInitializationEvent) {
-        CommandManager()
+//        CommandManager()
 
         LoadedModules.modules.forEach { loadModule(it) }
+
+        CommandRegistrationEvent().post()
     }
 
     @LoadModule

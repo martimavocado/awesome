@@ -1,9 +1,13 @@
 package at.martimavocado.awesome.features
 
+import at.martimavocado.awesome.events.CommandRegistrationEvent
+import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.utils.ChatUtils
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
+@LoadModule
 object HelpCommands {
-    private val HelpMessage =
+    private val commandsMessage =
         listOf(
             "§euse the following syntax in a party message",
             "§7?aw §6command §a'arg1' 'arg2'",
@@ -14,7 +18,7 @@ object HelpCommands {
             "§7-> §6ban §a<reason> §a<id> §7- §fkicks the player with a hypixel ban message",
         )
 
-    private val EmojiList =
+    private val emojiList =
         listOf(
             "§f§r§f§r§aFull Emoji List§r§r",
             "§6§r§6<3§r§f  -  §r§c§r§c❤§r§r§r",
@@ -51,19 +55,22 @@ object HelpCommands {
             "§6§r§6:yey:§r§f  -  §r§a§r§aヽ (◕◡◕) ﾉ§r§r§r",
         )
 
-    fun printMessage(s: String) {
-        when (s) {
-            "emoji" -> {
-                EmojiList.forEach { line ->
-                    ChatUtils.chat(line)
-                }
-            }
+    @SubscribeEvent
+    fun onCommandRegistration(event: CommandRegistrationEvent) {
+        event.register("awchatcommands") {
+            description = "Prints a list of all available chat commands and their usage."
+            callback { printList(commandsMessage) }
+        }
 
-            "help" -> {
-                HelpMessage.forEach { line ->
-                    ChatUtils.chat(line)
-                }
-            }
+        event.register("awemoji") {
+            description = "Prints a list of all supported emojis."
+            callback { printList(emojiList) }
+        }
+    }
+
+    private fun printList(list: List<String>) {
+        list.forEach {
+            ChatUtils.chat(it, false)
         }
     }
 }

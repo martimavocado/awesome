@@ -1,57 +1,35 @@
 package at.martimavocado.awesome.commands
 
-import at.martimavocado.awesome.commands.SimpleCommand.ProcessCommandRunnable
-import at.martimavocado.awesome.config.ConfigGuiManager
-import at.martimavocado.awesome.features.FakeBan
-import at.martimavocado.awesome.features.HelpCommands
-import at.martimavocado.awesome.features.misc.update.UpdateManager
+import at.martimavocado.awesome.events.CommandRegistrationEvent
+import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.utils.ChatUtils
-import at.martimavocado.awesome.utils.OtherUtils
-import net.minecraft.command.ICommandSender
-import net.minecraftforge.client.ClientCommandHandler
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
-class CommandManager {
-    init {
-        registerCommand("awesome") {
-            ConfigGuiManager.onCommand(it)
-        }
-        registerCommand("aw") {
-            ConfigGuiManager.onCommand(it)
-        }
-        registerCommand("emojilist") {
-            HelpCommands.printMessage("emoji")
-        }
-        registerCommand("awcommands") {
-            HelpCommands.printMessage("help")
-        }
-        registerCommand("showtitle") {
-            OtherUtils.tryShowTitle(it)
-        }
-        registerCommand("testmessage") {
-            ChatUtils.testMessageCommand(it)
-        }
-        registerCommand("fakeban") {
-            FakeBan.showBanScreen()
-        }
-        registerCommand("awupdate") {
-            UpdateManager.updateCommand()
+@LoadModule
+object CommandManager {
+    val commandList = mutableListOf<CommandBuilder>()
+
+    @SubscribeEvent
+    fun onCommandRegistration(event: CommandRegistrationEvent) {
+        event.register("awcommands") {
+            description = "Prints all commands and their descriptions in chat"
+            callback { commandListCommand() }
         }
     }
 
-    private fun registerCommand(
-        name: String,
-        function: (Array<String>) -> Unit,
-    ) {
-        ClientCommandHandler.instance.registerCommand(SimpleCommand(name, createCommand(function)))
-    }
+    private fun commandListCommand() {
+        var message = ""
+        message += "§7---------------------------------------------------"
+        commandList.forEachIndexed { index, command ->
 
-    private fun createCommand(function: (Array<String>) -> Unit) =
-        object : ProcessCommandRunnable() {
-            override fun processCommand(
-                sender: ICommandSender?,
-                args: Array<String>?,
-            ) {
-                if (args != null) function(args.asList().toTypedArray())
-            }
+            var nameMessage = "\n§2${command.name}"
+            command.aliases.forEach { nameMessage += "§8, §a$it" }
+            message += nameMessage
+
+            message += "\n§e" + command.description
+            if (index != (commandList.size - 1)) message += "\n"
         }
+        message += "\n§7---------------------------------------------------"
+        ChatUtils.chat(message, false)
+    }
 }

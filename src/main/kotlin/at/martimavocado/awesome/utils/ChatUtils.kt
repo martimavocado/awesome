@@ -1,12 +1,14 @@
 package at.martimavocado.awesome.utils
 
 import at.martimavocado.awesome.Awesome
+import at.martimavocado.awesome.events.CommandRegistrationEvent
 import net.minecraft.client.Minecraft
 import net.minecraft.event.ClickEvent
 import net.minecraft.event.HoverEvent
 import net.minecraft.network.play.client.C01PacketChatMessage
 import net.minecraft.util.ChatComponentText
 import net.minecraft.util.IChatComponent
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
 object ChatUtils {
     private val config get() = Awesome.config.debug
@@ -44,6 +46,13 @@ object ChatUtils {
         val finalMessage = prefix + message
 
         chat(ChatComponentText(finalMessage))
+    }
+
+    fun chat(
+        nonString: Any,
+        usePrefix: Boolean = true,
+    ) {
+        chat(nonString.toString(), usePrefix)
     }
 
     fun chat(chatComponent: IChatComponent) {
@@ -91,5 +100,13 @@ object ChatUtils {
             }
         }
         return false
+    }
+
+    @SubscribeEvent
+    fun onCommandRegistration(event: CommandRegistrationEvent) {
+        event.register("awtestmessage") {
+            description = "Prints a message in chat."
+            callback { testMessageCommand(it) }
+        }
     }
 }

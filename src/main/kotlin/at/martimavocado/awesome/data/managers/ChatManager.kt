@@ -1,8 +1,12 @@
-package at.martimavocado.awesome.events.chat
+package at.martimavocado.awesome.data.managers
 
 import at.martimavocado.awesome.Awesome
+import at.martimavocado.awesome.events.chat.ChatReceiveEvent
+import at.martimavocado.awesome.events.chat.PlayerChatEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
+import at.martimavocado.awesome.utils.OtherUtils.cancel
 import at.martimavocado.awesome.utils.OtherUtils.post
+import at.martimavocado.awesome.utils.StringUtils.cleanupColors
 import at.martimavocado.awesome.utils.StringUtils.findMatcher
 import at.martimavocado.awesome.utils.StringUtils.matchMatcher
 import at.martimavocado.awesome.utils.system.AwesomeLogger
@@ -14,7 +18,7 @@ import java.util.regex.Pattern
 
 @LoadModule
 object ChatManager {
-    private val config get() = Awesome.config.debug
+    private val config get() = Awesome.Companion.config.debug
     private val logger = AwesomeLogger("chat")
 
     private val partyMessagePattern =
@@ -30,18 +34,13 @@ object ChatManager {
         val original = event.message
         var message = original.formattedText
 
-        while (message.startsWith("§r")) {
-            message = message.substring(2)
-        }
-        while (message.endsWith("§r")) {
-            message = message.substring(0, message.length - 2)
-        }
+        message = message.cleanupColors()
 
         val chatEvent = ChatReceiveEvent(message, original)
         chatEvent.post()
         event.message = chatEvent.chatComponent
 
-        if (chatEvent.isCanceled) event.isCanceled = true
+        if (chatEvent.isCanceled) event.cancel()
     }
 
     @SubscribeEvent
@@ -104,7 +103,7 @@ object ChatManager {
 
             val newEvent = eventCreator(message, author, chatComponent.toList())
             newEvent.post()
-            if (newEvent.isCanceled) event.isCanceled = true
+            if (newEvent.isCanceled) event.cancel()
 
             val newComponents = newEvent.chatComponent.toMutableList()
             if (needsCleanup) {

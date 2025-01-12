@@ -37,6 +37,11 @@ object OtherUtils {
         MinecraftForge.EVENT_BUS.post(this)
     }
 
+    fun Event.cancel() {
+        if (!this.isCancelable) return
+        this.isCanceled = true
+    }
+
     private var totalTicks = 0
 
     @SubscribeEvent

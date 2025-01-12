@@ -41,23 +41,31 @@ object UpdateManager {
 
     fun updateCommand() {
         when (updateState) {
-            UpdateState.NONE -> checkUpdate()
+            UpdateState.NONE -> checkUpdate(true)
             UpdateState.AVAILABLE -> queueUpdate()
             else -> return
         }
     }
 
-    fun checkUpdate() {
+    fun checkUpdate(fromCommand: Boolean = false) {
         updateContext.checkUpdate("pre").thenAcceptAsync {
             if (updateState != UpdateState.NONE) return@thenAcceptAsync
 
             potentialUpdate = it
             if (!it.isUpdateAvailable) {
-                ChatUtils.debug("did not find an update")
+                if (fromCommand) {
+                    ChatUtils.chat("Didn't find any updates")
+                } else {
+                    ChatUtils.debug("did not find an update")
+                }
                 return@thenAcceptAsync
             }
             if (modVersionNumber(it.update.versionName) <= modVersion) {
-                ChatUtils.debug("already up-to-date")
+                if (fromCommand) {
+                    ChatUtils.chat("Already up-to-date")
+                } else {
+                    ChatUtils.debug("already up-to-date")
+                }
                 return@thenAcceptAsync
             }
             ChatUtils.chat("§aFound update ${it.update.versionName}! Use §b/awupdate §ato complete it.")

@@ -1,6 +1,7 @@
 package at.martimavocado.awesome.config.elements
 
 import at.martimavocado.awesome.utils.ColorUtils.decompose
+import java.awt.Color
 
 data class ConfigColor(
     val red: Int = 0,
@@ -36,4 +37,6 @@ data class ConfigColor(
     )
 
     override fun toString() = "$chroma:$alpha:$red:$green:$blue"
+
+    fun toColor() = Color(red, green, blue, alpha)
 }

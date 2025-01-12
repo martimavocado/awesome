@@ -35,4 +35,9 @@ class DebugConfig {
     @ConfigOption(name = "hypixel modapi", desc = "shows when/what modapi packets are received")
     @ConfigEditorBoolean
     var modAPI = false
+
+    @Expose
+    @ConfigOption(name = "Render Toggle", desc = "disables all rendering")
+    @ConfigEditorBoolean
+    var renderToggle = false
 }

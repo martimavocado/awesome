@@ -5,7 +5,7 @@ import at.martimavocado.awesome.data.HypixelGame
 import at.martimavocado.awesome.events.chat.ChatReceiveEvent
 import at.martimavocado.awesome.events.render.TitleReceivedEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
-import at.martimavocado.awesome.utils.OtherUtils.cancel
+import at.martimavocado.awesome.utils.EventUtils.cancel
 import at.martimavocado.awesome.utils.StringUtils.matches
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import java.util.regex.Pattern

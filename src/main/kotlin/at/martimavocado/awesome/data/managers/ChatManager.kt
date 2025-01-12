@@ -4,8 +4,8 @@ import at.martimavocado.awesome.Awesome
 import at.martimavocado.awesome.events.chat.ChatReceiveEvent
 import at.martimavocado.awesome.events.chat.PlayerChatEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
-import at.martimavocado.awesome.utils.OtherUtils.cancel
-import at.martimavocado.awesome.utils.OtherUtils.post
+import at.martimavocado.awesome.utils.EventUtils.cancel
+import at.martimavocado.awesome.utils.EventUtils.post
 import at.martimavocado.awesome.utils.StringUtils.cleanupColors
 import at.martimavocado.awesome.utils.StringUtils.findMatcher
 import at.martimavocado.awesome.utils.StringUtils.matchMatcher

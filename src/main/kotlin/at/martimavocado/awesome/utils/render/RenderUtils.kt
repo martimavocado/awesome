@@ -5,7 +5,7 @@ import at.martimavocado.awesome.events.render.GuiOverlayRenderEvent
 import at.martimavocado.awesome.events.render.WorldRenderEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.utils.EntityUtils.getLocation
-import at.martimavocado.awesome.utils.OtherUtils.post
+import at.martimavocado.awesome.utils.EventUtils.post
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.Tessellator

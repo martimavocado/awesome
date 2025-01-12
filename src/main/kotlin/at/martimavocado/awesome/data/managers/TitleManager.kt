@@ -3,8 +3,8 @@ package at.martimavocado.awesome.data.managers
 import at.martimavocado.awesome.events.PacketReceivedEvent
 import at.martimavocado.awesome.events.render.TitleReceivedEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
-import at.martimavocado.awesome.utils.OtherUtils.cancel
-import at.martimavocado.awesome.utils.OtherUtils.post
+import at.martimavocado.awesome.utils.EventUtils.cancel
+import at.martimavocado.awesome.utils.EventUtils.post
 import at.martimavocado.awesome.utils.StringUtils.cleanupColors
 import net.minecraft.network.play.server.S45PacketTitle
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent

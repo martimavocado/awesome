@@ -7,7 +7,7 @@ import at.martimavocado.awesome.events.CommandRegistrationEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.loadmodule.LoadedModules
 import at.martimavocado.awesome.utils.ChatUtils
-import at.martimavocado.awesome.utils.OtherUtils.post
+import at.martimavocado.awesome.utils.EventUtils.post
 import io.github.notenoughupdates.moulconfig.gui.GuiScreenElementWrapper
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope

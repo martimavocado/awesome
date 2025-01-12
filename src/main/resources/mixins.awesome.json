@@ -1,11 +1,13 @@
 {
-  "package": "at.martimavocado.awesome.mixins",
+  "package": "at.martimavocado.awesome.mixins.transformers",
   "refmap": "mixins.awesome.refmap.json",
   "minVersion": "0.7",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "transformers.MixinEntityPlayerSP",
-    "transformers.MixinNetworkManager"
+    "transformers.MixinNetworkManager",
+    "transformers.MixinRendererLivingEntity"
   ],
-  "client": []
+  "client": [
+  ]
 }

@@ -4,7 +4,7 @@ import at.martimavocado.awesome.data.PositionVec
 import at.martimavocado.awesome.events.BlockChangeEvent
 import at.martimavocado.awesome.events.PacketReceivedEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
-import at.martimavocado.awesome.utils.OtherUtils.post
+import at.martimavocado.awesome.utils.EventUtils.post
 import net.minecraft.block.Block
 import net.minecraft.block.state.IBlockState
 import net.minecraft.client.Minecraft
@@ -19,9 +19,11 @@ object BlockUtils {
     private val world get() = Minecraft.getMinecraft().theWorld
 
     fun BlockPos.toPositionVec() = PositionVec(this.x, this.y, this.z)
+
     fun Vec3.toPositionVec() = PositionVec(this.xCoord, this.yCoord, this.zCoord)
 
     fun PositionVec.getBlockAt(): Block = getBlockStateAt().block
+
     fun PositionVec.getBlockStateAt(): IBlockState = world.getBlockState(toBlockPos())
 
     @SubscribeEvent

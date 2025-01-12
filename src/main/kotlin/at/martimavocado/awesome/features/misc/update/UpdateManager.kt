@@ -5,6 +5,7 @@ import at.martimavocado.awesome.events.CommandRegistrationEvent
 import at.martimavocado.awesome.events.hypixel.HypixelJoinEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.utils.ChatUtils
+import io.github.notenoughupdates.moulconfig.processor.MoulConfigProcessor
 import moe.nea.libautoupdate.CurrentVersion
 import moe.nea.libautoupdate.PotentialUpdate
 import moe.nea.libautoupdate.UpdateContext
@@ -46,7 +47,7 @@ object UpdateManager {
         }
     }
 
-    private fun checkUpdate() {
+    fun checkUpdate() {
         updateContext.checkUpdate("pre").thenAcceptAsync {
             if (updateState != UpdateState.NONE) return@thenAcceptAsync
 
@@ -66,7 +67,7 @@ object UpdateManager {
         }
     }
 
-    private fun queueUpdate() {
+    fun queueUpdate() {
         updateState = UpdateState.QUEUED
         activePromise =
             CompletableFuture
@@ -109,4 +110,12 @@ object UpdateManager {
             callback { updateCommand() }
         }
     }
+
+    fun injectConfigProcessor(processor: MoulConfigProcessor<*>) {
+        processor.registerConfigEditor(ConfigVersionDisplay::class.java) { option, _ ->
+            GuiOptionEditorUpdateCheck(option)
+        }
+    }
+
+    fun getNextVersion() = potentialUpdate?.update?.versionNumber?.asString
 }

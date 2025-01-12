@@ -1,5 +1,6 @@
 package at.martimavocado.awesome.config.categories
 
+import at.martimavocado.awesome.features.misc.update.ConfigVersionDisplay
 import at.martimavocado.awesome.utils.system.PlatformUtils
 import com.google.gson.annotations.Expose
 import io.github.notenoughupdates.moulconfig.annotations.Accordion
@@ -8,6 +9,10 @@ import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorButton
 import io.github.notenoughupdates.moulconfig.annotations.ConfigOption
 
 class AboutConfig {
+    @ConfigOption(name = "Current Version", desc = "This is the Awesome version you are currently using")
+    @ConfigVersionDisplay
+    var currentVersion: Void? = null
+
     @Expose
     @ConfigOption(name = "Check for Updates", desc = "Automatically check for updates on each startup")
     @ConfigEditorBoolean

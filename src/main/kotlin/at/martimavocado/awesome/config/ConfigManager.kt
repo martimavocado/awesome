@@ -2,6 +2,7 @@ package at.martimavocado.awesome.config
 
 import at.martimavocado.awesome.config.categories.AwesomeConfig
 import at.martimavocado.awesome.errors.ConfigError
+import at.martimavocado.awesome.features.misc.update.UpdateManager
 import com.google.gson.GsonBuilder
 import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
@@ -75,9 +76,11 @@ class ConfigManager {
         processor = MoulConfigProcessor(config)
 
         BuiltinMoulConfigGuis.addProcessors(processor)
+        UpdateManager.injectConfigProcessor(processor)
 
         val driver = ConfigProcessorDriver(processor)
         driver.warnForPrivateFields = false
+        driver.checkExpose = false
         driver.processConfig(config)
 
         Runtime.getRuntime().addShutdownHook(

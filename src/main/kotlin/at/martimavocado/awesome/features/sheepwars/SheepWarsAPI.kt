@@ -16,14 +16,19 @@ import at.martimavocado.awesome.utils.ChatUtils
 import at.martimavocado.awesome.utils.PlayerUtils
 import at.martimavocado.awesome.utils.StringUtils.matchMatcher
 import at.martimavocado.awesome.utils.StringUtils.matches
+import at.martimavocado.awesome.utils.system.AwesomeLogger
 import net.minecraft.block.BlockColored
+import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.init.Blocks
+import net.minecraft.init.Items
 import net.minecraft.item.EnumDyeColor
 import net.minecraftforge.fml.common.eventhandler.EventPriority
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
 @LoadModule
 object SheepWarsAPI {
+    private val logger = AwesomeLogger("sheepwarsapi")
+
     var magicWool: SheepWarsMagicWool? = null
         private set
     var playerStatus: PlayerStatus? = null
@@ -154,5 +159,42 @@ object SheepWarsAPI {
                 location,
                 0,
             )
+    }
+
+    fun EntityPlayer.isFriendly(): Boolean? {
+        val team = this.getTeamColor()
+        val myTeam = PlayerUtils.getPlayer()?.getTeamColor() ?: return null
+
+        return team == myTeam
+    }
+
+    fun EntityPlayer.getTeamColor(): TeamColor? {
+        val armor = this.getCurrentArmor(2) ?: return null
+        if (armor.item != Items.leather_chestplate) return null
+
+        val color =
+            armor.tagCompound
+                .getCompoundTag("display")
+                .getTag("color")
+                .toString()
+                .toInt()
+
+        return TeamColor.getTeamFromColor(color)
+    }
+
+    enum class TeamColor(
+        val color: Int,
+    ) {
+        BLUE(29680),
+        RED(16711680),
+        ;
+
+        companion object {
+            fun getTeamFromColor(input: Int) =
+                TeamColor.entries.firstOrNull { input == it.color } ?: run {
+                    logger.log("weird color $input")
+                    null
+                }
+        }
     }
 }

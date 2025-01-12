@@ -35,4 +35,6 @@ object ColorUtils {
     private fun decompose(csv: String) = csv.split(":").mapNotNull { it.toIntOrNull() }.toIntArray()
 
     private fun chromaSpeed(speed: Int) = (255 - speed) / 254f * (MAX_CHROMA_SECS - MIN_CHROMA_SECS) + MIN_CHROMA_SECS
+
+    fun Color.withAlpha(alpha: Int) = Color(red, green, blue, alpha)
 }

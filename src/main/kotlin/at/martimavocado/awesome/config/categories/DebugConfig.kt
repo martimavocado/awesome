@@ -37,7 +37,7 @@ class DebugConfig {
     var modAPI = false
 
     @Expose
-    @ConfigOption(name = "Render Toggle", desc = "disables all rendering")
+    @ConfigOption(name = "Render Toggle", desc = "enables all rendering")
     @ConfigEditorBoolean
-    var renderToggle = false
+    var renderToggle = true
 }

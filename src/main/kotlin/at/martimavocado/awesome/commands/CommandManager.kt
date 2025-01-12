@@ -3,6 +3,9 @@ package at.martimavocado.awesome.commands
 import at.martimavocado.awesome.events.CommandRegistrationEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.utils.ChatUtils
+import net.minecraft.event.ClickEvent
+import net.minecraft.event.HoverEvent
+import net.minecraft.util.ChatComponentText
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
 @LoadModule
@@ -18,18 +21,43 @@ object CommandManager {
     }
 
     private fun commandListCommand() {
-        var message = ""
-        message += "§7---------------------------------------------------"
+        var message = ChatComponentText("")
+
+        var extraLines = mutableListOf(ChatComponentText("§7---------------------------------------------------"))
+
         commandList.forEachIndexed { index, command ->
 
-            var nameMessage = "\n§2${command.name}"
-            command.aliases.forEach { nameMessage += "§8, §a$it" }
-            message += nameMessage
+            val clickableCommand = ChatComponentText("\n§2${command.name}")
+            clickableCommand.chatStyle.chatClickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/${command.name}")
+            clickableCommand.chatStyle.chatHoverEvent =
+                HoverEvent(
+                    HoverEvent.Action.SHOW_TEXT,
+                    ChatComponentText("Click to run §2/${command.name}"),
+                )
 
-            message += "\n§e" + command.description
-            if (index != (commandList.size - 1)) message += "\n"
+            command.aliases.forEach { alias ->
+                clickableCommand.siblings.add(ChatComponentText("§8, "))
+                clickableCommand.siblings.add(ChatComponentText("§a$alias"))
+                clickableCommand.siblings
+                    .last()
+                    .chatStyle.chatClickEvent =
+                    ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$alias")
+                clickableCommand.siblings
+                    .last()
+                    .chatStyle.chatHoverEvent =
+                    HoverEvent(
+                        HoverEvent.Action.SHOW_TEXT,
+                        ChatComponentText("Click to run §a/$alias"),
+                    )
+            }
+            extraLines += clickableCommand
+            extraLines += ChatComponentText("\n§e" + command.description)
+
+            if (index != (commandList.size - 1)) extraLines.add(ChatComponentText("\n"))
         }
-        message += "\n§7---------------------------------------------------"
-        ChatUtils.chat(message, false)
+        extraLines.add(ChatComponentText("\n§7---------------------------------------------------"))
+        message.siblings.addAll(extraLines)
+
+        ChatUtils.chat(message)
     }
 }

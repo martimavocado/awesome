@@ -65,7 +65,7 @@ object ChatUtils {
     ) {
         val text = ChatComponentText(message)
         text.chatStyle.chatClickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, command)
-        text.chatStyle.chatHoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, ChatComponentText("§eExecute $command"))
+        text.chatStyle.chatHoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, ChatComponentText("§eRuns $command"))
         Minecraft.getMinecraft().thePlayer.addChatMessage(text)
     }
 
@@ -88,18 +88,6 @@ object ChatUtils {
             .getMinecraft()
             .thePlayer.sendQueue
             .addToSendQueue(packet)
-    }
-
-    fun inArray(
-        input: String,
-        array: Array<Pair<String, String>>,
-    ): Boolean {
-        for ((leftHalf, _) in array) {
-            if (input.contains(leftHalf)) {
-                return true
-            }
-        }
-        return false
     }
 
     @SubscribeEvent

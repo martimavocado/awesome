@@ -3,6 +3,7 @@ package at.martimavocado.awesome.config
 import at.martimavocado.awesome.config.categories.AwesomeConfig
 import at.martimavocado.awesome.errors.ConfigError
 import at.martimavocado.awesome.features.misc.update.UpdateManager
+import at.martimavocado.awesome.utils.system.AwesomeLogger
 import com.google.gson.GsonBuilder
 import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
@@ -26,6 +27,8 @@ import java.nio.file.StandardCopyOption
 import java.util.UUID
 
 class ConfigManager {
+    private val logger = AwesomeLogger("config-manager")
+
     companion object {
         val gson =
             GsonBuilder()
@@ -119,10 +122,12 @@ class ConfigManager {
     }
 
     fun save() {
-        if (System.currentTimeMillis() <= lastSaveTime + 60_000) return
+        if (System.currentTimeMillis() <= lastSaveTime + 30_000) return
 
         lastSaveTime = System.currentTimeMillis()
         val config = config ?: error("Can not save null config.")
+
+        logger.log("saving config")
 
         try {
             configDirectory.mkdirs()

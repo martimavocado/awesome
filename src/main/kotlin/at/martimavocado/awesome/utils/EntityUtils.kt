@@ -10,4 +10,6 @@ object EntityUtils {
     fun Entity.getLocation() = PositionVec(posX, posY, posZ)
 
     fun getPlayers() = mc.theWorld.playerEntities.toList()
+
+    fun getEntityById(id: Int) = mc.theWorld.getEntityByID(id)
 }

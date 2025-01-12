@@ -1,5 +1,6 @@
 package at.martimavocado.awesome.utils
 
+import at.martimavocado.awesome.Awesome
 import net.minecraft.client.Minecraft
 import net.minecraft.event.ClickEvent
 import net.minecraft.event.HoverEvent
@@ -8,6 +9,8 @@ import net.minecraft.util.ChatComponentText
 import net.minecraft.util.IChatComponent
 
 object ChatUtils {
+    private val config get() = Awesome.config.debug
+
     fun testMessageCommand(array: Array<String>) {
         if (array.isEmpty()) {
             chat("cant test a message without one i think")
@@ -62,6 +65,8 @@ object ChatUtils {
     }
 
     fun debug(message: String) {
+        if (!config.debugMessages) return
+
         chat("§7[Awesome Debug] $message", usePrefix = false)
     }
 

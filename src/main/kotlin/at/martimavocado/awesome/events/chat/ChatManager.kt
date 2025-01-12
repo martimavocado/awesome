@@ -1,5 +1,6 @@
 package at.martimavocado.awesome.events.chat
 
+import at.martimavocado.awesome.Awesome
 import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.utils.OtherUtils.post
 import at.martimavocado.awesome.utils.StringUtils.findMatcher
@@ -11,7 +12,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import java.util.regex.Pattern
 
 @LoadModule
-object PlayerChatManager {
+object ChatManager {
+    private val config get() = Awesome.config.debug
+
     private val partyMessagePattern =
         "§9P(?:arty)? §8> §.(?:\\[.*] )?(?<author>\\w+)§f: (?:(?:§r)?)+(?<message>.*)".toPattern()
     private val privateMessagePattern =
@@ -41,33 +44,37 @@ object PlayerChatManager {
 
     @SubscribeEvent
     fun onChat(event: ChatReceiveEvent) {
-        partyMessagePattern.matchMatcher(event.message) {
-            handleChatEvent(event, privateMessagePattern, 1) { message, author, chatComponent ->
+        printDebugMessage(event)
+
+        try {
+            handleChatEvent(event, partyMessagePattern, 1) { message, author, chatComponent ->
                 PlayerChatEvent.Party(
                     message,
                     author,
                     chatComponent,
                 )
             }
-        }
 
-        privateMessagePattern.matchMatcher(event.message) {
-            handleChatEvent(event, privateMessagePattern, 2) { message, author, chatComponent ->
-                PlayerChatEvent.DirectMessage(
+            privateMessagePattern.matchMatcher(event.message) {
+                handleChatEvent(event, privateMessagePattern, 2) { message, author, chatComponent ->
+                    PlayerChatEvent.DirectMessage(
+                        message,
+                        author,
+                        chatComponent,
+                        group("receive") == "To",
+                    )
+                }
+            }
+
+            handleChatEvent(event, normalMessagePattern, 1) { message, author, chatComponent ->
+                PlayerChatEvent.Normal(
                     message,
                     author,
                     chatComponent,
-                    group("receive") == "To",
                 )
             }
-        }
-
-        handleChatEvent(event, normalMessagePattern, 1) { message, author, chatComponent ->
-            PlayerChatEvent.Normal(
-                message,
-                author,
-                chatComponent,
-            )
+        } catch (e: Throwable) {
+            e.printStackTrace()
         }
     }
 
@@ -85,6 +92,8 @@ object PlayerChatManager {
                     .toList()
                     .drop(dropCount)
                     .toMutableList()
+            chatComponent.getOrNull(0) ?: return
+
             val needsCleanup =
                 chatComponent[0].formattedText.startsWith("§f: ") || chatComponent[0].formattedText.startsWith("§7: ")
             val isGray = needsCleanup && chatComponent[0].formattedText[1] == '7'
@@ -114,10 +123,8 @@ object PlayerChatManager {
         }
     }
 
-//    @SubscribeEvent
-//    fun onAllChat(event: PlayerChatEvent.Normal) {
-//        println(event.chatComponent)
-//        val componentText = ChatComponentText("§ahello")
-//        event.chatComponent = listOf(componentText)
-//    }
+    private fun printDebugMessage(event: ChatReceiveEvent) {
+        if (config.printMessages) println("'${event.message}'")
+        if (config.printChatComponents) println("'${event.chatComponent}'")
+    }
 }

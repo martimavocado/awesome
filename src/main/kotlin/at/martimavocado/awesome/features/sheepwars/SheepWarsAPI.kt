@@ -12,6 +12,7 @@ import at.martimavocado.awesome.features.sheepwars.data.SheepWarsMagicWool
 import at.martimavocado.awesome.features.sheepwars.data.SheepWarsMagicWoolType
 import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.utils.BlockUtils.getBlockAt
+import at.martimavocado.awesome.utils.ChatUtils
 import at.martimavocado.awesome.utils.PlayerUtils
 import at.martimavocado.awesome.utils.StringUtils.matchMatcher
 import at.martimavocado.awesome.utils.StringUtils.matches
@@ -38,6 +39,7 @@ object SheepWarsAPI {
     private val playerWalkOffPattern = "§.(?<player>\\w+) §r§7fell into the void\\.".toPattern()
 
     fun isPlaying() = HypixelGame.SHEEP_WARS.isPlaying() && gameStatus == GameStatus.IN_GAME
+
     fun isAlive() = isPlaying() && playerStatus == PlayerStatus.ALIVE
 
     @SubscribeEvent
@@ -73,7 +75,7 @@ object SheepWarsAPI {
             magicWool = null
             return
         }
-        handleGameStatus(event.message)
+        if (handleGameStatus(event.message)) return
         handleKill(event.message)
     }
 
@@ -86,8 +88,10 @@ object SheepWarsAPI {
             val player = group("player")
 
             if (player == PlayerUtils.playerIGN) {
+                ChatUtils.debug("you died")
                 playerStatus == PlayerStatus.DEAD
             }
+            return
         }
         playerWalkOffPattern.matchMatcher(message) {
             val player = group("player")
@@ -96,20 +100,26 @@ object SheepWarsAPI {
         }
     }
 
-    private fun handleGameStatus(message: String) {
+    private fun handleGameStatus(message: String): Boolean {
         when {
             gameStartPattern.matches(message) -> {
+                ChatUtils.debug("in-game")
                 gameStatus = GameStatus.IN_GAME
                 playerStatus = PlayerStatus.ALIVE
+                return true
             }
+
             gameEndPattern.matches(message) -> {
+                ChatUtils.debug("post game")
                 gameStatus = GameStatus.POST_GAME
                 playerStatus = null
                 magicWool = null
+                return true
             }
-            else -> return
+
+            else -> return false
         }
-        return
+        return false
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST, receiveCanceled = true)
@@ -125,10 +135,11 @@ object SheepWarsAPI {
         magicWool = null
         playerStatus = null
         gameStatus =
-            if (HypixelGame.SHEEP_WARS.isPlaying())
+            if (HypixelGame.SHEEP_WARS.isPlaying()) {
                 GameStatus.PRE_GAME
-            else
+            } else {
                 null
+            }
     }
 
     private fun spawnWool(

@@ -2,43 +2,34 @@ package at.martimavocado.awesome.config.categories
 
 import com.google.gson.annotations.Expose
 import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorBoolean
+import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorSlider
 import io.github.notenoughupdates.moulconfig.annotations.ConfigOption
 
 class DebugConfig {
     @Expose
-    @ConfigOption(name = "raw messages", desc = "prints a copy of raw messages to stdout")
+    @ConfigOption(name = "Log Messages", desc = "Prints a copy of all chat messages to log.")
     @ConfigEditorBoolean
-    var rawMessages = false
+    var printMessages = false
 
     @Expose
-    @ConfigOption(name = "only chat", desc = "makes it so raw messages only works in chat")
+    @ConfigOption(name = "Log ChatComponents", desc = "Prints a copy messages' chat components to log.")
     @ConfigEditorBoolean
-    var onlyChat = true
+    var printChatComponents = false
 
     @Expose
-    @ConfigOption(name = "command logger", desc = "logs commands sent")
+    @ConfigOption(name = "Log Expiry Time", desc = "Deletes logs after a certain amount of days.")
+    @ConfigEditorSlider(minValue = 1f, maxValue = 30f, minStep = 1f)
+    var logExpiryTime = 14
+
+    @Expose
+    @ConfigOption(name = "Debug Messages", desc = "Shows debug messages.")
     @ConfigEditorBoolean
-    var commandLogs = false
+    var debugMessages = false
 
     @Expose
     @ConfigOption(name = "replace color code thing with &", desc = "helps with debugging sometimes :shrug:")
     @ConfigEditorBoolean
     var colorCodes = false
-
-    @Expose
-    @ConfigOption(name = "substring color", desc = "i hate minecraft colro code")
-    @ConfigEditorBoolean
-    var debugColors = false
-
-    @Expose
-    @ConfigOption(name = "store titles", desc = "prints titles/subtitles to stdout")
-    @ConfigEditorBoolean
-    var logTitles = false
-
-    @Expose
-    @ConfigOption(name = "debug commands", desc = "shows messages that weren't commands")
-    @ConfigEditorBoolean
-    var figureOutCommands = false
 
     @Expose
     @ConfigOption(name = "hypixel modapi", desc = "shows when/what modapi packets are received")

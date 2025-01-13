@@ -7,15 +7,19 @@ import at.martimavocado.awesome.data.PositionVec
 import at.martimavocado.awesome.events.AwesomeTickEvent
 import at.martimavocado.awesome.events.BlockChangeEvent
 import at.martimavocado.awesome.events.chat.ChatReceiveEvent
+import at.martimavocado.awesome.events.games.sheepwars.SheepWarsMagicWoolEvent
 import at.martimavocado.awesome.events.hypixel.HypixelServerChangeEvent
 import at.martimavocado.awesome.features.sheepwars.data.SheepWarsMagicWool
 import at.martimavocado.awesome.features.sheepwars.data.SheepWarsMagicWoolType
+import at.martimavocado.awesome.features.sheepwars.data.SheepWarsPowerUp
 import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.utils.BlockUtils.getBlockAt
 import at.martimavocado.awesome.utils.ChatUtils
+import at.martimavocado.awesome.utils.EventUtils.post
 import at.martimavocado.awesome.utils.PlayerUtils
 import at.martimavocado.awesome.utils.StringUtils.matchMatcher
 import at.martimavocado.awesome.utils.StringUtils.matches
+import at.martimavocado.awesome.utils.StringUtils.removeColors
 import at.martimavocado.awesome.utils.system.AwesomeLogger
 import net.minecraft.block.BlockColored
 import net.minecraft.entity.player.EntityPlayer
@@ -36,7 +40,8 @@ object SheepWarsAPI {
     var gameStatus: GameStatus? = null
         private set
 
-    private val magicWoolHitPattern = "^§5§lMAGIC WOOL!.*\$".toPattern()
+    private val magicWoolHitPattern =
+        "^§5§lMAGIC WOOL! (?:§.)+(?<shooter>\\w+) (?<perk>.*)!".toPattern()
     private val gameStartPattern = "§f +§r§e§lWelcome to Sheep Wars!".toPattern()
     private val gameEndPattern = "§f +§r§.§lGAME WIN - \\w+".toPattern()
     private val playerKillPattern =
@@ -76,7 +81,17 @@ object SheepWarsAPI {
     @SubscribeEvent
     fun onChat(event: ChatReceiveEvent) {
         if (!HypixelGame.SHEEP_WARS.isPlaying()) return
-        if (magicWoolHitPattern.matches(event.message)) {
+        magicWoolHitPattern.matchMatcher(event.message) {
+            val shooter = group("shooter")
+            val perkMessage = group("perk").removeColors()
+
+            val perk = SheepWarsPowerUp.getPerkFromWool(perkMessage)
+
+            if (perk == null) {
+                ChatUtils.warning("Unknown perk message! '$perkMessage' pls report")
+            } else {
+                SheepWarsMagicWoolEvent.Shoot(shooter, perk)
+            }
             magicWool = null
             return
         }
@@ -137,7 +152,13 @@ object SheepWarsAPI {
 
     @SubscribeEvent
     fun onGameSwitch(event: HypixelServerChangeEvent) {
+        val wool = magicWool
+        if (wool != null) {
+            SheepWarsMagicWoolEvent.Shoot(null, wool.type.perk)
+        }
+
         magicWool = null
+
         playerStatus = null
         gameStatus =
             if (HypixelGame.SHEEP_WARS.isPlaying()) {
@@ -153,6 +174,12 @@ object SheepWarsAPI {
     ) {
         val magicWoolType = SheepWarsMagicWoolType.getFromDye(color)
 
+        val oldWool = magicWool
+        if (oldWool?.location != location) {
+            SheepWarsMagicWoolEvent.Spawn(location, magicWoolType).post()
+        } else {
+            SheepWarsMagicWoolEvent.TypeChange(oldWool.type, magicWoolType)
+        }
         magicWool =
             SheepWarsMagicWool(
                 magicWoolType,

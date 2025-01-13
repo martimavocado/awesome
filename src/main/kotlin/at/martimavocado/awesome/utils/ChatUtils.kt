@@ -2,6 +2,7 @@ package at.martimavocado.awesome.utils
 
 import at.martimavocado.awesome.Awesome
 import at.martimavocado.awesome.events.CommandRegistrationEvent
+import at.martimavocado.awesome.loadmodule.LoadModule
 import net.minecraft.client.Minecraft
 import net.minecraft.event.ClickEvent
 import net.minecraft.event.HoverEvent
@@ -10,6 +11,7 @@ import net.minecraft.util.ChatComponentText
 import net.minecraft.util.IChatComponent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
+@LoadModule
 object ChatUtils {
     private val config get() = Awesome.config.debug
 

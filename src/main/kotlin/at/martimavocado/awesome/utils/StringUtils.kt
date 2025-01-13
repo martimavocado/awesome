@@ -35,4 +35,20 @@ object StringUtils {
         }
         return message
     }
+
+    fun String.removeColors(): String {
+        val result = StringBuilder()
+
+        var i = 0
+        while (i < this.length) {
+            if (this[i] == '§') {
+                i += 2
+            } else {
+                result.append(this[i])
+                i++
+            }
+        }
+
+        return result.toString()
+    }
 }

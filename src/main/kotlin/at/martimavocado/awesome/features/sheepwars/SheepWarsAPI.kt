@@ -6,6 +6,7 @@ import at.martimavocado.awesome.data.PlayerStatus
 import at.martimavocado.awesome.data.PositionVec
 import at.martimavocado.awesome.events.AwesomeTickEvent
 import at.martimavocado.awesome.events.BlockChangeEvent
+import at.martimavocado.awesome.events.DebugDataCollectionEvent
 import at.martimavocado.awesome.events.chat.ChatReceiveEvent
 import at.martimavocado.awesome.events.games.sheepwars.SheepWarsMagicWoolEvent
 import at.martimavocado.awesome.events.games.sheepwars.SheepWarsStatusEvent
@@ -211,6 +212,22 @@ object SheepWarsAPI {
                 .toInt()
 
         return TeamColor.getTeamFromColor(color)
+    }
+
+    @SubscribeEvent
+    fun onDebug(event: DebugDataCollectionEvent) {
+        event.title("Sheep Wars API")
+
+        if (!HypixelGame.SHEEP_WARS.isPlaying()) {
+            event.addIrrelevant("not playing sheepwars")
+        } else {
+            event.addData {
+                add("gameStatus: $gameStatus")
+                add("playerStatus: $playerStatus")
+                add("")
+                add("magicWool: $magicWool")
+            }
+        }
     }
 
     enum class TeamColor(

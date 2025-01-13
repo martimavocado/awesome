@@ -1,5 +1,6 @@
 package at.martimavocado.awesome.data
 
+import at.martimavocado.awesome.events.DebugDataCollectionEvent
 import at.martimavocado.awesome.events.hypixel.HypixelServerChangeEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
 import net.hypixel.data.type.GameType
@@ -32,6 +33,22 @@ enum class HypixelGame(
                     it.internalName == event.serverType &&
                         (event.mode?.startsWith(it.gameMode) == true)
                 }
+        }
+
+        @SubscribeEvent
+        fun onDebug(event: DebugDataCollectionEvent) {
+            event.title("Hypixel Game")
+
+            if (currentGame != null) {
+                event.addIrrelevant("playing ${currentGame?.prettyName}")
+            } else {
+                event.addData {
+                    add("not playing anything (known)")
+                    add("")
+                    add("gameType: ${HypixelData.gameType}")
+                    add("gameMode: ${HypixelData.gameMode}")
+                }
+            }
         }
     }
 }

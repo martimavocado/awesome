@@ -12,6 +12,8 @@ enum class HypixelGame(
     val prettyName: String,
 ) {
     SHEEP_WARS(GameType.WOOL_GAMES, "sheep_wars", "Sheep Wars"),
+    SPEED_BUILDERS(GameType.BUILD_BATTLE, "BUILD_BATTLE_SPEED_BUILDERS", "Speed Builders"),
+    HOLE_IN_THE_WALL(GameType.ARCADE, "HOLE_IN_THE_WALL", "Hole in the Wall"),
     ;
 
     override fun toString(): String = prettyName

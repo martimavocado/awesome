@@ -12,7 +12,7 @@ enum class SheepWarsPowerUp(
     private val prettyName: String? = null,
     val duration: Duration? = null,
 ) {
-    RANDOM_SHEEP("found \\+1 Explosive Sheep for the (RED|BLUE) team".toPattern(), "+1 Sheep"),
+    RANDOM_SHEEP("found \\+1 \\w Sheep for the (RED|BLUE) team".toPattern(), "+1 Sheep"),
     BIG_EXPLOSION("activated bigger explosions for 15s".toPattern(), "Bigger Explosions", 15.seconds),
     EXPLOSIVE_ARROW("activated explosive arrows for 15s".toPattern(), "Explosive Arrows", 15.seconds),
     SLOW_SHEEP("decreased (RED|BLUE) team's sheep speed for 10s".toPattern(), duration = 10.seconds),

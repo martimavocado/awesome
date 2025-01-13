@@ -12,6 +12,7 @@ import at.martimavocado.awesome.mixins.hooks.RenderLivingEntityHelper
 import at.martimavocado.awesome.utils.AwesomeColor
 import at.martimavocado.awesome.utils.ColorUtils.withAlpha
 import at.martimavocado.awesome.utils.EntityUtils
+import at.martimavocado.awesome.utils.PlayerUtils
 import at.martimavocado.awesome.utils.SimpleTimeMark
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.init.Blocks
@@ -39,32 +40,37 @@ object PlayerHealthHighlighter {
         entity: EntityPlayer,
         health: Float,
     ) {
+        val maxHealth = entity.maxHealth
+
         var color =
             if (!config.dynamicColor) {
                 when (health) {
                     in 0f..6f -> AwesomeColor.RED.color
                     in 6f..10f -> AwesomeColor.YELLOW.color
-                    in 20f..24f -> AwesomeColor.GREEN.color
+                    in 20f..maxHealth -> AwesomeColor.GREEN.color
                     else -> {
                         RenderLivingEntityHelper.removeEntityColor(entity)
                         return
                     }
                 }
             } else {
-                getBlendedColor(health)
+                getBlendedColor(health, maxHealth)
             }
 
         RenderLivingEntityHelper.setEntityColor(
             entity,
-            color.withAlpha(125),
+            color.withAlpha(color.alpha),
         ) { SheepWarsAPI.isPlaying() }
     }
 
-    private fun getBlendedColor(health: Float): Color {
+    private fun getBlendedColor(
+        health: Float,
+        maxHealth: Float,
+    ): Color {
         val highColor = ConfigColor(config.highHPColor).toColor()
         val lowColor = ConfigColor(config.lowHPColor).toColor()
 
-        return blendColors(highColor, lowColor, ((health / 20f).toDouble().coerceIn(0.0..1.0)))
+        return blendColors(highColor, lowColor, ((health / maxHealth).toDouble().coerceIn(0.0..1.0)))
     }
 
     private fun blendColors(
@@ -103,7 +109,7 @@ object PlayerHealthHighlighter {
         val playerList = EntityUtils.getPlayers()
 
         for (player in playerList) {
-            if (player == null) continue
+            if (player == null || player == PlayerUtils.getPlayer()) continue
             player.getTeamColor() ?: continue
 
             colorPlayer(player, player.health)

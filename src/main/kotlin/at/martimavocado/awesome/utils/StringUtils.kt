@@ -1,22 +1,9 @@
 package at.martimavocado.awesome.utils
 
-import java.util.regex.Matcher
-import java.util.regex.Pattern
+import at.martimavocado.awesome.utils.RegexUtils.findAll
 
 object StringUtils {
-    inline fun <T> Pattern.matchMatcher(
-        text: String,
-        consumer: Matcher.() -> T,
-    ) = matcher(text).let { if (it.matches()) consumer(it) else null }
-
-    inline fun <T> Pattern.findMatcher(
-        text: String,
-        consumer: Matcher.() -> T,
-    ) = matcher(text).let { if (it.find()) consumer(it) else null }
-
-    fun Pattern.matches(text: String) = this.toRegex().matches(text)
-
-    fun Pattern.find(text: String) = this.matcher(text).find()
+    private val minecraftColorCodesPattern = "(?i)(§[0-9a-fklmnor])+".toPattern()
 
     fun String.capitalize(): String =
         split(" ").joinToString(" ") { word ->
@@ -51,4 +38,6 @@ object StringUtils {
 
         return result.toString()
     }
+
+    fun String.lastColorCode(): String? = minecraftColorCodesPattern.findAll(this).lastOrNull()
 }

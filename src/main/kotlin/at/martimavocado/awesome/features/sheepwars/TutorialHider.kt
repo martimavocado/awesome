@@ -6,7 +6,7 @@ import at.martimavocado.awesome.events.chat.ChatReceiveEvent
 import at.martimavocado.awesome.events.render.TitleReceivedEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.utils.EventUtils.cancel
-import at.martimavocado.awesome.utils.StringUtils.matches
+import at.martimavocado.awesome.utils.RegexUtils.matches
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import java.util.regex.Pattern
 

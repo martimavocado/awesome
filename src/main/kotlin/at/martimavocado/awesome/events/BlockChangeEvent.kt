@@ -3,7 +3,7 @@ package at.martimavocado.awesome.events
 import at.martimavocado.awesome.utils.BlockUtils.getBlockAt
 import at.martimavocado.awesome.utils.BlockUtils.getBlockStateAt
 import at.martimavocado.awesome.utils.BlockUtils.toPositionVec
-import at.martimavocado.awesome.utils.StringUtils.matchMatcher
+import at.martimavocado.awesome.utils.RegexUtils.matchMatcher
 import net.minecraft.block.Block
 import net.minecraft.block.state.IBlockState
 import net.minecraft.util.BlockPos

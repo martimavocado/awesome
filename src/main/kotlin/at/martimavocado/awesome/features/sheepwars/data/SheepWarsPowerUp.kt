@@ -1,8 +1,8 @@
 package at.martimavocado.awesome.features.sheepwars.data
 
 import at.martimavocado.awesome.features.sheepwars.data.SheepWarsPowerUp.entries
+import at.martimavocado.awesome.utils.RegexUtils.matches
 import at.martimavocado.awesome.utils.StringUtils.capitalize
-import at.martimavocado.awesome.utils.StringUtils.matches
 import java.util.regex.Pattern
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds

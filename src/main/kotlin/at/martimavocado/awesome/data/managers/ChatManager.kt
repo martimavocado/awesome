@@ -6,9 +6,9 @@ import at.martimavocado.awesome.events.chat.PlayerChatEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.utils.EventUtils.cancel
 import at.martimavocado.awesome.utils.EventUtils.post
+import at.martimavocado.awesome.utils.RegexUtils.findMatcher
+import at.martimavocado.awesome.utils.RegexUtils.matchMatcher
 import at.martimavocado.awesome.utils.StringUtils.cleanupColors
-import at.martimavocado.awesome.utils.StringUtils.findMatcher
-import at.martimavocado.awesome.utils.StringUtils.matchMatcher
 import at.martimavocado.awesome.utils.system.AwesomeLogger
 import net.minecraft.util.ChatComponentText
 import net.minecraft.util.IChatComponent

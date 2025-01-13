@@ -18,8 +18,8 @@ import at.martimavocado.awesome.utils.BlockUtils.getBlockAt
 import at.martimavocado.awesome.utils.ChatUtils
 import at.martimavocado.awesome.utils.EventUtils.post
 import at.martimavocado.awesome.utils.PlayerUtils
-import at.martimavocado.awesome.utils.StringUtils.matchMatcher
-import at.martimavocado.awesome.utils.StringUtils.matches
+import at.martimavocado.awesome.utils.RegexUtils.matchMatcher
+import at.martimavocado.awesome.utils.RegexUtils.matches
 import at.martimavocado.awesome.utils.StringUtils.removeColors
 import at.martimavocado.awesome.utils.system.AwesomeLogger
 import net.minecraft.block.BlockColored

@@ -2,19 +2,27 @@ package at.martimavocado.awesome.features.sheepwars
 
 import at.martimavocado.awesome.Awesome
 import at.martimavocado.awesome.config.elements.ConfigColor
+import at.martimavocado.awesome.data.GameStatus
+import at.martimavocado.awesome.events.BlockChangeEvent
 import at.martimavocado.awesome.events.entity.EntityHealthUpdateEvent
+import at.martimavocado.awesome.events.games.sheepwars.SheepWarsStatusEvent
 import at.martimavocado.awesome.features.sheepwars.SheepWarsAPI.getTeamColor
 import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.mixins.hooks.RenderLivingEntityHelper
 import at.martimavocado.awesome.utils.AwesomeColor
 import at.martimavocado.awesome.utils.ColorUtils.withAlpha
+import at.martimavocado.awesome.utils.EntityUtils
+import at.martimavocado.awesome.utils.SimpleTimeMark
 import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.init.Blocks
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import java.awt.Color
+import kotlin.time.Duration.Companion.seconds
 
 @LoadModule
 object PlayerHealthHighlighter {
     private val config get() = Awesome.config.sheepWars.healthHighlight
+    private var lastRecolor = SimpleTimeMark.farPast()
 
     @SubscribeEvent
     fun onEntityUpdate(event: EntityHealthUpdateEvent) {
@@ -70,5 +78,45 @@ object PlayerHealthHighlighter {
         val alpha = (color1.alpha * amount) + (color2.alpha * (1.0 - amount))
 
         return Color(red.toInt(), green.toInt(), blue.toInt(), alpha.toInt())
+    }
+
+    @SubscribeEvent
+    fun onGameStatus(event: SheepWarsStatusEvent) {
+        val playerList = EntityUtils.getPlayers()
+
+        if (event.gameStatus == GameStatus.POST_GAME) {
+            removeColors()
+        }
+    }
+
+    @SubscribeEvent
+    fun onBlockEvent(event: BlockChangeEvent) {
+        if (lastRecolor.passedSince() < 10.seconds) return
+        if (event.old != Blocks.glass) return
+        if (event.new != Blocks.air) return
+
+        lastRecolor = SimpleTimeMark.now()
+        colorPlayers()
+    }
+
+    private fun colorPlayers() {
+        val playerList = EntityUtils.getPlayers()
+
+        for (player in playerList) {
+            if (player == null) continue
+            player.getTeamColor() ?: continue
+
+            colorPlayer(player, player.health)
+        }
+    }
+
+    private fun removeColors() {
+        val playerList = EntityUtils.getPlayers()
+
+        for (player in playerList) {
+            if (player == null) continue
+
+            RenderLivingEntityHelper.removeEntityColor(player)
+        }
     }
 }

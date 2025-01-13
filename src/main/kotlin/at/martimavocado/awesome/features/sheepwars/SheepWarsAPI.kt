@@ -8,6 +8,7 @@ import at.martimavocado.awesome.events.AwesomeTickEvent
 import at.martimavocado.awesome.events.BlockChangeEvent
 import at.martimavocado.awesome.events.chat.ChatReceiveEvent
 import at.martimavocado.awesome.events.games.sheepwars.SheepWarsMagicWoolEvent
+import at.martimavocado.awesome.events.games.sheepwars.SheepWarsStatusEvent
 import at.martimavocado.awesome.events.hypixel.HypixelServerChangeEvent
 import at.martimavocado.awesome.features.sheepwars.data.SheepWarsMagicWool
 import at.martimavocado.awesome.features.sheepwars.data.SheepWarsMagicWoolType
@@ -125,6 +126,7 @@ object SheepWarsAPI {
             gameStartPattern.matches(message) -> {
                 ChatUtils.debug("in-game")
                 gameStatus = GameStatus.IN_GAME
+                SheepWarsStatusEvent(GameStatus.IN_GAME).post()
                 playerStatus = PlayerStatus.ALIVE
                 return true
             }
@@ -132,6 +134,7 @@ object SheepWarsAPI {
             gameEndPattern.matches(message) -> {
                 ChatUtils.debug("post game")
                 gameStatus = GameStatus.POST_GAME
+                SheepWarsStatusEvent(GameStatus.POST_GAME).post()
                 playerStatus = null
                 magicWool = null
                 return true
@@ -162,6 +165,7 @@ object SheepWarsAPI {
         playerStatus = null
         gameStatus =
             if (HypixelGame.SHEEP_WARS.isPlaying()) {
+                SheepWarsStatusEvent(GameStatus.PRE_GAME).post()
                 GameStatus.PRE_GAME
             } else {
                 null

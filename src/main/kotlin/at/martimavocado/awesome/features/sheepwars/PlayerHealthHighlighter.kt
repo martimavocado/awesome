@@ -59,7 +59,7 @@ object PlayerHealthHighlighter {
 
         RenderLivingEntityHelper.setEntityColor(
             entity,
-            color.withAlpha(125),
+            color.withAlpha(color.alpha),
         ) { SheepWarsAPI.isPlaying() }
     }
 

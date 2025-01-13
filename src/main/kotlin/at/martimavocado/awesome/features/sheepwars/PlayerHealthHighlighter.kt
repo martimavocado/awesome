@@ -50,6 +50,7 @@ object PlayerHealthHighlighter {
                     in 20f..maxHealth -> AwesomeColor.GREEN.color
                     else -> {
                         RenderLivingEntityHelper.removeEntityColor(entity)
+                        RenderLivingEntityHelper.removeNoHurtTime(entity)
                         return
                     }
                 }
@@ -57,7 +58,7 @@ object PlayerHealthHighlighter {
                 getBlendedColor(health, maxHealth)
             }
 
-        RenderLivingEntityHelper.setEntityColor(
+        RenderLivingEntityHelper.setEntityColorWithNoHurtTime(
             entity,
             color.withAlpha(color.alpha),
         ) { SheepWarsAPI.isPlaying() }

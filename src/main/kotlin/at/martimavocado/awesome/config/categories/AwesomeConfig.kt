@@ -2,6 +2,7 @@ package at.martimavocado.awesome.config.categories
 
 import at.martimavocado.awesome.Awesome
 import at.martimavocado.awesome.config.categories.sheepwars.SheepWarsConfig
+import at.martimavocado.awesome.config.categories.speedbuilders.SpeedBuildersConfig
 import com.google.gson.annotations.Expose
 import io.github.notenoughupdates.moulconfig.Config
 import io.github.notenoughupdates.moulconfig.annotations.Category
@@ -20,6 +21,10 @@ class AwesomeConfig : Config() {
     @Expose
     @Category(name = "Sheep Wars", desc = "i love sheep wars")
     var sheepWars = SheepWarsConfig()
+
+    @Expose
+    @Category(name = "Speed Builders", desc = "this game is kinda cool")
+    var speedBuilders = SpeedBuildersConfig()
 
     @Expose
     @Category(name = "Chat", desc = "this is where we chat.")

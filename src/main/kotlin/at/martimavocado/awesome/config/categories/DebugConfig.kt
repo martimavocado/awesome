@@ -7,12 +7,12 @@ import io.github.notenoughupdates.moulconfig.annotations.ConfigOption
 
 class DebugConfig {
     @Expose
-    @ConfigOption(name = "Log Messages", desc = "Prints a copy of all chat messages to log.")
+    @ConfigOption(name = "Log Messages", desc = "Prints a copy of all chat messages and titles to log.")
     @ConfigEditorBoolean
     var printMessages = false
 
     @Expose
-    @ConfigOption(name = "Log ChatComponents", desc = "Prints a copy messages' chat components to log.")
+    @ConfigOption(name = "Log ChatComponents", desc = "Prints a copy messages and titles chat components to log.")
     @ConfigEditorBoolean
     var printChatComponents = false
 

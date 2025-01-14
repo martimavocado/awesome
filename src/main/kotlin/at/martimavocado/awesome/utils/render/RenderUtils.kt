@@ -6,6 +6,7 @@ import at.martimavocado.awesome.events.render.WorldRenderEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.utils.EntityUtils.getLocation
 import at.martimavocado.awesome.utils.EventUtils.post
+import net.minecraft.block.state.IBlockState
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.Tessellator
@@ -26,7 +27,9 @@ import kotlin.math.sin
 object RenderUtils {
     private val beaconBeam = ResourceLocation("textures/entity/beacon_beam.png")
 
-    private fun canRender() = Minecraft.getMinecraft().fontRendererObj != null
+    private val mc get() = Minecraft.getMinecraft()
+
+    private fun canRender() = mc.fontRendererObj != null
 
     @SubscribeEvent
     fun onRenderWorld(event: RenderWorldLastEvent) {
@@ -150,6 +153,121 @@ object RenderUtils {
         }
     }
 
+    fun WorldRenderEvent.drawFilledBoundingBoxNea(
+        aabb: AxisAlignedBB,
+        c: Color,
+        alphaMultiplier: Float = 1f,
+        /**
+         * If set to `true`, renders the box relative to the camera instead of relative to the world.
+         * If set to `false`, will be relativized to [RenderUtils.getViewerPos].
+         */
+        renderRelativeToCamera: Boolean = false,
+        drawVerticalBarriers: Boolean = true,
+    ) {
+        drawFilledBoundingBoxNea(aabb, c, alphaMultiplier, renderRelativeToCamera, drawVerticalBarriers, partialTicks)
+    }
+
+    fun drawFilledBoundingBoxNea(
+        aabb: AxisAlignedBB,
+        c: Color,
+        alphaMultiplier: Float = 1f,
+        /**
+         * If set to `true`, renders the box relative to the camera instead of relative to the world.
+         * If set to `false`, will be relativized to [RenderUtils.getViewerPos]. Setting this to `false` requires
+         * specifying [partialTicks]]
+         */
+        renderRelativeToCamera: Boolean = true,
+        drawVerticalBarriers: Boolean = true,
+        partialTicks: Float = 0F,
+    ) {
+        GlStateManager.enableBlend()
+        GlStateManager.disableLighting()
+        GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0)
+        GlStateManager.disableTexture2D()
+        GlStateManager.disableCull()
+        val effectiveAABB =
+            if (!renderRelativeToCamera) {
+                val vp = getViewerPos(partialTicks)
+                AxisAlignedBB(
+                    aabb.minX - vp.x,
+                    aabb.minY - vp.y,
+                    aabb.minZ - vp.z,
+                    aabb.maxX - vp.x,
+                    aabb.maxY - vp.y,
+                    aabb.maxZ - vp.z,
+                )
+            } else {
+                aabb
+            }
+        val tessellator = Tessellator.getInstance()
+        val worldRenderer = tessellator.worldRenderer
+
+        // vertical
+        if (drawVerticalBarriers) {
+            GlStateManager.color(c.red / 255f, c.green / 255f, c.blue / 255f, c.alpha / 255f * alphaMultiplier)
+            worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION)
+            with(effectiveAABB) {
+                worldRenderer.pos(minX, minY, minZ).endVertex()
+                worldRenderer.pos(maxX, minY, minZ).endVertex()
+                worldRenderer.pos(maxX, minY, maxZ).endVertex()
+                worldRenderer.pos(minX, minY, maxZ).endVertex()
+                tessellator.draw()
+                worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION)
+                worldRenderer.pos(minX, maxY, maxZ).endVertex()
+                worldRenderer.pos(maxX, maxY, maxZ).endVertex()
+                worldRenderer.pos(maxX, maxY, minZ).endVertex()
+                worldRenderer.pos(minX, maxY, minZ).endVertex()
+                tessellator.draw()
+            }
+        }
+        GlStateManager.color(
+            c.red / 255f * 0.8f,
+            c.green / 255f * 0.8f,
+            c.blue / 255f * 0.8f,
+            c.alpha / 255f * alphaMultiplier,
+        )
+
+        // x
+        worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION)
+        with(effectiveAABB) {
+            worldRenderer.pos(minX, minY, maxZ).endVertex()
+            worldRenderer.pos(minX, maxY, maxZ).endVertex()
+            worldRenderer.pos(minX, maxY, minZ).endVertex()
+            worldRenderer.pos(minX, minY, minZ).endVertex()
+            tessellator.draw()
+            worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION)
+            worldRenderer.pos(maxX, minY, minZ).endVertex()
+            worldRenderer.pos(maxX, maxY, minZ).endVertex()
+            worldRenderer.pos(maxX, maxY, maxZ).endVertex()
+            worldRenderer.pos(maxX, minY, maxZ).endVertex()
+        }
+        tessellator.draw()
+        GlStateManager.color(
+            c.red / 255f * 0.9f,
+            c.green / 255f * 0.9f,
+            c.blue / 255f * 0.9f,
+            c.alpha / 255f * alphaMultiplier,
+        )
+        // z
+        worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION)
+        with(effectiveAABB) {
+            worldRenderer.pos(minX, maxY, minZ).endVertex()
+            worldRenderer.pos(maxX, maxY, minZ).endVertex()
+            worldRenderer.pos(maxX, minY, minZ).endVertex()
+            worldRenderer.pos(minX, minY, minZ).endVertex()
+            tessellator.draw()
+            worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION)
+            worldRenderer.pos(minX, minY, maxZ).endVertex()
+            worldRenderer.pos(maxX, minY, maxZ).endVertex()
+            worldRenderer.pos(maxX, maxY, maxZ).endVertex()
+            worldRenderer.pos(minX, maxY, maxZ).endVertex()
+        }
+        tessellator.draw()
+        GlStateManager.enableTexture2D()
+        GlStateManager.enableCull()
+        GlStateManager.disableBlend()
+    }
+
     fun AxisAlignedBB.expandBlock(n: Int = 1): AxisAlignedBB {
         val vec = PositionVec.expandVector * n
         return expand(vec.x, vec.y, vec.z)
@@ -160,8 +278,7 @@ object RenderUtils {
         return expand(vec.x, vec.y, vec.z)
     }
 
-    fun getViewerPos(partialTicks: Float) =
-        Minecraft.getMinecraft().renderViewEntity?.let { exactLocation(it, partialTicks) } ?: PositionVec()
+    fun getViewerPos(partialTicks: Float) = mc.renderViewEntity?.let { exactLocation(it, partialTicks) } ?: PositionVec()
 
     fun exactLocation(
         entity: Entity,
@@ -313,7 +430,7 @@ object RenderUtils {
         val bottomOffset = 1
         val tessellator = Tessellator.getInstance()
         val worldRenderer = tessellator.worldRenderer
-        Minecraft.getMinecraft().textureManager.bindTexture(beaconBeam)
+        mc.textureManager.bindTexture(beaconBeam)
         GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, 10497.0f)
         GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, 10497.0f)
         GlStateManager.disableLighting()
@@ -323,7 +440,7 @@ object RenderUtils {
         GlStateManager.enableBlend()
         GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0)
 
-        val time = Minecraft.getMinecraft().theWorld.totalWorldTime + partialTicks.toDouble()
+        val time = mc.theWorld.totalWorldTime + partialTicks.toDouble()
         val d1 = MathHelper.func_181162_h(-time * 0.2 - MathHelper.floor_double(-time * 0.1).toDouble())
         val r = (rgb shr 16 and 0xFF) / 255f
         val g = (rgb shr 8 and 0xFF) / 255f
@@ -525,6 +642,43 @@ object RenderUtils {
         }
 
         GlStateManager.disableCull()
+    }
+
+    fun WorldRenderEvent.renderBlock(
+        blockState: IBlockState,
+        location: PositionVec,
+        brightness: Float = 0.5f,
+        transformations: (() -> Unit)? = null,
+    ) {
+        val player = mc.thePlayer ?: return
+        val playerPosX = player.lastTickPosX + (player.posX - player.lastTickPosX) * this.partialTicks
+        val playerPosY = player.lastTickPosY + (player.posY - player.lastTickPosY) * this.partialTicks
+        val playerPosZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * this.partialTicks
+
+        GlStateManager.pushMatrix()
+        GlStateManager.disableLighting()
+        GlStateManager.enableBlend()
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA)
+        GlStateManager.depthMask(false)
+
+        GlStateManager.translate(-playerPosX, -playerPosY, -playerPosZ)
+
+        val blockRendererDispatcher = mc.blockRendererDispatcher
+
+        GlStateManager.pushMatrix()
+        GlStateManager.translate(location.x, location.y, location.z + 1)
+
+        transformations?.invoke()
+
+        blockRendererDispatcher.renderBlockBrightness(blockState, brightness)
+
+        GlStateManager.popMatrix()
+
+        GlStateManager.depthMask(true)
+        GlStateManager.scale(1f, 1f, 1f)
+        GlStateManager.enableLighting()
+        GlStateManager.disableBlend()
+        GlStateManager.popMatrix()
     }
 
     fun WorldRenderEvent.exactLocation(entity: Entity) = exactLocation(entity, partialTicks)

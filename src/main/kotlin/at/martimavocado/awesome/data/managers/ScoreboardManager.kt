@@ -1,11 +1,14 @@
 package at.martimavocado.awesome.data.managers
 
 import at.martimavocado.awesome.events.AwesomeTickEvent
+import at.martimavocado.awesome.events.CommandRegistrationEvent
 import at.martimavocado.awesome.events.PacketReceivedEvent
 import at.martimavocado.awesome.events.ScoreboardUpdateEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
+import at.martimavocado.awesome.utils.ChatUtils
 import at.martimavocado.awesome.utils.EventUtils.post
 import at.martimavocado.awesome.utils.StringUtils.lastColorCode
+import at.martimavocado.awesome.utils.system.ClipboardUtils
 import net.minecraft.client.Minecraft
 import net.minecraft.network.play.server.S3BPacketScoreboardObjective
 import net.minecraft.network.play.server.S3CPacketUpdateScore
@@ -134,4 +137,21 @@ object ScoreboardManager {
             "\uD83C\uDF82",
             "\uD83D\uDD2B",
         )
+
+    @SubscribeEvent
+    fun onCommandRegistration(event: CommandRegistrationEvent) {
+        event.register("awcopyscoreboard") {
+            description = "Copies the current scoreboard to the clipboard."
+            callback { copyScoreboard() }
+        }
+    }
+
+    private fun copyScoreboard() {
+        val title = objectiveTitle + "\n\n"
+
+        val body = scoreboardLines.joinToString("\n")
+
+        ClipboardUtils.copyToClipboard(title + body)
+        ChatUtils.chat("Copied scoreboard data to the clipboard")
+    }
 }

@@ -7,6 +7,9 @@ import net.minecraft.util.AxisAlignedBB
 import net.minecraft.util.BlockPos
 import net.minecraft.util.Vec3
 import kotlin.math.acos
+import kotlin.math.pow
+import kotlin.math.roundToInt
+import kotlin.math.sqrt
 
 data class PositionVec(
     val x: Double = 0.0,
@@ -94,11 +97,42 @@ data class PositionVec(
         return inLineOfSight()
     }
 
-    fun AxisAlignedBB.expand(vec: PositionVec): AxisAlignedBB = expand(vec.x, vec.y, vec.z)
+    fun lengthSquared(): Double = x * x + y * y + z * z
 
-    fun AxisAlignedBB.expand(amount: Double): AxisAlignedBB = expand(amount, amount, amount)
+    fun length(): Double = sqrt(lengthSquared())
+
+    fun normalize() = length().let { PositionVec(x / it, y / it, z / it) }
+
+    fun roundToInt() = PositionVec(this.x.roundToInt(), this.y.roundToInt(), this.z.roundToInt())
+
+    fun distance(other: PositionVec): Double = distanceSq(other).pow(0.5)
+
+    fun distanceSq(
+        x: Double,
+        y: Double,
+        z: Double,
+    ): Double = distanceSq(PositionVec(x, y, z))
+
+    fun distance(
+        x: Double,
+        y: Double,
+        z: Double,
+    ): Double = distance(PositionVec(x, y, z))
+
+    fun distanceSq(other: PositionVec): Double {
+        val dx = other.x - x
+        val dy = other.y - y
+        val dz = other.z - z
+        return (dx * dx + dy * dy + dz * dz)
+    }
 
     companion object {
         val expandVector = PositionVec(0.0020000000949949026, 0.0020000000949949026, 0.0020000000949949026)
+
+        fun AxisAlignedBB.expand(vec: PositionVec): AxisAlignedBB = expand(vec.x, vec.y, vec.z)
+
+        fun AxisAlignedBB.expand(amount: Double): AxisAlignedBB = expand(amount, amount, amount)
+
+        fun AxisAlignedBB.contains(location: PositionVec): Boolean = this.isVecInside(location.toVec3())
     }
 }

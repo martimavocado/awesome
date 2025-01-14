@@ -26,6 +26,27 @@ object BlockUtils {
 
     fun PositionVec.getBlockStateAt(): IBlockState = world.getBlockState(toBlockPos())
 
+    fun rayTrace(
+        start: PositionVec,
+        direction: PositionVec,
+        distance: Double = 50.0,
+    ): PositionVec? {
+        val target = start + direction.normalize() * distance
+        val result = world.rayTraceBlocks(start.toVec3(), target.toVec3())
+
+        return result?.blockPos?.toPositionVec()
+    }
+
+    fun getBlockLookingAt(distance: Double = 10.0) =
+        rayTrace(
+            PlayerUtils.playerEyesLocation() ?: PositionVec(),
+            Minecraft
+                .getMinecraft()
+                .thePlayer.lookVec
+                .toPositionVec(),
+            distance,
+        )
+
     @SubscribeEvent
     fun onBlockReceivePacket(event: PacketReceivedEvent) {
         when (event.packet) {

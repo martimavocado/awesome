@@ -104,6 +104,7 @@ loom {
 
             arg("--mods", devenvMod.resolve().joinToString(",") { it.relativeTo(file("run")).path })
         }
+        remove(getByName("server"))
     }
     forge {
         pack200Provider.set(

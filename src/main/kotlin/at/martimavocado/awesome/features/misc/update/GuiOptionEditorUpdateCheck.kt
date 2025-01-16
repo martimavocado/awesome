@@ -73,6 +73,7 @@ class GuiOptionEditorUpdateCheck(
 
     override fun getHeight(): Int = 55
 
+    @Deprecated("Deprecated in Java")
     override fun mouseInput(
         x: Int,
         y: Int,
@@ -96,7 +97,8 @@ class GuiOptionEditorUpdateCheck(
         return false
     }
 
-    override fun keyboardInput(): Boolean = false
+    @Deprecated("Deprecated in Java")
+    override fun keyboardInput() = false
 
     override fun fulfillsSearch(word: String): Boolean = super.fulfillsSearch(word) || word in "download" || word in "update"
 }

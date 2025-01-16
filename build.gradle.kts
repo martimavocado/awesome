@@ -12,10 +12,8 @@ plugins {
 
 // Constants:
 
-val baseGroup: String by project
 val mcVersion: String by project
 val version: String by project
-val mixinGroup = "$baseGroup.mixin"
 val modid: String by project
 
 // Toolchains:
@@ -82,7 +80,7 @@ dependencies {
     shadowImpl(libs.libautoupdate)
     shadowImpl("org.jetbrains.kotlin:kotlin-reflect:1.9.0")
 
-    shadowImpl(libs.hypixelmodapi)
+    compileOnly(libs.hypixelmodapi)
     shadowImpl(libs.hypixelmodapitweaker)
 
     compileOnly(ksp(project(":annotation-processors"))!!)
@@ -100,7 +98,7 @@ loom {
             property("mixin.debug", "true")
             property("devauth.configDir", rootProject.file(".devauth").absolutePath)
             property("asmhelper.verbose", "true")
-            arg("--tweakClass", "org.spongepowered.asm.launch.MixinTweaker")
+            arg("--tweakClass", "at.martimavocado.awesome.tweaker.AwesomeTweaker")
 
             arg("--mods", devenvMod.resolve().joinToString(",") { it.relativeTo(file("run")).path })
         }
@@ -153,8 +151,7 @@ tasks.withType(Jar::class) {
         this["FMLCorePluginContainsFMLMod"] = "true"
         this["ForceLoadAsMod"] = "true"
 
-        // If you don't want mixins, remove these lines
-        this["TweakClass"] = "org.spongepowered.asm.launch.MixinTweaker"
+        this["TweakClass"] = "at.martimavocado.awesome.tweaker.AwesomeTweaker"
         this["MixinConfigs"] = "mixins.$modid.json"
     }
 }
@@ -163,7 +160,7 @@ tasks.processResources {
     inputs.property("version", project.version)
     inputs.property("mcversion", mcVersion)
     inputs.property("modid", modid)
-    inputs.property("mixinGroup", mixinGroup)
+    inputs.property("mixinGroup", "at.martimavocado.awesome.tweaker.mixin")
 
     filesMatching(listOf("mcmod.info", "mixins.$modid.json")) {
         expand(inputs.properties)
@@ -195,9 +192,9 @@ tasks.shadowJar {
     exclude("META-INF/versions/**")
 
     // If you want to include other dependencies and shadow them, you can relocate them in here
-    relocate("io.github.notenoughupdates.moulconfig", "$baseGroup.deps.moulconfig")
-    relocate("moe.nea.libautoupdate", "$baseGroup.deps.libautoupdate")
-    relocate("net.hypixel.modapi.tweaker", "$baseGroup.deps.hypixel.modapi.tweaker")
+    relocate("io.github.notenoughupdates.moulconfig", "at.martimavocado.awesome.tweaker.deps.moulconfig")
+    relocate("moe.nea.libautoupdate", "at.martimavocado.awesome.tweaker.deps.libautoupdate")
+    relocate("net.hypixel.modapi.tweaker", "at.martimavocado.awesome.tweaker.deps.hypixel.modapi.tweaker")
     mergeServiceFiles()
 }
 

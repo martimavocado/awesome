@@ -15,6 +15,7 @@ public class AwesomeTweaker implements ITweaker {
         List<String> tweakClasses = (List<String>) Launch.blackboard.get("TweakClasses");
         tweakClasses.add(MixinTweaker.class.getName());
         tweakClasses.add(HypixelModAPITweaker.class.getName());
+        tweakClasses.add(ModLoadingTweaker.class.getName());
     }
 
     @Override

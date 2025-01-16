@@ -2,7 +2,6 @@ package at.martimavocado.awesome.utils.system
 
 import at.martimavocado.awesome.Awesome
 import at.martimavocado.awesome.utils.SimpleTimeMark
-import kotlinx.coroutines.launch
 import java.io.File
 import java.io.IOException
 import java.nio.file.Files
@@ -75,7 +74,7 @@ class AwesomeLogger(
                     return logger
                 }
 
-            Awesome.coroutineScope.launch {
+            Awesome.launchCoroutine {
                 val timeToDelete = Awesome.config.debug.logExpiryTime.days
 
                 directoryFiles.forEach { file ->

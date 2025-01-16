@@ -48,8 +48,6 @@ class Awesome {
 
     @Mod.EventHandler
     fun preInit(event: FMLPreInitializationEvent) {
-//        CommandManager()
-
         LoadedModules.modules.forEach { loadModule(it) }
 
         CommandRegistrationEvent().post()
@@ -59,7 +57,7 @@ class Awesome {
     companion object {
         lateinit var configManager: ConfigManager
         const val MOD_ID = "awesome"
-        const val MOD_VERSION = "1.6.0"
+        const val MOD_VERSION = "1.6.1"
 
         @JvmStatic
         val version: String

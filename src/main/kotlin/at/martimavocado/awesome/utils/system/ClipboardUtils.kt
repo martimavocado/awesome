@@ -4,7 +4,6 @@ import at.martimavocado.awesome.Awesome
 import at.martimavocado.awesome.utils.ChatUtils
 import at.martimavocado.awesome.utils.SimpleTimeMark
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import java.awt.Toolkit
 import java.awt.datatransfer.Clipboard
 import java.awt.datatransfer.StringSelection
@@ -36,7 +35,7 @@ object ClipboardUtils {
         text: String,
         attempt: Int = 0,
     ) {
-        Awesome.Companion.coroutineScope.launch {
+        Awesome.launchCoroutine {
             try {
                 getClipboard()?.setContents(StringSelection(text), null)
             } catch (_: Exception) {

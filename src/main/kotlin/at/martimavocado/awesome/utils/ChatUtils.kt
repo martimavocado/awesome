@@ -25,7 +25,7 @@ object ChatUtils {
         if (!hidden) chat("Testing message: §7$rawMessage")
         if (hidden) rawMessage = rawMessage.replace(" -s", "")
         val formattedMessage = rawMessage.replace("&", "§")
-        chat(formattedMessage)
+        chat(formattedMessage, false)
     }
 
     fun warning(
@@ -43,8 +43,7 @@ object ChatUtils {
         message: String,
         usePrefix: Boolean = true,
     ) {
-        val prefix = if (usePrefix) "§e[Awesome] " else "§e"
-
+        val prefix = if (usePrefix) "§e[Awesome] " else ""
         val finalMessage = prefix + message
 
         chat(ChatComponentText(finalMessage))

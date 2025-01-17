@@ -12,13 +12,13 @@ import java.io.IOException
 class ConfigGuiForgeInterop : IModGuiFactory {
     override fun initialize(minecraft: Minecraft) {}
 
-    override fun mainConfigGuiClass() = WrappedSkyHanniConfig::class.java
+    override fun mainConfigGuiClass() = WrappedAwesomeConfig::class.java
 
     override fun runtimeGuiCategories(): Set<RuntimeOptionCategoryElement>? = null
 
     override fun getHandlerFor(element: RuntimeOptionCategoryElement): RuntimeOptionGuiHandler? = null
 
-    class WrappedSkyHanniConfig(
+    class WrappedAwesomeConfig(
         private val parent: GuiScreen,
     ) : GuiScreenElementWrapper(ConfigGuiManager.getEditorInstance()) {
         @Throws(IOException::class)

@@ -18,7 +18,7 @@ object MagicWoolPerk {
         if (!SheepWarsAPI.isAlive()) return
         val wool = SheepWarsAPI.magicWool ?: return
 
-        val string = "§${wool.type.color.colorCode}$wool§7: §f${wool.type}"
+        val string = "§${wool.type.color.colorCode}${wool.type}§7: §7${wool.type.perk}"
 
         config.perkPosition.renderString(string)
     }

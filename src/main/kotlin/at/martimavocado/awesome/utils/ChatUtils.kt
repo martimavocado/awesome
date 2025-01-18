@@ -2,7 +2,9 @@ package at.martimavocado.awesome.utils
 
 import at.martimavocado.awesome.Awesome
 import at.martimavocado.awesome.events.CommandRegistrationEvent
+import at.martimavocado.awesome.events.chat.ChatReceiveEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
+import at.martimavocado.awesome.utils.EventUtils.post
 import net.minecraft.client.Minecraft
 import net.minecraft.event.ClickEvent
 import net.minecraft.event.HoverEvent
@@ -26,6 +28,7 @@ object ChatUtils {
         if (hidden) rawMessage = rawMessage.replace(" -s", "")
         val formattedMessage = rawMessage.replace("&", "§")
         chat(formattedMessage, false)
+        ChatReceiveEvent(formattedMessage, ChatComponentText(formattedMessage)).post()
     }
 
     fun warning(

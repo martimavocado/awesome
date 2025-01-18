@@ -1,6 +1,7 @@
 package at.martimavocado.awesome.features.sheepwars
 
 import at.martimavocado.awesome.Awesome
+import at.martimavocado.awesome.data.HypixelGame
 import at.martimavocado.awesome.events.ParticleEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.utils.BlockUtils
@@ -15,7 +16,7 @@ object EarthquakeEffectHider {
     private val config get() = Awesome.config.sheepWars
 
     fun shouldCancelOverlay(position: BlockPos): Boolean {
-        if (!config.hideEarthquake) return false
+        if (!isEnabled()) return false
 
         val position = position.toPositionVec()
         val lookingAt = BlockUtils.getBlockLookingAt()
@@ -25,7 +26,7 @@ object EarthquakeEffectHider {
 
     @SubscribeEvent
     fun onParticle(event: ParticleEvent) {
-        if (!config.hideEarthquake) return
+        if (!isEnabled()) return
 
         if (event.type != BLOCK_CRACK) return
         if (event.count != 4) return
@@ -34,4 +35,6 @@ object EarthquakeEffectHider {
 
         event.cancel()
     }
+
+    fun isEnabled() = HypixelGame.SHEEP_WARS.isPlaying() && config.hideEarthquake
 }

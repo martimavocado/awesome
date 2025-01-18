@@ -1,6 +1,7 @@
 package at.martimavocado.awesome.data.managers
 
 import at.martimavocado.awesome.Awesome
+import at.martimavocado.awesome.events.chat.ActionBarEvent
 import at.martimavocado.awesome.events.chat.ChatReceiveEvent
 import at.martimavocado.awesome.events.chat.PlayerChatEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
@@ -19,7 +20,8 @@ import java.util.regex.Pattern
 @LoadModule
 object ChatManager {
     private val config get() = Awesome.Companion.config.debug
-    private val logger = AwesomeLogger("chat")
+    private val chatLogger = AwesomeLogger("messages/chat")
+    private val barLogger = AwesomeLogger("messages/actionbar")
 
     private val partyMessagePattern =
         "§9P(?:arty)? §8> §.(?:\\[.*] )?(?<author>\\w+)§f: (?:(?:§r)?)+(?<message>.*)".toPattern()
@@ -29,18 +31,25 @@ object ChatManager {
 
     @SubscribeEvent(receiveCanceled = true)
     fun onChatReceive(event: ClientChatReceivedEvent) {
-        if (event.type.toInt() == 2) return
-
         val original = event.message
         var message = original.formattedText
 
         message = message.cleanupColors()
 
-        val chatEvent = ChatReceiveEvent(message, original)
-        chatEvent.post()
-        event.message = chatEvent.chatComponent
+        if (event.type.toInt() != 2) {
+            val chatEvent = ChatReceiveEvent(message, original)
+            chatEvent.post()
+            event.message = chatEvent.chatComponent
 
-        if (chatEvent.isCanceled) event.cancel()
+            if (chatEvent.isCanceled) event.cancel()
+        } else {
+            val actionBarEvent = ActionBarEvent(message, original)
+            actionBarEvent.post()
+            event.message = actionBarEvent.chatComponent
+            printDebugActionBar(actionBarEvent)
+
+            if (actionBarEvent.isCanceled) event.cancel()
+        }
     }
 
     @SubscribeEvent
@@ -125,7 +134,12 @@ object ChatManager {
     }
 
     private fun printDebugMessage(event: ChatReceiveEvent) {
-        if (config.printMessages) logger.log("'${event.message}'")
-        if (config.printChatComponents) logger.log("'${event.chatComponent}'")
+        if (config.printMessages) chatLogger.log("'${event.message}'")
+        if (config.printChatComponents) chatLogger.log("'${event.chatComponent}'")
+    }
+
+    private fun printDebugActionBar(event: ActionBarEvent) {
+        if (config.printMessages) barLogger.log("'${event.message}'")
+        if (config.printChatComponents) barLogger.log("'${event.chatComponent}'")
     }
 }

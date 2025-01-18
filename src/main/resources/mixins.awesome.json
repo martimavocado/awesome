@@ -10,5 +10,6 @@
     "MixinRendererLivingEntity"
   ],
   "client": [
+    "MixinBlockRendererDispatcher"
   ]
 }

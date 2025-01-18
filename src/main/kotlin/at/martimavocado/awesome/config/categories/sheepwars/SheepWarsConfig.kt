@@ -4,6 +4,7 @@ import at.martimavocado.awesome.features.sheepwars.TutorialHider
 import com.google.gson.annotations.Expose
 import io.github.notenoughupdates.moulconfig.annotations.Accordion
 import io.github.notenoughupdates.moulconfig.annotations.Category
+import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorBoolean
 import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorDraggableList
 import io.github.notenoughupdates.moulconfig.annotations.ConfigOption
 
@@ -25,4 +26,12 @@ class SheepWarsConfig {
     @ConfigOption(name = "Hide Tutorials", desc = "Hides titles and messages")
     @ConfigEditorDraggableList
     var hiddenMessages = mutableListOf(TutorialHider.SheepWarsTutorialPattern.TUTORIAL)
+
+    @Expose
+    @ConfigOption(
+        name = "Hide Earthquake Sheep effect",
+        desc = "Hides the Earthquake Sheep effect when not looking at it.",
+    )
+    @ConfigEditorBoolean
+    var hideEarthquake = true
 }

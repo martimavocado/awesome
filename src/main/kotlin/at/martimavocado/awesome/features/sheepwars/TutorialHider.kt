@@ -2,6 +2,7 @@ package at.martimavocado.awesome.features.sheepwars
 
 import at.martimavocado.awesome.Awesome
 import at.martimavocado.awesome.data.HypixelGame
+import at.martimavocado.awesome.events.chat.ActionBarEvent
 import at.martimavocado.awesome.events.chat.ChatReceiveEvent
 import at.martimavocado.awesome.events.render.TitleReceivedEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
@@ -41,6 +42,10 @@ object TutorialHider {
     private val loseSubtitle = "§cYour team was defeated!".toPattern()
 
     private val queueCancel = "§cCANCELLED".toPattern()
+
+    private val actionbarTutorial = "§aLeft Click = Straight Shot §7\\|\\| §bRight Click = Gravity Shot".toPattern()
+
+    val actionBarSet = setOf(actionbarTutorial)
 
     val tutorialChatSet =
         setOf(
@@ -95,23 +100,40 @@ object TutorialHider {
         if (!HypixelGame.SHEEP_WARS.isPlaying()) return
 
         for (type in config.hiddenMessages) {
-            type.titlePatterns.forEach {
+            type.titlePatterns?.forEach {
                 if (it.matches(event.formattedText)) {
                     event.cancel()
                     return
                 }
-            }
+            } ?: continue
+        }
+    }
+
+    @SubscribeEvent
+    fun onActionBar(event: ActionBarEvent) {
+        if (config.hiddenMessages.isEmpty()) return
+        if (!HypixelGame.SHEEP_WARS.isPlaying()) return
+
+        for (type in config.hiddenMessages) {
+            type.actionBarPatterns?.forEach {
+                if (it.matches(event.message)) {
+                    event.cancel()
+                    return
+                }
+            } ?: continue
         }
     }
 
     enum class SheepWarsTutorialPattern(
         val prettyName: String,
-        val titlePatterns: Set<Pattern>,
+        val titlePatterns: Set<Pattern>? = null,
         val chatPatterns: Set<Pattern>? = null,
+        val actionBarPatterns: Set<Pattern>? = null,
     ) {
         TUTORIAL("Tutorials", tutorialSet, tutorialChatSet),
         GAME_STATUS("Game Statuses", gameStatusSet),
         DYNAMIC("AoE Sheep + Wool Spawns", dynamicMessages),
+        ACTION_BAR("Action Bar", actionBarPatterns = actionBarSet),
         ;
 
         override fun toString(): String = prettyName

@@ -1,7 +1,7 @@
 package at.martimavocado.awesome.utils
 
 import at.martimavocado.awesome.events.hypixel.HypixelPartyEvent
-import at.martimavocado.awesome.utils.BlockUtils.toPositionVec
+import at.martimavocado.awesome.utils.EntityUtils.getLocation
 import net.minecraft.client.Minecraft
 import net.minecraft.client.entity.EntityPlayerSP
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
@@ -13,7 +13,7 @@ object PlayerUtils {
 
     fun getPlayer(): EntityPlayerSP? = Minecraft.getMinecraft().thePlayer
 
-    fun getPlayerLocation() = getPlayer()?.positionVector?.toPositionVec()
+    fun getPlayerLocation() = getPlayer()?.getLocation()
 
     fun playerEyesLocation() = getPlayerLocation()?.add(y = getPlayer()?.eyeHeight?.toDouble() ?: 1.62)
 

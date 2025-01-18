@@ -1,6 +1,9 @@
 package at.martimavocado.awesome.utils
 
+import at.martimavocado.awesome.data.PositionVec
 import at.martimavocado.awesome.events.AwesomeTickEvent
+import at.martimavocado.awesome.events.PacketReceivedEvent
+import at.martimavocado.awesome.events.ParticleEvent
 import at.martimavocado.awesome.events.WorldChangeEvent
 import at.martimavocado.awesome.events.entity.DataWatcherUpdatedEvent
 import at.martimavocado.awesome.events.entity.EntityHealthUpdateEvent
@@ -13,6 +16,7 @@ import net.minecraft.entity.item.EntityArmorStand
 import net.minecraft.entity.item.EntityItem
 import net.minecraft.entity.item.EntityItemFrame
 import net.minecraft.entity.item.EntityXPOrb
+import net.minecraft.network.play.server.S2APacketParticles
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.world.WorldEvent
 import net.minecraftforge.fml.common.eventhandler.Event
@@ -23,6 +27,11 @@ import net.minecraftforge.fml.common.gameevent.TickEvent
 object EventUtils {
     fun Event.post() {
         MinecraftForge.EVENT_BUS.post(this)
+    }
+
+    fun Event.postAndCatch(): Boolean {
+        MinecraftForge.EVENT_BUS.post(this)
+        return this.isCanceled
     }
 
     fun Event.cancel() {
@@ -67,6 +76,26 @@ object EventUtils {
                 if (event.entity is EntityWither && health == 300f && event.entity.entityId < 0) continue
                 if (event.entity is EntityLivingBase) {
                     EntityHealthUpdateEvent(event.entity, health).post()
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    fun onPacket(event: PacketReceivedEvent) {
+        when (val packet = event.packet) {
+            is S2APacketParticles -> {
+                if (ParticleEvent(
+                        packet.particleType!!,
+                        PositionVec(packet.xCoordinate, packet.yCoordinate, packet.zCoordinate),
+                        packet.particleCount,
+                        packet.particleSpeed,
+                        PositionVec(packet.xOffset, packet.yOffset, packet.zOffset),
+                        packet.isLongDistance,
+                        packet.particleArgs,
+                    ).postAndCatch()
+                ) {
+                    event.cancel()
                 }
             }
         }

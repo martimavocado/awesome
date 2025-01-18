@@ -1,6 +1,7 @@
 package at.martimavocado.awesome.data
 
 import at.martimavocado.awesome.utils.BlockUtils.toPositionVec
+import at.martimavocado.awesome.utils.NumberUtils.roundTo
 import at.martimavocado.awesome.utils.PlayerUtils
 import net.minecraft.client.Minecraft
 import net.minecraft.util.AxisAlignedBB
@@ -106,6 +107,10 @@ data class PositionVec(
     fun roundToInt() = PositionVec(this.x.roundToInt(), this.y.roundToInt(), this.z.roundToInt())
 
     fun distance(other: PositionVec): Double = distanceSq(other).pow(0.5)
+
+    fun distanceToPlayer() = distance(PlayerUtils.getPlayerLocation() ?: PositionVec())
+
+    fun roundTo(precision: Int) = PositionVec(x.roundTo(precision), y.roundTo(precision), z.roundTo(precision))
 
     fun distanceSq(
         x: Double,

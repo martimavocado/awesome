@@ -43,7 +43,7 @@ object RenderUtils {
         if (event.type != RenderGameOverlayEvent.ElementType.HOTBAR) return
 
         GlStateManager.translate(0f, 0f, -3f)
-        GuiOverlayRenderEvent().post()
+        GuiOverlayRenderEvent(event.partialTicks).post()
         GlStateManager.translate(0f, 0f, 3f)
     }
 

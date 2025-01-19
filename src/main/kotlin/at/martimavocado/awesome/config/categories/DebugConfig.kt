@@ -1,11 +1,21 @@
 package at.martimavocado.awesome.config.categories
 
+import at.martimavocado.awesome.config.categories.debug.DebugTitleConfig
 import com.google.gson.annotations.Expose
+import io.github.notenoughupdates.moulconfig.annotations.Accordion
 import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorBoolean
 import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorSlider
 import io.github.notenoughupdates.moulconfig.annotations.ConfigOption
 
 class DebugConfig {
+    @Expose
+    @ConfigOption(
+        name = "Title Command",
+        desc = "",
+    )
+    @Accordion
+    var title = DebugTitleConfig()
+
     @Expose
     @ConfigOption(name = "Log Messages", desc = "Prints a copy of all chat messages and titles to log.")
     @ConfigEditorBoolean

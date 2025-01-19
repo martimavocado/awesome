@@ -9,12 +9,15 @@ data class GuiPosition(
     val y: Int,
     val game: HypixelGame?,
 ) {
-    fun renderString(string: String) {
+    fun renderString(
+        string: String,
+        dropShadow: Boolean = false,
+    ) {
         if (string.isBlank()) return
         if (!(game != null && game == HypixelGame.currentGame)) return
 
         val fontRenderer = Minecraft.getMinecraft().fontRendererObj
 
-        fontRenderer.drawString(string, x, y, Color.WHITE.rgb)
+        fontRenderer.drawString(string, x.toFloat(), y.toFloat(), Color.WHITE.rgb, dropShadow)
     }
 }

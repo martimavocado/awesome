@@ -8,6 +8,7 @@ import at.martimavocado.awesome.events.AwesomeTickEvent
 import at.martimavocado.awesome.events.BlockChangeEvent
 import at.martimavocado.awesome.events.DebugDataCollectionEvent
 import at.martimavocado.awesome.events.chat.ChatReceiveEvent
+import at.martimavocado.awesome.events.games.sheepwars.SheepWarsKillEvent
 import at.martimavocado.awesome.events.games.sheepwars.SheepWarsMagicWoolEvent
 import at.martimavocado.awesome.events.games.sheepwars.SheepWarsStatusEvent
 import at.martimavocado.awesome.events.hypixel.HypixelServerChangeEvent
@@ -50,7 +51,7 @@ object SheepWarsAPI {
     private val gameEndPattern = "§f +§r§.§lGAME WIN - \\w+".toPattern()
     private val playerKillPattern =
         "^§(?<playerTeam>.)(?<player>\\w+)[\\w' §]+§(?<killerTeam>.)(?<killer>\\w+)[\\w' §]+\\.$".toPattern()
-    private val playerWalkOffPattern = "§.(?<player>\\w+) §r§7fell into the void\\.".toPattern()
+    private val playerWalkOffPattern = "§(?<team>[9c])(?<player>\\w+) §r§7fell into the void\\.".toPattern()
 
     fun isPlaying() = HypixelGame.SHEEP_WARS.isPlaying() && gameStatus == GameStatus.IN_GAME
 
@@ -105,22 +106,25 @@ object SheepWarsAPI {
 
     private fun handleKill(message: String) {
         playerKillPattern.matchMatcher(message) {
-//            val killerTeam = group("killerTeam")
-//            val killer = group("killer")
-//
-//            val playerTeam = group("playerTeam")
-            val player = group("player")
+            val killerTeam = TeamType.getTeamFromColorCode(group("killerTeam")[0]) ?: return
+            val killer = group("killer") ?: return
 
-            if (player == PlayerUtils.playerIGN) {
-                ChatUtils.debug("you died")
-                playerStatus == PlayerStatus.DEAD
-            }
+            val playerTeam = TeamType.getTeamFromColorCode(group("playerTeam")[0]) ?: return
+            val player = group("player") ?: return
+
+            if (player == PlayerUtils.playerIGN) playerStatus == PlayerStatus.DEAD
+
+            SheepWarsKillEvent(killer, killerTeam, player, playerTeam).post()
             return
         }
         playerWalkOffPattern.matchMatcher(message) {
-            val player = group("player")
+            val player = group("player") ?: return
+            val team = TeamType.getTeamFromColorCode(group("team")[0]) ?: return
 
             if (player == PlayerUtils.playerIGN) playerStatus = PlayerStatus.DEAD
+
+            SheepWarsKillEvent(null, null, player, team).post()
+            return
         }
     }
 
@@ -204,7 +208,7 @@ object SheepWarsAPI {
         return team == myTeam
     }
 
-    fun EntityPlayer.getTeamColor(): TeamColor? {
+    fun EntityPlayer.getTeamColor(): TeamType? {
         val armor = this.getCurrentArmor(2) ?: return null
         if (armor.item != Items.leather_chestplate) return null
 
@@ -215,7 +219,7 @@ object SheepWarsAPI {
                 .toString()
                 .toInt()
 
-        return TeamColor.getTeamFromColor(color)
+        return TeamType.getTeamFromColor(color)
     }
 
     @SubscribeEvent
@@ -235,17 +239,24 @@ object SheepWarsAPI {
         }
     }
 
-    enum class TeamColor(
+    enum class TeamType(
         val color: Int,
+        val colorCode: Char,
     ) {
-        BLUE(29680),
-        RED(16711680),
+        BLUE(29680, '9'),
+        RED(16711680, 'c'),
         ;
 
         companion object {
             fun getTeamFromColor(input: Int) =
-                TeamColor.entries.firstOrNull { input == it.color } ?: run {
+                TeamType.entries.firstOrNull { input == it.color } ?: run {
                     logger.log("weird color $input")
+                    null
+                }
+
+            fun getTeamFromColorCode(input: Char) =
+                TeamType.entries.firstOrNull { input == it.colorCode } ?: run {
+                    logger.log("weird colorCode $input")
                     null
                 }
         }

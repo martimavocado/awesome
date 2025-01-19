@@ -12,4 +12,12 @@ class OnboardingAlertConfig {
     )
     @ConfigEditorBoolean
     var enableTitle = true
+
+    @Expose
+    @ConfigOption(
+        name = "Show Timer",
+        desc = "Shows the remaining time until a §6§lOnboarding Sheep§7 spawns.",
+    )
+    @ConfigEditorBoolean
+    var enableTimer = true
 }

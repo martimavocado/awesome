@@ -23,6 +23,11 @@ class SheepWarsConfig {
     var healthHighlight = SheepHealthHighlightConfig()
 
     @Expose
+    @ConfigOption(name = "Onboarding Alert", desc = "")
+    @Accordion
+    var onboardingAlert = OnboardingAlertConfig()
+
+    @Expose
     @ConfigOption(name = "Hide Tutorials", desc = "Hides titles and messages")
     @ConfigEditorDraggableList
     var hiddenMessages = mutableListOf(TutorialHider.SheepWarsTutorialPattern.TUTORIAL)

@@ -40,4 +40,9 @@ class DebugConfig {
     @ConfigOption(name = "Render Toggle", desc = "enables all rendering")
     @ConfigEditorBoolean
     var renderToggle = true
+
+    @Expose
+    @ConfigOption(name = "ChatEvent Toggle", desc = "disables chatevent replacing")
+    @ConfigEditorBoolean
+    var disableChatEvent = false
 }

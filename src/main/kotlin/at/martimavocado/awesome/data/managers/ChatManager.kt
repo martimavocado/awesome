@@ -39,7 +39,7 @@ object ChatManager {
         if (event.type.toInt() != 2) {
             val chatEvent = ChatReceiveEvent(message, original)
             chatEvent.post()
-            event.message = chatEvent.chatComponent
+            if (!config.disableChatEvent) event.message = chatEvent.chatComponent
 
             if (chatEvent.isCanceled) event.cancel()
         } else {
@@ -126,10 +126,16 @@ object ChatManager {
                 newComponents[0] = ChatComponentText(string + component)
             }
 
-            val oldComponent = event.chatComponent.siblings[0]
+            val oldFirstComponent = event.chatComponent.siblings[0]
+            val oldSecondComponent = event.chatComponent.siblings[1]
 
             event.chatComponent.siblings.clear()
-            event.chatComponent.siblings.addAll(oldComponent + newComponents)
+
+            if (newEvent is PlayerChatEvent.DirectMessage) {
+                event.chatComponent.siblings.addAll(oldFirstComponent + oldSecondComponent + newComponents)
+            } else {
+                event.chatComponent.siblings.addAll(oldFirstComponent + newComponents)
+            }
         }
     }
 

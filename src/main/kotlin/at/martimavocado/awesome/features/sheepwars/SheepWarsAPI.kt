@@ -41,6 +41,8 @@ object SheepWarsAPI {
         private set
     var gameStatus: GameStatus? = null
         private set
+    var map: String? = null
+        private set
 
     private val magicWoolHitPattern =
         "^§5§lMAGIC WOOL! (?:§.)+(?<shooter>\\w+) (?<perk>.*)!".toPattern()
@@ -167,8 +169,10 @@ object SheepWarsAPI {
         gameStatus =
             if (HypixelGame.SHEEP_WARS.isPlaying()) {
                 SheepWarsStatusEvent(GameStatus.PRE_GAME).post()
+                map = event.map
                 GameStatus.PRE_GAME
             } else {
+                map = null
                 null
             }
     }
@@ -226,6 +230,7 @@ object SheepWarsAPI {
                 add("playerStatus: $playerStatus")
                 add("")
                 add("magicWool: $magicWool")
+                add("map: $map")
             }
         }
     }

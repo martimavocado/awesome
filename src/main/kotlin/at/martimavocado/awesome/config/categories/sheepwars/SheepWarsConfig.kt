@@ -39,4 +39,12 @@ class SheepWarsConfig {
     )
     @ConfigEditorBoolean
     var hideEarthquake = true
+
+    @Expose
+    @ConfigOption(
+        name = "Aztlan Reminder",
+        desc = "Reminds to switch to the Raider Kit when playing on Aztlan.",
+    )
+    @ConfigEditorBoolean
+    var aztlanRaider = true
 }

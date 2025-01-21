@@ -3,6 +3,7 @@ package at.martimavocado.awesome.config.guieditor
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.ScaledResolution
 import org.lwjgl.input.Mouse
+import java.lang.reflect.Field
 
 object GuiPositionEditorUtils {
     private val mc get() = Minecraft.getMinecraft()
@@ -25,4 +26,6 @@ object GuiPositionEditorUtils {
         }
 
     val mousePos get() = mouseX to mouseY
+
+    fun Field.makeAccessible() = also { isAccessible = true }
 }

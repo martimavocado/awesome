@@ -1,17 +1,24 @@
 package at.martimavocado.awesome.config
 
+import at.martimavocado.awesome.Awesome
 import at.martimavocado.awesome.config.categories.AwesomeConfig
+import at.martimavocado.awesome.config.guieditor.GuiPositionEditorUtils.makeAccessible
+import at.martimavocado.awesome.config.guieditor.data.GuiPosition
+import at.martimavocado.awesome.config.guieditor.data.IdentityCharacteristics
 import at.martimavocado.awesome.errors.ConfigError
 import at.martimavocado.awesome.features.misc.update.UpdateManager
 import at.martimavocado.awesome.utils.system.AwesomeLogger
+import at.martimavocado.awesome.utils.system.PlatformUtils
 import com.google.gson.GsonBuilder
 import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
+import io.github.notenoughupdates.moulconfig.annotations.ConfigLink
 import io.github.notenoughupdates.moulconfig.observer.PropertyTypeAdapterFactory
 import io.github.notenoughupdates.moulconfig.processor.BuiltinMoulConfigGuis
 import io.github.notenoughupdates.moulconfig.processor.ConfigProcessorDriver
 import io.github.notenoughupdates.moulconfig.processor.MoulConfigProcessor
+import net.minecraftforge.fml.common.FMLCommonHandler
 import java.io.BufferedReader
 import java.io.BufferedWriter
 import java.io.File
@@ -86,11 +93,62 @@ class ConfigManager {
         driver.checkExpose = false
         driver.processConfig(config)
 
+        try {
+            handlePositionLinks(config, mutableSetOf())
+        } catch (e: Exception) {
+            throw e
+        }
+
         Runtime.getRuntime().addShutdownHook(
             Thread {
                 save()
             },
         )
+    }
+
+    private fun handlePositionLinks(
+        obj: Any?,
+        set: MutableSet<IdentityCharacteristics<Any>>,
+    ) {
+        if (obj == null) return
+        if (!obj.javaClass.name.startsWith("at.martimavocado.awesome")) return
+        val ic = IdentityCharacteristics(obj)
+        if (ic in set) return
+        set.add(ic)
+
+        var missingConfigLink = false
+
+        for (field in obj.javaClass.declaredFields.map { it.makeAccessible() }) {
+            if (field.type != GuiPosition::class.java) {
+                handlePositionLinks(field.get(obj), set)
+                continue
+            }
+
+            val configLink = field.getAnnotation(ConfigLink::class.java)
+            if (configLink == null) {
+                if (PlatformUtils.isDevEnvironment) {
+                    var name = "${field.declaringClass.name}.${field.name}"
+                    name = name.replace("at.martimavocado.awesome.config.", "")
+                    println("missing config link pls fix!! $name")
+                    missingConfigLink = true
+                }
+                continue
+            }
+
+            val position = field.get(obj) as GuiPosition
+            position.setLink(configLink)
+        }
+
+        if (missingConfigLink) {
+            println("")
+            println(
+                "This crash is here to remind you to fix the missing " +
+                    "@ConfigLink annotation over your new config position config element.",
+            )
+
+            System.err.println("Awesome ${Awesome.MOD_VERSION} forced the game to shutdown. Missing Config Link.")
+            FMLCommonHandler.instance().handleExit(-1)
+        }
     }
 
     private fun tryReadConfig(file: File = configFile) {

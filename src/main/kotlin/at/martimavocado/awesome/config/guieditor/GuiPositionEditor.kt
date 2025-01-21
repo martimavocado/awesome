@@ -72,10 +72,10 @@ class GuiPositionEditor(
                     y + elementHeight + border * 2,
                 )
             if (!isHovered) continue
-//            if (mouseButton == 1) {
-            // right click, jump to config
-//                break
-//            }
+            if (mouseButton == 1 && pos.canJumpToConfigOptions()) {
+                pos.jumpToConfigOption()
+                break
+            }
             if (!pos.clicked && mouseButton == 0) {
                 clickedIndex = i
                 pos.clicked = true
@@ -239,12 +239,12 @@ class GuiPositionEditor(
 
         GuiRenderUtils.drawStringCentered("§b" + pos.label, scaledWindowWidth / 2, 18)
         GuiRenderUtils.drawStringCentered(location, scaledWindowWidth / 2, 28)
-//        if (rndr.canJumpToConfigOptions()) {
-//            GuiRenderUtils.drawStringCentered(
-//                "§aRight-Click to open associated config options",
-//                scaledWindowWidth / 2,
-//                38,
-//            )
-//        }
+        if (pos.canJumpToConfigOptions()) {
+            GuiRenderUtils.drawStringCentered(
+                "§aRight-Click to open associated config option",
+                scaledWindowWidth / 2,
+                38,
+            )
+        }
     }
 }

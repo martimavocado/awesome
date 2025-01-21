@@ -3,6 +3,7 @@ package at.martimavocado.awesome.config.categories.sheepwars
 import at.martimavocado.awesome.config.guieditor.data.GuiPosition
 import com.google.gson.annotations.Expose
 import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorBoolean
+import io.github.notenoughupdates.moulconfig.annotations.ConfigLink
 import io.github.notenoughupdates.moulconfig.annotations.ConfigOption
 
 class OnboardingAlertConfig {
@@ -23,5 +24,6 @@ class OnboardingAlertConfig {
     var enableTimer = true
 
     @Expose
+    @ConfigLink(owner = OnboardingAlertConfig::class, field = "enableTimer")
     var timerPosition = GuiPosition(100, 100)
 }

@@ -1,8 +1,13 @@
 package at.martimavocado.awesome.config.guieditor.data
 
+import at.martimavocado.awesome.Awesome
 import at.martimavocado.awesome.Awesome.Companion.mc
+import at.martimavocado.awesome.config.ConfigGuiManager
 import com.google.gson.annotations.Expose
+import io.github.notenoughupdates.moulconfig.annotations.ConfigLink
+import io.github.notenoughupdates.moulconfig.gui.GuiScreenElementWrapper
 import net.minecraft.client.gui.ScaledResolution
+import java.lang.reflect.Field
 
 class GuiPosition() {
     @Expose
@@ -21,19 +26,7 @@ class GuiPosition() {
     var label = ""
         private set
     var internalName: String? = null
-
-    constructor(x: Int, y: Int, scale: Double, label: String) : this() {
-        this.x = x
-        this.y = y
-        this.scale = scale
-        this.label = label
-    }
-
-    constructor(x: Int, y: Int, label: String) : this() {
-        this.x = x
-        this.y = y
-        this.label = label
-    }
+    var configField: Field? = null
 
     constructor(x: Int, y: Int, scale: Double) : this() {
         this.x = x
@@ -104,5 +97,23 @@ class GuiPosition() {
 
         this.y += adjustedDeltaY
         return adjustedDeltaY
+    }
+
+    @Throws(NoSuchFieldException::class)
+    fun setLink(configLink: ConfigLink) {
+        this.configField = configLink.owner.java.getDeclaredField(configLink.field)
+    }
+
+    @Throws(NoSuchFieldException::class)
+    fun canJumpToConfigOptions(): Boolean =
+        configField != null && ConfigGuiManager.getEditorInstance().getOptionFromField(configField) != null
+
+    fun jumpToConfigOption() {
+        val editor = ConfigGuiManager.getEditorInstance()
+        if (configField == null) return
+        val option = editor.getOptionFromField(configField) ?: return
+        editor.search("")
+        if (!editor.goToOption(option)) return
+        Awesome.openScreen(GuiScreenElementWrapper(editor))
     }
 }

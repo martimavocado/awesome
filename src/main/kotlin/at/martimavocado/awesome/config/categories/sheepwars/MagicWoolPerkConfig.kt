@@ -7,6 +7,7 @@ import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorBoolean
 import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorColour
 import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorDraggableList
 import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorSlider
+import io.github.notenoughupdates.moulconfig.annotations.ConfigLink
 import io.github.notenoughupdates.moulconfig.annotations.ConfigOption
 
 class MagicWoolPerkConfig {
@@ -16,6 +17,7 @@ class MagicWoolPerkConfig {
     var perkGUI = true
 
     @Expose
+    @ConfigLink(owner = MagicWoolPerkConfig::class, field = "perkGUI")
     var perkPosition = GuiPosition(10, 10)
 
     @Expose

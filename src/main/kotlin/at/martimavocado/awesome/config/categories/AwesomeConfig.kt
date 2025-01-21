@@ -3,7 +3,6 @@ package at.martimavocado.awesome.config.categories
 import at.martimavocado.awesome.Awesome
 import at.martimavocado.awesome.config.categories.sheepwars.SheepWarsConfig
 import at.martimavocado.awesome.config.categories.speedbuilders.SpeedBuildersConfig
-import at.martimavocado.awesome.config.guieditor.data.GuiPosition
 import com.google.gson.annotations.Expose
 import io.github.notenoughupdates.moulconfig.Config
 import io.github.notenoughupdates.moulconfig.annotations.Category
@@ -34,7 +33,4 @@ class AwesomeConfig : Config() {
     @Expose
     @Category(name = "Debug", desc = "you probably don't care about this")
     var debug = DebugConfig()
-
-    @Expose
-    var pos = GuiPosition(100, 100, 1.1)
 }

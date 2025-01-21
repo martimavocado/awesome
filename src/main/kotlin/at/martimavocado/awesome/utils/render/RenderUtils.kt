@@ -1,5 +1,7 @@
 package at.martimavocado.awesome.utils.render
 
+import at.martimavocado.awesome.config.guieditor.GuiPositionEditorManager
+import at.martimavocado.awesome.config.guieditor.data.GuiPosition
 import at.martimavocado.awesome.data.PositionVec
 import at.martimavocado.awesome.events.render.GuiOverlayRenderEvent
 import at.martimavocado.awesome.events.render.WorldRenderEvent
@@ -45,6 +47,31 @@ object RenderUtils {
         GlStateManager.translate(0f, 0f, -3f)
         GuiOverlayRenderEvent(event.partialTicks).post()
         GlStateManager.translate(0f, 0f, 3f)
+    }
+
+    fun GuiPosition.renderString(
+        string: String?,
+        label: String,
+        dropShadow: Boolean = true,
+    ) {
+        if (string.isNullOrEmpty()) return
+        val fontRenderer = Minecraft.getMinecraft().fontRendererObj
+
+        val stringWidth = fontRenderer.getStringWidth(string) * scale
+        val stringHeight = 10 * scale
+
+        GuiPositionEditorManager.add(
+            this,
+            label,
+            stringWidth.toInt(),
+            stringHeight.toInt(),
+        )
+
+        GlStateManager.pushMatrix()
+        GlStateManager.translate(x.toFloat(), y.toFloat(), 0f)
+        GlStateManager.scale(scale, scale, scale)
+        fontRenderer.drawString(string, 0f, 0f, Color.WHITE.rgb, dropShadow)
+        GlStateManager.popMatrix()
     }
 
     fun WorldRenderEvent.drawWaypointFilled(

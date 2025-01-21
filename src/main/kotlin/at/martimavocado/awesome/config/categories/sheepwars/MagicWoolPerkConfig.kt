@@ -1,8 +1,7 @@
 package at.martimavocado.awesome.config.categories.sheepwars
 
-import at.martimavocado.awesome.data.HypixelGame
+import at.martimavocado.awesome.config.guieditor.data.GuiPosition
 import at.martimavocado.awesome.features.sheepwars.data.SheepWarsPowerUp
-import at.martimavocado.awesome.utils.render.GuiPosition
 import com.google.gson.annotations.Expose
 import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorBoolean
 import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorColour
@@ -17,7 +16,7 @@ class MagicWoolPerkConfig {
     var perkGUI = true
 
     @Expose
-    var perkPosition = GuiPosition(10, 10, HypixelGame.SHEEP_WARS)
+    var perkPosition = GuiPosition(10, 10)
 
     @Expose
     @ConfigOption(

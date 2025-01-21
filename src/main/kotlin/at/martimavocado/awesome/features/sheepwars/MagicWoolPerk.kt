@@ -5,6 +5,7 @@ import at.martimavocado.awesome.events.AwesomeTickEvent
 import at.martimavocado.awesome.events.render.GuiOverlayRenderEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.utils.SoundUtils
+import at.martimavocado.awesome.utils.render.RenderUtils.renderString
 import net.minecraftforge.fml.common.eventhandler.EventPriority
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
@@ -20,7 +21,7 @@ object MagicWoolPerk {
 
         val string = "§${wool.type.color.colorCode}${wool.type}§7: §7${wool.type.perk}"
 
-        config.perkPosition.renderString(string)
+        config.perkPosition.renderString(string, "Magic Wool Perk")
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)

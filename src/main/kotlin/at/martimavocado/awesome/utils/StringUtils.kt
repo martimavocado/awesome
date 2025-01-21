@@ -1,6 +1,7 @@
 package at.martimavocado.awesome.utils
 
 import at.martimavocado.awesome.utils.RegexUtils.findAll
+import java.util.UUID
 
 object StringUtils {
     private val minecraftColorCodesPattern = "(?i)(§[0-9a-fklmnor])+".toPattern()
@@ -42,4 +43,6 @@ object StringUtils {
     fun String?.equalsIgnoreColor(string: String?) = this?.let { it.removeColors() == string?.removeColors() } == true
 
     fun String.lastColorCode(): String? = minecraftColorCodesPattern.findAll(this).lastOrNull()
+
+    fun generateRandomId() = UUID.randomUUID().toString()
 }

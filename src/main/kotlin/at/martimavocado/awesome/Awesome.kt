@@ -59,6 +59,8 @@ class Awesome {
         const val MOD_ID = "awesome"
         const val MOD_VERSION = "1.6.3"
 
+        val mc: Minecraft get() = Minecraft.getMinecraft()
+
         @JvmStatic
         val version: String
             get() = Loader.instance().indexedModList[MOD_ID]!!.version

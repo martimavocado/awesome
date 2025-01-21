@@ -2,7 +2,6 @@ package at.martimavocado.awesome.features.sheepwars
 
 import at.martimavocado.awesome.Awesome
 import at.martimavocado.awesome.data.GameStatus
-import at.martimavocado.awesome.data.HypixelGame
 import at.martimavocado.awesome.events.chat.ChatReceiveEvent
 import at.martimavocado.awesome.events.games.sheepwars.SheepWarsKillEvent
 import at.martimavocado.awesome.events.games.sheepwars.SheepWarsStatusEvent
@@ -12,7 +11,7 @@ import at.martimavocado.awesome.utils.ChatUtils
 import at.martimavocado.awesome.utils.RegexUtils.matches
 import at.martimavocado.awesome.utils.SimpleTimeMark
 import at.martimavocado.awesome.utils.TitleManager
-import at.martimavocado.awesome.utils.render.GuiPosition
+import at.martimavocado.awesome.utils.render.RenderUtils.renderString
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
@@ -49,7 +48,7 @@ object OnboardingAlert {
 
         val string = "§6§lOnboarding Sheep: §a$timeUntil"
 
-        GuiPosition(100, 100, HypixelGame.SHEEP_WARS).renderString(string, true)
+        config.timerPosition.renderString(string, "Onboarding Sheep Timer")
     }
 
     @SubscribeEvent

@@ -57,7 +57,7 @@ class Awesome {
     companion object {
         lateinit var configManager: ConfigManager
         const val MOD_ID = "awesome"
-        const val MOD_VERSION = "1.6.3"
+        const val MOD_VERSION = "1.7.0"
 
         val mc: Minecraft get() = Minecraft.getMinecraft()
 

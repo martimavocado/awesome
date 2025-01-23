@@ -39,6 +39,14 @@ class MagicWoolPerkConfig {
     var pingDelay = 5
 
     @Expose
+    @ConfigOption(
+        name = "Only Bow",
+        desc = "Stops pings when not holding a bow",
+    )
+    @ConfigEditorBoolean
+    var pingOnBow = true
+
+    @Expose
     @ConfigOption(name = "Good Perks", desc = "Makes the highlight be the same color as the current wool")
     @ConfigEditorDraggableList
     var goodPerks: MutableList<SheepWarsPowerUp> = SheepWarsPowerUp.defaultGoodPerks.toMutableList<SheepWarsPowerUp>()

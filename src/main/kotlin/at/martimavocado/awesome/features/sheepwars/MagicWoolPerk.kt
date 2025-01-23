@@ -4,8 +4,10 @@ import at.martimavocado.awesome.Awesome
 import at.martimavocado.awesome.events.AwesomeTickEvent
 import at.martimavocado.awesome.events.render.GuiOverlayRenderEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
+import at.martimavocado.awesome.utils.PlayerUtils
 import at.martimavocado.awesome.utils.SoundUtils
 import at.martimavocado.awesome.utils.render.RenderUtils.renderString
+import net.minecraft.item.ItemBow
 import net.minecraftforge.fml.common.eventhandler.EventPriority
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
@@ -28,6 +30,7 @@ object MagicWoolPerk {
     fun onTickEvent(event: AwesomeTickEvent) {
         if (!config.shootPing) return
         if (!SheepWarsAPI.isAlive()) return
+        if (config.pingOnBow && PlayerUtils.getPlayer()?.heldItem?.item !is ItemBow) return
 
         val wool = SheepWarsAPI.magicWool ?: return
 

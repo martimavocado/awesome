@@ -32,7 +32,7 @@ class SheepHealthHighlightConfig {
         desc = "Color used for when players are near 0 HP.",
     )
     @ConfigEditorColour
-    var lowHPColor = ConfigColor(red = 1.0, alpha = 0.3).toString()
+    var lowHPColor = ConfigColor(red = 1.0, alpha = 0.05).toString()
 
     @Expose
     @ConfigOption(
@@ -40,5 +40,5 @@ class SheepHealthHighlightConfig {
         desc = "Color used for when players are near 20 HP.",
     )
     @ConfigEditorColour
-    var highHPColor = ConfigColor(blue = 1.0, alpha = 0.3).toString()
+    var highHPColor = ConfigColor(blue = 1.0, alpha = 0.95).toString()
 }

@@ -32,6 +32,8 @@ data class ConfigColor(
         (chroma * 255).coerceIn(0.0..255.0).toInt(),
     )
 
+    constructor(color: Color) : this(color.red, color.green, color.blue, color.alpha, 0)
+
     override fun toString() = "$chroma:$alpha:$red:$green:$blue"
 
     fun toColor() = Color(red, green, blue, alpha)

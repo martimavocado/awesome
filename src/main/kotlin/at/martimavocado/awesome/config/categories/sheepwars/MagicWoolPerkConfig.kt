@@ -4,7 +4,6 @@ import at.martimavocado.awesome.config.guieditor.data.GuiPosition
 import at.martimavocado.awesome.features.sheepwars.data.SheepWarsPowerUp
 import com.google.gson.annotations.Expose
 import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorBoolean
-import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorColour
 import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorDraggableList
 import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorSlider
 import io.github.notenoughupdates.moulconfig.annotations.ConfigLink
@@ -12,7 +11,7 @@ import io.github.notenoughupdates.moulconfig.annotations.ConfigOption
 
 class MagicWoolPerkConfig {
     @Expose
-    @ConfigOption(name = "Show GUI", desc = "Shows a GUI with the current wool's perk §c[unused]")
+    @ConfigOption(name = "Show GUI", desc = "Shows a GUI with the current wool's perk")
     @ConfigEditorBoolean
     var perkGUI = true
 
@@ -50,12 +49,4 @@ class MagicWoolPerkConfig {
     @ConfigOption(name = "Good Perks", desc = "Makes the highlight be the same color as the current wool")
     @ConfigEditorDraggableList
     var goodPerks: MutableList<SheepWarsPowerUp> = SheepWarsPowerUp.defaultGoodPerks.toMutableList<SheepWarsPowerUp>()
-
-    @Expose
-    @ConfigOption(
-        name = "Color",
-        desc = "Makes the highlight be a specific color\n" + "Requires Color Match to be disabled.",
-    )
-    @ConfigEditorColour
-    var color = "0:0:0:0:0"
 }

@@ -1,5 +1,8 @@
 package at.martimavocado.awesome.config.categories.sheepwars
 
+import at.martimavocado.awesome.config.elements.ConfigColor
+import at.martimavocado.awesome.utils.AwesomeColor
+import at.martimavocado.awesome.utils.ColorUtils.withAlpha
 import com.google.gson.annotations.Expose
 import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorBoolean
 import io.github.notenoughupdates.moulconfig.annotations.ConfigEditorColour
@@ -32,5 +35,5 @@ class MagicWoolHighlightConfig {
         desc = "Makes the highlight be a specific color\n" + "Requires Color Match to be disabled.",
     )
     @ConfigEditorColour
-    var color = "0:0:0:0:0"
+    var color = ConfigColor(AwesomeColor.YELLOW.color.withAlpha(255)).toString()
 }

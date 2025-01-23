@@ -44,7 +44,7 @@ object OnboardingAlert {
         if (!SheepWarsAPI.isPlaying()) return
 
         val timeUntil = (lastKillTime + 60.seconds).timeUntil()
-        if (timeUntil > 1.minutes) return
+        if (timeUntil !in 0.minutes..1.minutes) return
 
         val string = "§6§lOnboarding Sheep: §a$timeUntil"
 

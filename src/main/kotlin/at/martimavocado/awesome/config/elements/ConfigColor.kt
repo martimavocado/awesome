@@ -28,11 +28,7 @@ data class ConfigColor(
         (red * 255).coerceIn(0.0..255.0).toInt(),
         (green * 255).coerceIn(0.0..255.0).toInt(),
         (blue * 255).coerceIn(0.0..255.0).toInt(),
-        when ((alpha * 255).coerceIn(0.0..255.0)) {
-            0.0 -> 0.0
-            255.0 -> 1.0
-            else -> 255.0 - (alpha * 255).coerceIn(0.0..255.0)
-        }.toInt(),
+        (alpha * 255).coerceIn(0.0..255.0).toInt(),
         (chroma * 255).coerceIn(0.0..255.0).toInt(),
     )
 

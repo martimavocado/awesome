@@ -3,17 +3,21 @@ package at.martimavocado.awesome.features.sheepwars
 import at.martimavocado.awesome.Awesome
 import at.martimavocado.awesome.config.elements.ConfigColor
 import at.martimavocado.awesome.data.GameStatus
+import at.martimavocado.awesome.events.AwesomeTickEvent
 import at.martimavocado.awesome.events.BlockChangeEvent
 import at.martimavocado.awesome.events.entity.EntityHealthUpdateEvent
 import at.martimavocado.awesome.events.games.sheepwars.SheepWarsStatusEvent
+import at.martimavocado.awesome.events.render.WorldRenderEvent
 import at.martimavocado.awesome.features.sheepwars.SheepWarsAPI.getTeamColor
 import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.mixins.hooks.RenderLivingEntityHelper
 import at.martimavocado.awesome.utils.AwesomeColor
-import at.martimavocado.awesome.utils.ColorUtils.withAlpha
+import at.martimavocado.awesome.utils.BlockUtils
+import at.martimavocado.awesome.utils.ChatUtils
 import at.martimavocado.awesome.utils.EntityUtils
 import at.martimavocado.awesome.utils.PlayerUtils
 import at.martimavocado.awesome.utils.SimpleTimeMark
+import at.martimavocado.awesome.utils.render.RenderUtils.highlightBlock
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.init.Blocks
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
@@ -60,7 +64,7 @@ object PlayerHealthHighlighter {
 
         RenderLivingEntityHelper.setEntityColorWithNoHurtTime(
             entity,
-            color.withAlpha(color.alpha),
+            color,
         ) { SheepWarsAPI.isPlaying() }
     }
 
@@ -125,5 +129,30 @@ object PlayerHealthHighlighter {
 
             RenderLivingEntityHelper.removeEntityColor(player)
         }
+    }
+
+    var lastColor = ""
+
+    @SubscribeEvent
+    fun onTick(event: AwesomeTickEvent) {
+        if (lastColor == config.highHPColor) return
+
+        ChatUtils.debug("$lastColor -> ${config.highHPColor} | ${ConfigColor(config.highHPColor).alpha}")
+        lastColor = config.highHPColor
+    }
+
+    @SubscribeEvent
+    fun onRenderWorld(event: WorldRenderEvent) {
+        if (lastColor.isEmpty()) return
+
+        val pos = BlockUtils.getBlockLookingAt(20.0) ?: return
+
+        event.highlightBlock(
+            pos,
+            ConfigColor(lastColor).toColor(),
+            true,
+            true,
+            true,
+        )
     }
 }

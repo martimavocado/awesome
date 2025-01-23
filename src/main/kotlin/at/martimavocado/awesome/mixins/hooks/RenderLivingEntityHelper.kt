@@ -3,6 +3,7 @@ package at.martimavocado.awesome.mixins.hooks
 import at.martimavocado.awesome.Awesome
 import at.martimavocado.awesome.events.WorldChangeEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
+import at.martimavocado.awesome.utils.ColorUtils.withAlpha
 import net.minecraft.entity.EntityLivingBase
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import java.awt.Color
@@ -31,19 +32,18 @@ object RenderLivingEntityHelper {
 
     fun <T : EntityLivingBase> setEntityColor(
         entity: T,
-        color: Int,
-        condition: () -> Boolean,
-    ) {
-        entityColorMap[entity] = color
-        entityColorCondition[entity] = condition
-    }
-
-    fun <T : EntityLivingBase> setEntityColor(
-        entity: T,
         color: Color,
         condition: () -> Boolean,
     ) {
-        setEntityColor(entity, color.rgb, condition)
+        val alpha =
+            when (color.alpha) {
+                0 -> 0
+                255 -> 1
+                else -> 255 - (color.alpha).coerceIn(0..255)
+            }
+
+        entityColorMap[entity] = color.withAlpha(alpha).rgb
+        entityColorCondition[entity] = condition
     }
 
     fun <T : EntityLivingBase> setNoHurtTime(
@@ -55,19 +55,11 @@ object RenderLivingEntityHelper {
 
     fun <T : EntityLivingBase> setEntityColorWithNoHurtTime(
         entity: T,
-        color: Int,
+        color: Color,
         condition: () -> Boolean,
     ) {
         setEntityColor(entity, color, condition)
         setNoHurtTime(entity, condition)
-    }
-
-    fun <T : EntityLivingBase> setEntityColorWithNoHurtTime(
-        entity: T,
-        color: Color,
-        condition: () -> Boolean,
-    ) {
-        setEntityColorWithNoHurtTime(entity, color.rgb, condition)
     }
 
     fun <T : EntityLivingBase> removeNoHurtTime(entity: T) {

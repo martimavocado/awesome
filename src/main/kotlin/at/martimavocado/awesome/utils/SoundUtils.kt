@@ -3,8 +3,8 @@ package at.martimavocado.awesome.utils
 object SoundUtils {
     fun playSound(
         sound: String,
-        volume: Float,
-        pitch: Float,
+        volume: Float = 1f,
+        pitch: Float = 1f,
     ) {
         val player = PlayerUtils.getPlayer() ?: return
 

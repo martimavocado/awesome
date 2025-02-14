@@ -93,7 +93,7 @@ class Awesome {
                 CoroutineName("Awesome") + SupervisorJob(globalJob),
             )
 
-        fun launchCoroutine(function: suspend () -> Unit) {
+        fun launchCoroutine(function: suspend () -> Unit): Job =
             coroutineScope.launch {
                 try {
                     function()
@@ -102,6 +102,5 @@ class Awesome {
                     e.printStackTrace()
                 }
             }
-        }
     }
 }

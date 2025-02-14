@@ -70,7 +70,7 @@ object EventUtils {
             if (entry.dataValueId == 6) {
                 val health = (entry.`object` as? Float) ?: continue
 
-                val entity = EntityUtils.getEntityById(event.entity.entityId) ?: continue
+                val entity = EntityUtils.getEntityByID(event.entity.entityId) ?: continue
                 if (entity.javaClass in ignoredEntities) continue
 
                 if (event.entity is EntityWither && health == 300f && event.entity.entityId < 0) continue

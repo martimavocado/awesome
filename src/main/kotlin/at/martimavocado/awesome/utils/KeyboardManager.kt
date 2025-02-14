@@ -2,7 +2,7 @@ package at.martimavocado.awesome.utils
 
 import at.martimavocado.awesome.events.AwesomeTickEvent
 import at.martimavocado.awesome.events.keyboard.KeyPressEvent
-import at.martimavocado.awesome.events.keyboard.MousePressEvent
+import at.martimavocado.awesome.events.keyboard.MouseClickEvent
 import at.martimavocado.awesome.loadmodule.LoadModule
 import at.martimavocado.awesome.utils.EventUtils.post
 import io.github.notenoughupdates.moulconfig.gui.GuiScreenElementWrapper
@@ -67,7 +67,7 @@ object KeyboardManager {
                     if (Mouse.isButtonDown(it.keycode)) {
                         if (clickedMouseButtons[it] == null) {
                             clickedMouseButtons[it] = SimpleTimeMark.now()
-                            MousePressEvent(it).post()
+                            MouseClickEvent(it).post()
                         }
                     } else {
                         clickedMouseButtons[it] = null

@@ -27,8 +27,9 @@ object ChatUtils {
         if (!hidden) chat("Testing message: §7$rawMessage")
         if (hidden) rawMessage = rawMessage.replace(" -s", "")
         val formattedMessage = rawMessage.replace("&", "§")
-        chat(formattedMessage, false)
-        ChatReceiveEvent(formattedMessage, ChatComponentText(formattedMessage)).post()
+        val event = ChatReceiveEvent(formattedMessage, ChatComponentText(formattedMessage))
+        event.post()
+        chat(event.chatComponent)
     }
 
     fun warning(

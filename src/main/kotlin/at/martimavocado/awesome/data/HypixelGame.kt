@@ -9,12 +9,13 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
 enum class HypixelGame(
     private val internalName: GameType,
-    private val gameMode: String,
+    private val gameMode: List<String?>,
     val prettyName: String,
 ) {
-    SHEEP_WARS(GameType.WOOL_GAMES, "sheep_wars", "Sheep Wars"),
-    SPEED_BUILDERS(GameType.BUILD_BATTLE, "BUILD_BATTLE_SPEED_BUILDERS", "Speed Builders"),
-    HOLE_IN_THE_WALL(GameType.ARCADE, "HOLE_IN_THE_WALL", "Hole in the Wall"),
+    BEDWARS(GameType.BEDWARS, listOf("", null), "Bedwars"),
+    SHEEP_WARS(GameType.WOOL_GAMES, listOf("sheep_wars"), "Sheep Wars"),
+    SPEED_BUILDERS(GameType.BUILD_BATTLE, listOf("BUILD_BATTLE_SPEED_BUILDERS"), "Speed Builders"),
+    HOLE_IN_THE_WALL(GameType.ARCADE, listOf("HOLE_IN_THE_WALL"), "Hole in the Wall"),
     ;
 
     override fun toString(): String = prettyName
@@ -31,7 +32,12 @@ enum class HypixelGame(
             currentGame =
                 HypixelGame.entries.firstOrNull {
                     it.internalName == event.serverType &&
-                        (event.mode?.startsWith(it.gameMode) == true)
+                        it.gameMode.any { gameMode ->
+                            event.mode == gameMode ||
+                                event.mode?.contains(
+                                    gameMode ?: "",
+                                ) == true
+                        }
                 }
         }
 

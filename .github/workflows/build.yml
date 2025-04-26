@@ -1,5 +1,5 @@
 name: Run Gradle Build
-on: [push, pull_request]
+on: [ push, pull_request ]
 jobs:
   gradle:
     runs-on: ubuntu-latest
@@ -15,7 +15,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
       - name: Execute Gradle build
         run: ./gradlew build
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         name: Upload built mod JAR
         with:
           name: mod-jar

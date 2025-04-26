@@ -6,8 +6,8 @@ pluginManagement {
         maven("https://maven.architectury.dev/")
         maven("https://maven.fabricmc.net")
         maven("https://maven.minecraftforge.net/")
+        maven("https://repo.essential.gg/public")
         maven("https://repo.spongepowered.org/maven/")
-        maven("https://repo.sk1er.club/repository/maven-releases/")
     }
     resolutionStrategy {
         eachPlugin {
@@ -19,7 +19,7 @@ pluginManagement {
 }
 
 plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version("0.6.0")
+    id("org.gradle.toolchains.foojay-resolver-convention") version ("0.6.0")
 }
 
 include("annotation-processors")
